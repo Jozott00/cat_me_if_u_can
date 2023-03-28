@@ -8,7 +8,7 @@
 import Foundation
 
 class ThreadSafe<T> {
-    var element: T
+    private var element: T
     private let lock = NSLock()
 
     init(element: T) {

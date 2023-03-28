@@ -9,7 +9,6 @@ import Foundation
 import WebSocketKit
 
 final class CommunicationController {
-    private final var connections = [WebSocket]()
     private final var conns = ThreadSafe(element: RefArray<WebSocket>())
 
     func newConnection(ws: WebSocket) {
