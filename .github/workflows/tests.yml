@@ -1,4 +1,4 @@
-name: Moose Tests
+name: Tests
 
 on:
   push:
