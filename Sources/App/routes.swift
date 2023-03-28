@@ -10,6 +10,7 @@ func routes(_ app: Application) throws {
     }
 
     let commController = CommunicationController()
+    // test github branch lock
     app.webSocket("ws", onUpgrade: { _, ws in
         commController.newConnection(ws: ws)
     })
