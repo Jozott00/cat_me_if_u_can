@@ -16,7 +16,7 @@ jobs:
     - name: Set up Swift
       uses: fwal/setup-swift@v1
       with:
-        swift-version: '5.8'
+        swift-version: '5'
 
     - name: Build and test Vapor app
       run: swift build -c release
