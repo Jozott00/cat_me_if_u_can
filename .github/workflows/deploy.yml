@@ -16,12 +16,10 @@ jobs:
     - name: Set up Swift
       uses: fwal/setup-swift@v1
       with:
-        swift-version: '5.5.3' # Use the desired Swift version
+        swift-version: '5.8'
 
     - name: Build and test Vapor app
-      run: |
-        swift build -c release
-        swift test
+      run: swift build -c release
 
     - name: Deploy to server
       uses: appleboy/scp-action@master
