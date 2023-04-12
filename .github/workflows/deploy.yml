@@ -19,7 +19,15 @@ jobs:
         swift-version: '5'
 
     - name: Build and test Vapor app
-      run: swift build -c release
+      run: swift build
+      
+    - name: Prepare Install Diectory
+      run: |
+        rm -rf .build/install
+        mkdir -p .build/install
+        cp -P .build/debug/Run .build/install/
+        cp -P /usr/lub/swift/linux/lib*so* .build/install/
+      
 
     - name: Deploy to server
       uses: appleboy/scp-action@master
