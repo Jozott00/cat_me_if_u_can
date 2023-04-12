@@ -26,7 +26,7 @@ jobs:
         rm -rf .build/install
         mkdir -p .build/install
         cp -P .build/debug/Run .build/install/
-        cp -P /usr/lub/swift/linux/lib*so* .build/install/
+        cp -P /usr/lib/swift/linux/lib*so* .build/install/
       
 
     - name: Deploy to server
