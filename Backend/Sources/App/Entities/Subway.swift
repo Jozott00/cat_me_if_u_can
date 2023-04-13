@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Shared
 
 class Subway {
     let entries: [Position]

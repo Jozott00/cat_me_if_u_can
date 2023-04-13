@@ -8,14 +8,14 @@
 import Foundation
 
 /// Enum representing the type of messages in the protocol: action, update, or error.
-enum ProtoMessageType: String, Codable {
+public enum ProtoMessageType: String, Codable {
     case action
     case update
     case error
 }
 
 /// Structure representing a protocol message for communication between the server and clients.
-struct ProtocolMsg: Codable {
+public struct ProtocolMsg: Codable {
     let type: ProtoMessageType // The type of message: action, update, or error.
     let timestamp: TimeInterval // Timestamp indicating when the message was created.
     let playerID: String? // The player's unique identifier, if applicable.

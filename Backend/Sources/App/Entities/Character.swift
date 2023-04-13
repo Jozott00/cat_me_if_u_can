@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Shared
 
 protocol Character {
     var position: Position { get set }
