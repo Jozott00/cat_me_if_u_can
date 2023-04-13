@@ -6,9 +6,8 @@
 //
 
 import Foundation
-import simd
 
-enum ProtoDirection: String, Codable {
+public enum ProtoDirection: String, Codable {
     case north
     case south
     case east
@@ -43,7 +42,7 @@ enum ProtoDirection: String, Codable {
     }
 }
 
-struct ProtoAction: Codable {
+public struct ProtoAction: Codable {
     let name: String
     let direction: ProtoDirection?
 }

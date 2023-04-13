@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Position: Codable {
+public class Position: Codable {
     var x: Int
     var y: Int
 

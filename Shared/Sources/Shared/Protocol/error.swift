@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProtoError: Codable {
+public struct ProtoError: Codable {
     let code: String
     let message: String
 }

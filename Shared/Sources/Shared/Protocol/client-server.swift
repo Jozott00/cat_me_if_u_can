@@ -8,13 +8,13 @@
 import Foundation
 
 /// Structure representing a game state update.
-struct ProtoUpdate: Codable {
+public struct ProtoUpdate: Codable {
     let name: String // The name of the update.
     let gameState: ProtoGameState?
 }
 
 /// Structure representing the game state, including mice, cats, and exits.
-struct ProtoGameState: Codable {
+public struct ProtoGameState: Codable {
     let mice: [ProtoMouse]
     let cats: [ProtoCat]
     let exits: [ProtoExit]
@@ -22,7 +22,7 @@ struct ProtoGameState: Codable {
 
 // game elements
 
-struct ProtoMouse: Codable {
+public struct ProtoMouse: Codable {
     let mouseID: String
     let position: Position
     let state: String
@@ -34,7 +34,7 @@ struct ProtoMouse: Codable {
     }
 }
 
-struct ProtoCat: Codable {
+public struct ProtoCat: Codable {
     let playerID: String
     let position: Position
 
@@ -44,7 +44,7 @@ struct ProtoCat: Codable {
     }
 }
 
-struct ProtoExit: Codable {
+public struct ProtoExit: Codable {
     let exitID: String
     let position: Position
 
