@@ -7,49 +7,42 @@
 
 import Foundation
 
-/// Structure representing a game state update.
-public struct ProtoUpdate: Codable {
-    let name: String // The name of the update.
-    let gameState: ProtoGameState?
-}
+public enum ProtoDirection: String, Codable {
+    case north
+    case south
+    case east
+    case west
+    case northeast
+    case northwest
+    case southeast
+    case southwest
+    case stay
 
-/// Structure representing the game state, including mice, cats, and exits.
-public struct ProtoGameState: Codable {
-    let mice: [ProtoMouse]
-    let cats: [ProtoCat]
-    let exits: [ProtoExit]
-}
-
-// game elements
-
-public struct ProtoMouse: Codable {
-    let mouseID: String
-    let position: Position
-    let state: String
-
-    enum CodingKeys: String, CodingKey {
-        case mouseID = "mouse_id"
-        case position
-        case state
+    var vector: CGVector {
+        switch self {
+        case .north:
+            return CGVector(dx: 0, dy: -1)
+        case .south:
+            return CGVector(dx: 0, dy: 1)
+        case .east:
+            return CGVector(dx: 1, dy: 0)
+        case .west:
+            return CGVector(dx: -1, dy: 0)
+        case .northeast:
+            return CGVector(dx: 1, dy: -1)
+        case .northwest:
+            return CGVector(dx: -1, dy: -1)
+        case .southeast:
+            return CGVector(dx: 1, dy: 1)
+        case .southwest:
+            return CGVector(dx: -1, dy: 1)
+        case .stay:
+            return CGVector(dx: 0, dy: 0)
+        }
     }
 }
 
-public struct ProtoCat: Codable {
-    let playerID: String
-    let position: Position
-
-    enum CodingKeys: String, CodingKey {
-        case playerID = "player_id"
-        case position
-    }
-}
-
-public struct ProtoExit: Codable {
-    let exitID: String
-    let position: Position
-
-    enum CodingKeys: String, CodingKey {
-        case exitID = "exit_id"
-        case position
-    }
+public struct ProtoAction: Codable {
+    let name: String
+    let direction: ProtoDirection?
 }
