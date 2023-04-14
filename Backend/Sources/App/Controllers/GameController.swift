@@ -59,7 +59,7 @@ final class GameController: NetworkDelegate {
         // currently just broadcast demo data
         let gameState = ProtoGameState(mice: [], cats: [], exits: [])
         let update = ProtoUpdate(data: .gameState(state: gameState))
-        await networkManager.broadcast(body: update)
+        await networkManager.broadcast(body: update, onlyIf: { user in user.joined })
     }
 
     func on(action: ProtoAction, from user: User) async {
@@ -89,6 +89,7 @@ final class GameController: NetworkDelegate {
             return await networkManager.sendToClient(body: err, to: user)
         }
 
+        user.joined = true
         // TODO: Handle Join
     }
 }

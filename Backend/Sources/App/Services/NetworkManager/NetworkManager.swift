@@ -59,13 +59,14 @@ final class NetworkManager {
     /// It serializes the provided message and sends it to all connected clients concurrently.
     ///
     /// - Parameter body: A `ProtoBody` instance to be sent to all clients.
-    func broadcast(body: ProtoBody) async {
+    func broadcast(body: ProtoBody, onlyIf constraint: (User) -> Bool = { _ in true }) async {
         let clients = connectionsQueue.sync {
             self.connectedClients
         }
             
         await withTaskGroup(of: Void.self) { group in
             for user in clients.values {
+                guard constraint(user) else { continue }
                 group.addTask {
                     await self.sendToClient(body: body, to: user)
                 }

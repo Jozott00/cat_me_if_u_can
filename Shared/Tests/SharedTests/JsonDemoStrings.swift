@@ -17,7 +17,7 @@ final class JsonDemoStrings: XCTestCase {
     }
 
     func test_produceActionJson_withJoin() throws {
-        let action = ProtoAction(data: .join)
+        let action = ProtoAction(data: .join(username: "MyName"))
         let msg = ProtocolMsg(type: .action(action: action), timestamp: Date().timeIntervalSince1970)
         try printMsgDemo(msg: msg, desc: "Msg.Action.Join")
     }
