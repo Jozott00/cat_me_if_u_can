@@ -2,9 +2,13 @@ import Vapor
 
 // configures your application
 public func configure(_ app: Application) throws {
-    // uncomment to serve files from /Public folder
-    // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
+    // configure game controller
+    let gameControler = GameController()
 
-    // register routes
-    try routes(app)
+    // configure network manager
+    let networkManager = NetworkManager()
+    networkManager.delegate = gameControler
+    networkManager.configureRoutes(routes: app.routes)
+
+    app.logger.info("Configuartion done!")
 }

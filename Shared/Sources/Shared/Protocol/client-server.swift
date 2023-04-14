@@ -7,6 +7,21 @@
 
 import Foundation
 
+public struct ProtoAction: Codable {
+    public let type: ProtoActionType
+    public let direction: ProtoDirection?
+
+    public init(type: ProtoActionType, direction: ProtoDirection? = nil) {
+        self.type = type
+        self.direction = direction
+    }
+}
+
+public enum ProtoActionType: String, Codable {
+    case move
+    case leave
+}
+
 public enum ProtoDirection: String, Codable {
     case north
     case south
@@ -40,9 +55,4 @@ public enum ProtoDirection: String, Codable {
             return CGVector(dx: 0, dy: 0)
         }
     }
-}
-
-public struct ProtoAction: Codable {
-    let name: String
-    let direction: ProtoDirection?
 }

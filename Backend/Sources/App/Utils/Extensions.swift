@@ -13,3 +13,9 @@ extension WebSocket: Equatable {
         lhs === rhs
     }
 }
+
+extension Data {
+    func str(_ encoding: String.Encoding) -> String? {
+        return String(data: self, encoding: encoding)
+    }
+}

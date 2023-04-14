@@ -6,14 +6,21 @@
 //
 
 import Foundation
+import Shared
 import WebSocketKit
 
 class User {
+    let id: UUID
     let websocket: WebSocket
-    let name: String
+    private let networkManager: NetworkManager
 
-    init(ws: WebSocket, name: String) {
+    init(id: UUID, ws: WebSocket, networkManager: NetworkManager) {
         self.websocket = ws
-        self.name = name
+        self.id = id
+        self.networkManager = networkManager
+    }
+
+    func send(update: ProtoUpdate) async {
+        await networkManager.send(update: update, to: self)
     }
 }

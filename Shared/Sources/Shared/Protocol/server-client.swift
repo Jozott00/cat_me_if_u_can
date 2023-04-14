@@ -9,8 +9,18 @@ import Foundation
 
 /// Structure representing a game state update.
 public struct ProtoUpdate: Codable {
-    let name: String // The name of the update.
-    let gameState: ProtoGameState?
+    public let type: ProtoUpdateType // The type of the update.
+    public let gameState: ProtoGameState?
+
+    public init(type: ProtoUpdateType, gameState: ProtoGameState? = nil) {
+        self.type = type
+        self.gameState = gameState
+    }
+}
+
+public enum ProtoUpdateType: String, Codable {
+    case gameState
+    case ack
 }
 
 /// Structure representing the game state, including mice, cats, and exits.

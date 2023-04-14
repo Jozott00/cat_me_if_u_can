@@ -16,12 +16,12 @@ public enum ProtoMessageType: String, Codable {
 
 /// Structure representing a protocol message for communication between the server and clients.
 public struct ProtocolMsg: Codable {
-    let type: ProtoMessageType // The type of message: action, update, or error.
-    let timestamp: TimeInterval // Timestamp indicating when the message was created.
-    let playerID: String? // The player's unique identifier, if applicable.
-    let action: ProtoAction? // The action performed by a user, if applicable.
-    let gameState: ProtoUpdate? // The game state update from the server, if applicable.
-    let error: ProtoError? // The error information, if applicable.
+    public let type: ProtoMessageType // The type of message: action, update, or error.
+    public let timestamp: TimeInterval // Timestamp indicating when the message was created.
+    public let playerID: String? // The player's unique identifier, if applicable.
+    public let action: ProtoAction? // The action performed by a user, if applicable.
+    public let gameState: ProtoUpdate? // The game state update from the server, if applicable.
+    public let error: ProtoError? // The error information, if applicable.
 
     // CodingKeys for custom key names in the JSON representation.
     enum CodingKeys: String, CodingKey {
