@@ -6,20 +6,24 @@
 //
 
 import Foundation
-
 public struct ProtoAction: Codable {
-    public let type: ProtoActionType
-    public let direction: ProtoDirection?
+    public let data: ProtoActionData
 
-    public init(type: ProtoActionType, direction: ProtoDirection? = nil) {
-        self.type = type
-        self.direction = direction
+    public init(data: ProtoActionData) {
+        self.data = data
     }
+}
+
+public enum ProtoActionData: Codable {
+    case move(direction: ProtoDirection)
+    case leave
+    case join(username: String)
 }
 
 public enum ProtoActionType: String, Codable {
     case move
     case leave
+    case join
 }
 
 public enum ProtoDirection: String, Codable {

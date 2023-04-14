@@ -21,5 +21,5 @@ protocol NetworkDelegate {
     ///   This asynchronous method should be implemented by the delegate to handle and process
     ///   the incoming action as needed. The delegate can respond to the action, update the game state,
     ///   or perform any other required tasks.
-    func on(action: ProtoAction, from: User, receivedBy manager: NetworkManager) async
+    func on(action: ProtoAction, from: User) async
 }

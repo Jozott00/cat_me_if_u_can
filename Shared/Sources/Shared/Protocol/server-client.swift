@@ -8,26 +8,31 @@
 import Foundation
 
 /// Structure representing a game state update.
-public struct ProtoUpdate: Codable {
-    public let type: ProtoUpdateType // The type of the update.
-    public let gameState: ProtoGameState?
 
-    public init(type: ProtoUpdateType, gameState: ProtoGameState? = nil) {
-        self.type = type
-        self.gameState = gameState
+public struct ProtoUpdate: Codable {
+    public let data: ProtoUpdateData // The type of the update.
+
+    public init(data: ProtoUpdateData) {
+        self.data = data
     }
 }
 
-public enum ProtoUpdateType: String, Codable {
-    case gameState
+public enum ProtoUpdateData: Codable {
     case ack
+    case gameState(state: ProtoGameState)
 }
 
 /// Structure representing the game state, including mice, cats, and exits.
 public struct ProtoGameState: Codable {
-    let mice: [ProtoMouse]
-    let cats: [ProtoCat]
-    let exits: [ProtoExit]
+    public let mice: [ProtoMouse]
+    public let cats: [ProtoCat]
+    public let exits: [ProtoExit]
+
+    public init(mice: [ProtoMouse], cats: [ProtoCat], exits: [ProtoExit]) {
+        self.mice = mice
+        self.cats = cats
+        self.exits = exits
+    }
 }
 
 // game elements

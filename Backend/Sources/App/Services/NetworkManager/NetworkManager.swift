@@ -98,8 +98,8 @@ final class NetworkManager {
     ///
     /// - Parameter user: The `User` object representing the disconnected client.
     private func clientDisconnected(user: User) async {
-        let action = ProtoAction(type: .leave)
-        await delegate?.on(action: action, from: user, receivedBy: self)
+        let action = ProtoAction(data: .leave)
+        await delegate?.on(action: action, from: user)
     }
     
     /// Handles an incoming message from a client.
@@ -116,8 +116,8 @@ final class NetworkManager {
             let decoder = JSONDecoder()
             let msg: ProtocolMsg = try decoder.decode(ProtocolMsg.self, from: data)
             
-            if msg.type == .action, let action = msg.action {
-                await delegate?.on(action: action, from: user, receivedBy: self)
+            if case let .action(action: action) = msg.body {
+                await delegate?.on(action: action, from: user)
             } else {
                 let err = ProtoError(code: .genericError, message: "Type of message was not action.")
                 await sendToClient(body: err, to: user)

@@ -8,7 +8,7 @@
 import Foundation
 import Shared
 
-class Subway {
+class Tunnel {
     let entries: [Position]
 
     init(entries: [Position]) {
