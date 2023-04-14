@@ -17,8 +17,14 @@ final class GameController: NetworkDelegate {
     func on(action: ProtoAction, from user: User, receivedBy manager: NetworkManager) {
         GameController.log.info("Recognize action \(action.type.rawValue) by \(user.id.uuidString)")
         if action.type == .move {
+            // test individual client sending
             Task {
                 await user.send(update: ProtoUpdate(type: .ack))
+            }
+        } else {
+            // Test message broadcasting
+            Task {
+                await manager.broadcast(body: ProtoUpdate(type: .ack))
             }
         }
     }

@@ -21,6 +21,10 @@ class User {
     }
 
     func send(update: ProtoUpdate) async {
-        await networkManager.send(update: update, to: self)
+        await networkManager.sendToClient(body: update, to: self)
+    }
+
+    func send(error: ProtoError) async {
+        await networkManager.sendToClient(body: error, to: self)
     }
 }
