@@ -6,14 +6,17 @@
 //
 
 import Foundation
+import Shared
 import WebSocketKit
 
+/// User represents the connection to the client device
 class User {
+    let id: UUID
     let websocket: WebSocket
-    let name: String
+    var joined = false // checks if user already joined a game
 
-    init(ws: WebSocket, name: String) {
+    init(id: UUID, ws: WebSocket, networkManager: NetworkManager) {
         self.websocket = ws
-        self.name = name
+        self.id = id
     }
 }

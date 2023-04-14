@@ -8,6 +8,16 @@
 import Foundation
 
 public struct ProtoError: Codable {
-    let code: String
-    let message: String
+    public let code: ProtoErrorType
+    public let message: String
+
+    public init(code: ProtoErrorType, message: String) {
+        self.code = code
+        self.message = message
+    }
+}
+
+public enum ProtoErrorType: String, Codable {
+    case genericError
+    case alreadyJoined
 }

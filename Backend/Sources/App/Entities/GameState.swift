@@ -7,12 +7,12 @@
 
 import Foundation
 
-class Board {
-    let subways: [Subway]
+actor GameState {
+    let tunnels: [Tunnel]
     let characters: [Character]
 
-    init(subways: [Subway], characters: [Character]) {
-        self.subways = subways
+    init(tunnels: [Tunnel], characters: [Character]) {
+        self.tunnels = tunnels
         self.characters = characters
     }
 }
