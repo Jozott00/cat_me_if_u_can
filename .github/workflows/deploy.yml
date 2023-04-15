@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: Ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
@@ -19,15 +19,7 @@ jobs:
         swift-version: '5'
 
     - name: Build and test Vapor app
-      run: swift build
-      
-#    - name: Prepare Install Diectory
- #     run: |
-  #      rm -rf .build/install
-   #     mkdir -p .build/install
-    #    cp -P .build/debug/Run .build/install/
-     #   cp -P /usr/lib/swift/linux/lib*so* .build/install/
-      
+      run: swift build -c release
 
     - name: Deploy to server
       uses: appleboy/scp-action@master
@@ -35,6 +27,6 @@ jobs:
         host: dobodox.com
         username: github
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: ".build/install/*"
-        target: "/home/github/srv/cat_me_if_you_can/build"
+        source: ".build/release/*"
+        target: "/home/github/srv/cat_me_if_you_can"
         strip_components: 2
