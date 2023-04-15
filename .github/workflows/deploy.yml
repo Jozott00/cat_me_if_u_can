@@ -3,7 +3,7 @@ name: Deploy Backend
 on:
   push:
     branches:
-      - add_test_actions
+      - main
 
 jobs:
   build-and-deploy:

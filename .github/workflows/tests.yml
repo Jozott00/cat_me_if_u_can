@@ -2,7 +2,7 @@ name: Test Backend
 
 on:
   push:
-    branches: [ "add_test_actions" ]
+    branches: [ ]
   pull_request:
     branches: [ "main" ]
 
