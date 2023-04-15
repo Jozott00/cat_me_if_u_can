@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Numerics
 
 public struct ProtoAction: Codable {
     public let data: ProtoActionData
