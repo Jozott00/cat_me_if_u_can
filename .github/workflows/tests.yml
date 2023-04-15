@@ -2,7 +2,7 @@ name: Test Project
 
 on:
   push:
-    branches: [ "add_test_actions" ]
+    branches: [ ]
   pull_request:
     branches: [ "main" ]
 
@@ -33,25 +33,4 @@ jobs:
       working-directory: ./${{ matrix.module }}
       run: swift test
 
-  # test-shared-library:
-  #     runs-on: macos-latest
-  #     steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
-  
-  #     - name: Set up Swift
-  #       uses: fwal/setup-swift@v1
-  #       with:
-  #         swift-version: '5'
-  
-  #     - name: Get Swift Version
-  #       run: swift --version
-  
-  #     - name: Build
-  #       working-directory: ./Shared
-  #       run: swift build
-        
-  #     - name: Run tests
-  #       working-directory: ./Shared
-  #       run: swift test
 
