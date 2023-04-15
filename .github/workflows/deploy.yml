@@ -39,4 +39,4 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           cd /home/github/srv/cat_me_if_you_can
-          docker compose restart
+          sudo docker compose restart
