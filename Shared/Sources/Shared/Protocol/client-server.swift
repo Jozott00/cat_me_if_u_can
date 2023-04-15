@@ -5,8 +5,10 @@
 //  Created by Johannes Zottele on 12.04.23.
 //
 
-import CoreGraphics
 import Foundation
+import simd
+
+public typealias Vector = simd_float2
 
 public struct ProtoAction: Codable {
     public let data: ProtoActionData
@@ -39,26 +41,26 @@ public enum ProtoDirection: String, Codable {
     case southwest
     case stay
 
-    var vector: CGVector {
+    var vector: Vector {
         switch self {
         case .north:
-            return CGVector(dx: 0, dy: -1)
+            return Vector(0, 1)
         case .south:
-            return CGVector(dx: 0, dy: 1)
+            return Vector(0, -1)
         case .east:
-            return CGVector(dx: 1, dy: 0)
+            return Vector(1, 0)
         case .west:
-            return CGVector(dx: -1, dy: 0)
+            return Vector(-1, 0)
         case .northeast:
-            return CGVector(dx: 1, dy: -1)
+            return Vector(1, 1)
         case .northwest:
-            return CGVector(dx: -1, dy: -1)
+            return Vector(-1, 1)
         case .southeast:
-            return CGVector(dx: 1, dy: 1)
+            return Vector(1, -1)
         case .southwest:
-            return CGVector(dx: -1, dy: 1)
+            return Vector(-1, -1)
         case .stay:
-            return CGVector(dx: 0, dy: 0)
+            return Vector(0, 0)
         }
     }
 }
