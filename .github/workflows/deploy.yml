@@ -3,6 +3,7 @@ name: Deploy Backend
 on:
   push:
     branches:
+      - deployed-websocket-test
       - main
 
 jobs:
