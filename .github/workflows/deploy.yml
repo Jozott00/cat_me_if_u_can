@@ -24,9 +24,19 @@ jobs:
     - name: Deploy to server
       uses: appleboy/scp-action@master
       with:
-        host: dobodox.com
-        username: github
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         source: ".build/release/Run"
         target: "/home/github/srv/cat_me_if_you_can/build"
         strip_components: 2
+
+    - name: Restart container
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          cd /home/github/srv/cat_me_if_you_can
+          docker compose restart
