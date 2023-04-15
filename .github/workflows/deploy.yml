@@ -27,6 +27,6 @@ jobs:
         host: dobodox.com
         username: github
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: ".build/release/*"
+        source: ".build/release/Run"
         target: "/home/github/srv/cat_me_if_you_can"
         strip_components: 2
