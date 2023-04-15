@@ -13,5 +13,7 @@ public func configure(_ app: Application) throws {
         await gameController.startGame()
     }
 
+    try routes(app)
+    
     app.logger.info("Configuartion done!")
 }
