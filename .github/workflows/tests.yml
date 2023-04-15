@@ -1,0 +1,34 @@
+name: Test Project
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  run-tests:
+    strategy:
+      matrix:
+        module: ["Backend", "Shared"]
+
+    runs-on: Ubuntu-22.04
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Swift
+      uses: fwal/setup-swift@v1
+      with:
+        swift-version: '5'
+
+    - name: Get Swift Version
+      run: swift --version
+
+    - name: Build
+      working-directory: ./${{ matrix.module }}
+      run: swift build
+      
+    - name: Run tests
+      working-directory: ./${{ matrix.module }}
+      run: swift test
+
+

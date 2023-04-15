@@ -31,7 +31,7 @@ final class GameController: NetworkDelegate {
         while isRunning {
             tick()
 
-            let nanoseconds = Int64(tickInterval * TimeInterval(NSEC_PER_SEC))
+            let nanoseconds = Int64(tickInterval * TimeInterval(1_000_000_000))
             do {
                 try await Task.sleep(nanoseconds: UInt64(nanoseconds))
             } catch {
