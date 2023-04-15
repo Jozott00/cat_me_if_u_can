@@ -6,9 +6,7 @@
 //
 
 import Foundation
-import simd
-
-public typealias Vector = simd_float2
+import Numerics
 
 public struct ProtoAction: Codable {
     public let data: ProtoActionData
@@ -40,27 +38,4 @@ public enum ProtoDirection: String, Codable {
     case southeast
     case southwest
     case stay
-
-    var vector: Vector {
-        switch self {
-        case .north:
-            return Vector(0, 1)
-        case .south:
-            return Vector(0, -1)
-        case .east:
-            return Vector(1, 0)
-        case .west:
-            return Vector(-1, 0)
-        case .northeast:
-            return Vector(1, 1)
-        case .northwest:
-            return Vector(-1, 1)
-        case .southeast:
-            return Vector(1, -1)
-        case .southwest:
-            return Vector(-1, -1)
-        case .stay:
-            return Vector(0, 0)
-        }
-    }
 }
