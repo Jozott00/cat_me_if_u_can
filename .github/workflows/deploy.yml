@@ -19,6 +19,7 @@ jobs:
         swift-version: '5'
 
     - name: Build and test Vapor app
+      working-directory: ./Backend
       run: swift build -c release
 
     - name: Deploy to server
@@ -27,7 +28,7 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: ".build/release/Run"
+        source: "Backend/.build/release/Run"
         target: "/home/github/srv/cat_me_if_you_can/build"
         strip_components: 2
 
