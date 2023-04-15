@@ -5,7 +5,9 @@
 //  Created by Johannes Zottele on 12.04.23.
 //
 
+import CoreGraphics
 import Foundation
+
 public struct ProtoAction: Codable {
     public let data: ProtoActionData
 
