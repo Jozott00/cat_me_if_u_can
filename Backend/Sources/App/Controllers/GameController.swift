@@ -16,9 +16,10 @@ final class GameController: NetworkDelegate {
     private let tickInterval: TimeInterval
     private var gameTimer: Timer?
     private var isRunning = false
+    private var gameState = GameState(tunnels: [], mice: [], cats: [])
 
     init(networkManager: NetworkManager, ticketInterval: TimeInterval = 1) {
-        self.tickInterval = ticketInterval
+        tickInterval = ticketInterval
         self.networkManager = networkManager
         networkManager.delegate = self
     }
@@ -27,6 +28,7 @@ final class GameController: NetworkDelegate {
         guard !isRunning else { return }
         log.info("Start Game")
         isRunning = true
+        gameState = GameState(tunnels: generateTunnels(), mice: [], cats: [])
 
         while isRunning {
             tick()
@@ -57,9 +59,17 @@ final class GameController: NetworkDelegate {
 
     private func broadcastGameState() async {
         // currently just broadcast demo data
-        let gameState = ProtoGameState(mice: [], cats: [], exits: [])
-        let update = ProtoUpdate(data: .gameState(state: gameState))
-        await networkManager.broadcast(body: update, onlyIf: { user in user.joined })
+        let exits = gameState.tunnels.map { t in
+            t.entries.map { p in ProtoExit(exitID: UUID().uuidString, position: p) }
+        }.reduce([], +)
+
+        let protoGameState = ProtoGameState(
+            mice: [],
+            cats: [],
+            exits: exits
+        )
+        let update = ProtoUpdate(data: .gameState(state: protoGameState))
+        await networkManager.broadcast(body: update, onlyIf: { user in true || user.joined })
     }
 
     func on(action: ProtoAction, from user: User) async {
@@ -75,15 +85,15 @@ final class GameController: NetworkDelegate {
         }
     }
 
-    func handleMove(direction: ProtoDirection, from user: User) async {
+    func handleMove(direction _: ProtoDirection, from _: User) async {
         // TODO: Handle movement
     }
 
-    func handleLeave(from user: User) async {
+    func handleLeave(from _: User) async {
         // TODO: Handle leave
     }
 
-    func handleJoin(from user: User, name: String) async {
+    func handleJoin(from user: User, name _: String) async {
         guard !user.joined else {
             let err = ProtoError(code: .alreadyJoined, message: "You already joined the game!")
             return await networkManager.sendToClient(body: err, to: user)

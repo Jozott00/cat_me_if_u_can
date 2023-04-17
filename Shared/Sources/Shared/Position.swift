@@ -11,7 +11,7 @@ public class Position: Codable {
     var x: Int
     var y: Int
 
-    init(x: Int, y: Int) {
+    public init(x: Int, y: Int) {
         self.x = x
         self.y = y
     }
