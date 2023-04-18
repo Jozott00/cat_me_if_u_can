@@ -18,8 +18,8 @@ final class GameController: NetworkDelegate {
     private var isRunning = false
     private var gameState = GameState(tunnels: [], mice: [], cats: [])
 
-    init(networkManager: NetworkManager, ticketInterval: TimeInterval = 1) {
-        tickInterval = ticketInterval
+    init(networkManager: NetworkManager, tickInterval: TimeInterval = 1) {
+        self.tickInterval = tickInterval
         self.networkManager = networkManager
         networkManager.delegate = self
     }

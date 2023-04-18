@@ -19,4 +19,7 @@ xcuserdata/
 /*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
 
+### VSCODE ###
+.vscode/*
+
 # End of https://www.toptal.com/developers/gitignore/api/xcode
