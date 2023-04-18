@@ -38,33 +38,49 @@ public struct ProtoGameState: Codable {
 // game elements
 
 public struct ProtoMouse: Codable {
-    let mouseID: String
-    let position: Position
-    let state: String
+    public let mouseID: String
+    public let position: Position
+    public let state: String
 
     enum CodingKeys: String, CodingKey {
         case mouseID = "mouse_id"
         case position
         case state
     }
+
+    public init(mouseID: String, position: Position, state: String) {
+        self.mouseID = mouseID
+        self.position = position
+        self.state = state
+    }
 }
 
 public struct ProtoCat: Codable {
-    let playerID: String
-    let position: Position
+    public let playerID: String
+    public let position: Position
 
     enum CodingKeys: String, CodingKey {
         case playerID = "player_id"
         case position
     }
+
+    public init(playerID: String, position: Position) {
+        self.playerID = playerID
+        self.position = position
+    }
 }
 
 public struct ProtoExit: Codable {
-    let exitID: String
-    let position: Position
+    public let exitID: String
+    public let position: Position
 
     enum CodingKeys: String, CodingKey {
         case exitID = "exit_id"
         case position
+    }
+
+    public init(exitID: String, position: Position) {
+        self.exitID = exitID
+        self.position = position
     }
 }

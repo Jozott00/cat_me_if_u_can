@@ -9,10 +9,12 @@ import Foundation
 
 actor GameState {
     let tunnels: [Tunnel]
-    let characters: [Character]
+    let mice: [Mouse]
+    let cats: [Cat]
 
-    init(tunnels: [Tunnel], characters: [Character]) {
+    init(tunnels: [Tunnel], mice: [Mouse], cats: [Cat]) {
         self.tunnels = tunnels
-        self.characters = characters
+        self.mice = mice
+        self.cats = cats
     }
 }
