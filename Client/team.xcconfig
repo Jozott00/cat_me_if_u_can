@@ -1,0 +1,11 @@
+//
+//  team.xcconfig
+//  Client
+//
+//  Created by Paul Pinter on 18.04.23.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+DEVELOPMENT_TEAM = 46K4JTPRCN
