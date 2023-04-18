@@ -60,7 +60,7 @@ final class GameController: NetworkDelegate {
     private func broadcastGameState() async {
         // currently just broadcast demo data
         let exits = gameState.tunnels.map { t in
-            t.entries.map { p in ProtoExit(exitID: UUID().uuidString, position: p) }
+            t.entries.map { e in ProtoExit(exitID: e.id.uuidString, position: e.position) }
         }.reduce([], +)
 
         let protoGameState = ProtoGameState(
@@ -69,7 +69,7 @@ final class GameController: NetworkDelegate {
             exits: exits
         )
         let update = ProtoUpdate(data: .gameState(state: protoGameState))
-        await networkManager.broadcast(body: update, onlyIf: { user in true || user.joined })
+        await networkManager.broadcast(body: update, onlyIf: { user in user.joined })
     }
 
     func on(action: ProtoAction, from user: User) async {

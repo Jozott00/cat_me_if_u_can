@@ -11,9 +11,15 @@ func generateTunnels() -> [Tunnel] {
         let numEntries = Int.random(in: 2 ... 4)
 
         let entries = (2 ... numEntries).map { _ in
-            Position(x: Int.random(in: 100 ... 900), y: Int.random(in: 100 ... 900))
+            Entry(
+                id: UUID(),
+                position: Position(
+                    x: Int.random(in: 100 ... 900),
+                    y: Int.random(in: 100 ... 900)
+                )
+            )
         }
-        let tunnel = Tunnel(entries: entries)
+        let tunnel = Tunnel(id: UUID(), entries: entries)
         tunnels.append(tunnel)
     }
     return tunnels

@@ -9,10 +9,12 @@ import Foundation
 import Shared
 
 class Cat: Character {
+    let id: UUID
     var position: Position
     let user: User
 
-    init(position: Position, user: User) {
+    init(id: UUID, position: Position, user: User) {
+        self.id = id
         self.position = position
         self.user = user
     }
