@@ -19,18 +19,27 @@ public struct ProtoUpdate: Codable {
 
 public enum ProtoUpdateData: Codable {
     case ack
+    // FIXME: Are there any better names possible here?
     case gameState(state: ProtoGameState)
+    case gameLayout(layout: ProtoGameLayout)
 }
 
-/// Structure representing the game state, including mice, cats, and exits.
+/// Structure representing the game state that changes frequently
 public struct ProtoGameState: Codable {
     public let mice: [ProtoMouse]
     public let cats: [ProtoCat]
-    public let exits: [ProtoExit]
 
-    public init(mice: [ProtoMouse], cats: [ProtoCat], exits: [ProtoExit]) {
+    public init(mice: [ProtoMouse], cats: [ProtoCat]) {
         self.mice = mice
         self.cats = cats
+    }
+}
+
+/// Structure representing the game state that only changes every round
+public struct ProtoGameLayout: Codable {
+    public let exits: [ProtoExit]
+
+    public init(exits: [ProtoExit]) {
         self.exits = exits
     }
 }

@@ -59,15 +59,7 @@ final class GameController: NetworkDelegate {
 
     private func broadcastGameState() async {
         // currently just broadcast demo data
-        let exits = gameState.tunnels.map { t in
-            t.exits.map { e in ProtoExit(exitID: e.id.uuidString, position: e.position) }
-        }.reduce([], +)
-
-        let protoGameState = ProtoGameState(
-            mice: [],
-            cats: [],
-            exits: exits
-        )
+        let protoGameState = ProtoGameState(mice: [], cats: [])
         let update = ProtoUpdate(data: .gameState(state: protoGameState))
         await networkManager.broadcast(body: update, onlyIf: { user in user.joined })
     }
@@ -100,6 +92,14 @@ final class GameController: NetworkDelegate {
         }
 
         user.joined = true
-        // TODO: Handle Join
+
+        let exits = gameState.tunnels.map { t in
+            t.exits.map { e in ProtoExit(exitID: e.id.uuidString, position: e.position) }
+        }.reduce([], +)
+        let update = ProtoUpdate(data: .gameLayout(layout: ProtoGameLayout(exits: exits)))
+        await networkManager.sendToClient(body: update, to: user)
+
+        // TODO: we should also send the client the current GameState if the
+        // game is already running
     }
 }
