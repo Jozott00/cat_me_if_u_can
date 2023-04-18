@@ -7,7 +7,7 @@ func generateTunnels() -> [Tunnel] {
     var tunnels: [Tunnel] = []
     var entryPositions: [Position] = []
 
-    for _ in 1 ... Constants.TUNNELS_NUM {
+    for i in 1 ... Constants.TUNNELS_NUM {
         // Generate how many entries the tunnel should have
         let numEntries = Int.random(in: 2 ... Constants.MAX_ENTRIES)
 
@@ -40,7 +40,9 @@ func generateTunnels() -> [Tunnel] {
             return Entry(id: UUID(), position: position)
         }
 
-        tunnels.append(Tunnel(id: UUID(), entries: entries))
+        tunnels.append(
+            Tunnel(id: UUID(), entries: entries, isGoal: i == 0)
+        )
     }
 
     return tunnels
