@@ -60,7 +60,7 @@ final class GameController: NetworkDelegate {
     private func broadcastGameState() async {
         // currently just broadcast demo data
         let exits = gameState.tunnels.map { t in
-            t.entries.map { e in ProtoExit(exitID: e.id.uuidString, position: e.position) }
+            t.exits.map { e in ProtoExit(exitID: e.id.uuidString, position: e.position) }
         }.reduce([], +)
 
         let protoGameState = ProtoGameState(
