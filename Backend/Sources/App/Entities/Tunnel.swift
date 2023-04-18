@@ -10,12 +10,12 @@ import Shared
 
 class Tunnel {
     let id: UUID
-    let entries: [Entry]
+    let exits: [Exit]
     let isGoal: Bool
 
-    init(id: UUID, entries: [Entry], isGoal: Bool) {
+    init(id: UUID, exits: [Exit], isGoal: Bool) {
         self.id = id
-        self.entries = entries
+        self.exits = exits
         self.isGoal = isGoal
     }
 }

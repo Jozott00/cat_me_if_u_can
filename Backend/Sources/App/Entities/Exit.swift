@@ -1,7 +1,7 @@
 import Foundation
 import Shared
 
-class Entry {
+class Exit {
     let id: UUID
     let position: Position
 
