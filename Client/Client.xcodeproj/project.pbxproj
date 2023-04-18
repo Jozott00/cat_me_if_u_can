@@ -20,11 +20,14 @@
 		45A55D0829ED732F0029979A /* LoadingText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55D0729ED732F0029979A /* LoadingText.swift */; };
 		45A55D0A29ED733C0029979A /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55D0929ED733C0029979A /* LoadingIndicator.swift */; };
 		45A55D0C29ED74F80029979A /* FinalScoreboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55D0B29ED74F80029979A /* FinalScoreboard.swift */; };
+		45B3CEA129EECBB100239E44 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B3CEA029EECBB100239E44 /* MainView.swift */; };
+		45B3CEA329EED17F00239E44 /* StatefulPreviewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B3CEA229EED17F00239E44 /* StatefulPreviewWrapper.swift */; };
+		45B3CEA629EED64800239E44 /* UIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B3CEA529EED64800239E44 /* UIError.swift */; };
 		BC064C0429E72F43003F97B7 /* ClientApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC064C0329E72F43003F97B7 /* ClientApp.swift */; };
-		BC064C0629E72F43003F97B7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC064C0529E72F43003F97B7 /* ContentView.swift */; };
 		BC064C0829E72F44003F97B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC064C0729E72F44003F97B7 /* Assets.xcassets */; };
 		BC064C0B29E72F44003F97B7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC064C0A29E72F44003F97B7 /* Preview Assets.xcassets */; };
 		BCD17E4429E815130096428B /* Shared in Frameworks */ = {isa = PBXBuildFile; productRef = BCD17E4329E815130096428B /* Shared */; };
+		C712340B29EEE514006E849F /* team.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C712340A29EEE514006E849F /* team.xcconfig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,12 +44,15 @@
 		45A55D0729ED732F0029979A /* LoadingText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingText.swift; sourceTree = "<group>"; };
 		45A55D0929ED733C0029979A /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		45A55D0B29ED74F80029979A /* FinalScoreboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalScoreboard.swift; sourceTree = "<group>"; };
+		45B3CEA029EECBB100239E44 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		45B3CEA229EED17F00239E44 /* StatefulPreviewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatefulPreviewWrapper.swift; sourceTree = "<group>"; };
+		45B3CEA529EED64800239E44 /* UIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIError.swift; sourceTree = "<group>"; };
 		BC064C0029E72F43003F97B7 /* Client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Client.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC064C0329E72F43003F97B7 /* ClientApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientApp.swift; sourceTree = "<group>"; };
-		BC064C0529E72F43003F97B7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		BC064C0729E72F44003F97B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BC064C0A29E72F44003F97B7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		BC064C0C29E72F44003F97B7 /* Client.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Client.entitlements; sourceTree = "<group>"; };
+		C712340A29EEE514006E849F /* team.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = team.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +70,7 @@
 		45A55CEB29ED70D80029979A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				45B3CEA029EECBB100239E44 /* MainView.swift */,
 				45A55CFA29ED72900029979A /* BoardViews */,
 				45A55CF529ED72000029979A /* HelperViews */,
 				45A55CF229ED71D80029979A /* CMIYC-EndScreen */,
@@ -115,6 +122,7 @@
 			children = (
 				45A55CF629ED723A0029979A /* CMIYC-Button.swift */,
 				45A55CF829ED724C0029979A /* CMIYC-TextInput.swift */,
+				45B3CEA229EED17F00239E44 /* StatefulPreviewWrapper.swift */,
 			);
 			path = HelperViews;
 			sourceTree = "<group>";
@@ -129,9 +137,18 @@
 			path = BoardViews;
 			sourceTree = "<group>";
 		};
+		45B3CEA429EED62700239E44 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				45B3CEA529EED64800239E44 /* UIError.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		BC064BF729E72F42003F97B7 = {
 			isa = PBXGroup;
 			children = (
+				C712340A29EEE514006E849F /* team.xcconfig */,
 				BC064C0229E72F43003F97B7 /* Client */,
 				BC064C0129E72F43003F97B7 /* Products */,
 				BCD17E4229E815130096428B /* Frameworks */,
@@ -149,9 +166,9 @@
 		BC064C0229E72F43003F97B7 /* Client */ = {
 			isa = PBXGroup;
 			children = (
+				45B3CEA429EED62700239E44 /* Helpers */,
 				45A55CEB29ED70D80029979A /* Views */,
 				BC064C0329E72F43003F97B7 /* ClientApp.swift */,
-				BC064C0529E72F43003F97B7 /* ContentView.swift */,
 				BC064C0729E72F44003F97B7 /* Assets.xcassets */,
 				BC064C0C29E72F44003F97B7 /* Client.entitlements */,
 				BC064C0929E72F44003F97B7 /* Preview Content */,
@@ -236,6 +253,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC064C0B29E72F44003F97B7 /* Preview Assets.xcassets in Resources */,
+				C712340B29EEE514006E849F /* team.xcconfig in Resources */,
 				BC064C0829E72F44003F97B7 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -249,8 +267,8 @@
 			files = (
 				45A55CF429ED71FA0029979A /* EndScreenView.swift in Sources */,
 				45A55D0C29ED74F80029979A /* FinalScoreboard.swift in Sources */,
+				45B3CEA329EED17F00239E44 /* StatefulPreviewWrapper.swift in Sources */,
 				45A55CFC29ED72A10029979A /* Cat.swift in Sources */,
-				BC064C0629E72F43003F97B7 /* ContentView.swift in Sources */,
 				BC064C0429E72F43003F97B7 /* ClientApp.swift in Sources */,
 				45A55CEE29ED71480029979A /* LobbyView.swift in Sources */,
 				45A55CF729ED723A0029979A /* CMIYC-Button.swift in Sources */,
@@ -259,8 +277,10 @@
 				45A55D0229ED72E50029979A /* BoardView.swift in Sources */,
 				45A55D0029ED72CB0029979A /* Exit.swift in Sources */,
 				45A55D0A29ED733C0029979A /* LoadingIndicator.swift in Sources */,
+				45B3CEA629EED64800239E44 /* UIError.swift in Sources */,
 				45A55D0829ED732F0029979A /* LoadingText.swift in Sources */,
 				45A55CFE29ED72BA0029979A /* Mouse.swift in Sources */,
+				45B3CEA129EECBB100239E44 /* MainView.swift in Sources */,
 				45A55D0629ED731D0029979A /* LoadingScreenView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,6 +290,7 @@
 /* Begin XCBuildConfiguration section */
 		BC064C0D29E72F44003F97B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C712340A29EEE514006E849F /* team.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -330,6 +351,7 @@
 		};
 		BC064C0E29E72F44003F97B7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C712340A29EEE514006E849F /* team.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -383,15 +405,16 @@
 		};
 		BC064C1029E72F44003F97B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C712340A29EEE514006E849F /* team.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Client/Client.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Client/Preview Content\"";
-				DEVELOPMENT_TEAM = 92Q7QP9JRR;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -410,15 +433,16 @@
 		};
 		BC064C1129E72F44003F97B7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C712340A29EEE514006E849F /* team.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Client/Client.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Client/Preview Content\"";
-				DEVELOPMENT_TEAM = 92Q7QP9JRR;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
