@@ -16,9 +16,10 @@ final class GameController: NetworkDelegate {
     private let tickInterval: TimeInterval
     private var gameTimer: Timer?
     private var isRunning = false
+    private var gameState = GameState(tunnels: [], mice: [], cats: [])
 
-    init(networkManager: NetworkManager, ticketInterval: TimeInterval = 1) {
-        self.tickInterval = ticketInterval
+    init(networkManager: NetworkManager, tickInterval: TimeInterval = 1) {
+        self.tickInterval = tickInterval
         self.networkManager = networkManager
         networkManager.delegate = self
     }
@@ -27,6 +28,7 @@ final class GameController: NetworkDelegate {
         guard !isRunning else { return }
         log.info("Start Game")
         isRunning = true
+        gameState = GameState(tunnels: generateTunnels(), mice: [], cats: [])
 
         while isRunning {
             tick()
@@ -57,8 +59,8 @@ final class GameController: NetworkDelegate {
 
     private func broadcastGameState() async {
         // currently just broadcast demo data
-        let gameState = ProtoGameState(mice: [], cats: [], exits: [])
-        let update = ProtoUpdate(data: .gameState(state: gameState))
+        let protoGameState = ProtoGameState(mice: [], cats: [])
+        let update = ProtoUpdate(data: .gameState(state: protoGameState))
         await networkManager.broadcast(body: update, onlyIf: { user in user.joined })
     }
 
@@ -75,21 +77,29 @@ final class GameController: NetworkDelegate {
         }
     }
 
-    func handleMove(direction: ProtoDirection, from user: User) async {
+    func handleMove(direction _: ProtoDirection, from _: User) async {
         // TODO: Handle movement
     }
 
-    func handleLeave(from user: User) async {
+    func handleLeave(from _: User) async {
         // TODO: Handle leave
     }
 
-    func handleJoin(from user: User, name: String) async {
+    func handleJoin(from user: User, name _: String) async {
         guard !user.joined else {
             let err = ProtoError(code: .alreadyJoined, message: "You already joined the game!")
             return await networkManager.sendToClient(body: err, to: user)
         }
 
         user.joined = true
-        // TODO: Handle Join
+
+        let exits = gameState.tunnels.map { t in
+            t.exits.map { e in ProtoExit(exitID: e.id.uuidString, position: e.position) }
+        }.reduce([], +)
+        let update = ProtoUpdate(data: .gameLayout(layout: ProtoGameLayout(exits: exits)))
+        await networkManager.sendToClient(body: update, to: user)
+
+        // TODO: we should also send the client the current GameState if the
+        // game is already running
     }
 }

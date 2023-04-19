@@ -19,18 +19,27 @@ public struct ProtoUpdate: Codable {
 
 public enum ProtoUpdateData: Codable {
     case ack
+    // FIXME: Are there any better names possible here?
     case gameState(state: ProtoGameState)
+    case gameLayout(layout: ProtoGameLayout)
 }
 
-/// Structure representing the game state, including mice, cats, and exits.
+/// Structure representing the game state that changes frequently
 public struct ProtoGameState: Codable {
     public let mice: [ProtoMouse]
     public let cats: [ProtoCat]
-    public let exits: [ProtoExit]
 
-    public init(mice: [ProtoMouse], cats: [ProtoCat], exits: [ProtoExit]) {
+    public init(mice: [ProtoMouse], cats: [ProtoCat]) {
         self.mice = mice
         self.cats = cats
+    }
+}
+
+/// Structure representing the game state that only changes every round
+public struct ProtoGameLayout: Codable {
+    public let exits: [ProtoExit]
+
+    public init(exits: [ProtoExit]) {
         self.exits = exits
     }
 }
@@ -38,33 +47,49 @@ public struct ProtoGameState: Codable {
 // game elements
 
 public struct ProtoMouse: Codable {
-    let mouseID: String
-    let position: Position
-    let state: String
+    public let mouseID: String
+    public let position: Position
+    public let state: String
 
     enum CodingKeys: String, CodingKey {
         case mouseID = "mouse_id"
         case position
         case state
     }
+
+    public init(mouseID: String, position: Position, state: String) {
+        self.mouseID = mouseID
+        self.position = position
+        self.state = state
+    }
 }
 
 public struct ProtoCat: Codable {
-    let playerID: String
-    let position: Position
+    public let playerID: String
+    public let position: Position
 
     enum CodingKeys: String, CodingKey {
         case playerID = "player_id"
         case position
     }
+
+    public init(playerID: String, position: Position) {
+        self.playerID = playerID
+        self.position = position
+    }
 }
 
 public struct ProtoExit: Codable {
-    let exitID: String
-    let position: Position
+    public let exitID: String
+    public let position: Position
 
     enum CodingKeys: String, CodingKey {
         case exitID = "exit_id"
         case position
+    }
+
+    public init(exitID: String, position: Position) {
+        self.exitID = exitID
+        self.position = position
     }
 }

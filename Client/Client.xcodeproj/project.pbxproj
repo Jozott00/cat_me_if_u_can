@@ -27,6 +27,7 @@
 		BC064C0829E72F44003F97B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC064C0729E72F44003F97B7 /* Assets.xcassets */; };
 		BC064C0B29E72F44003F97B7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC064C0A29E72F44003F97B7 /* Preview Assets.xcassets */; };
 		BCD17E4429E815130096428B /* Shared in Frameworks */ = {isa = PBXBuildFile; productRef = BCD17E4329E815130096428B /* Shared */; };
+		C712340B29EEE514006E849F /* team.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C712340A29EEE514006E849F /* team.xcconfig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		BC064C0729E72F44003F97B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BC064C0A29E72F44003F97B7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		BC064C0C29E72F44003F97B7 /* Client.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Client.entitlements; sourceTree = "<group>"; };
+		C712340A29EEE514006E849F /* team.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = team.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +148,7 @@
 		BC064BF729E72F42003F97B7 = {
 			isa = PBXGroup;
 			children = (
+				C712340A29EEE514006E849F /* team.xcconfig */,
 				BC064C0229E72F43003F97B7 /* Client */,
 				BC064C0129E72F43003F97B7 /* Products */,
 				BCD17E4229E815130096428B /* Frameworks */,
@@ -250,6 +253,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC064C0B29E72F44003F97B7 /* Preview Assets.xcassets in Resources */,
+				C712340B29EEE514006E849F /* team.xcconfig in Resources */,
 				BC064C0829E72F44003F97B7 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,6 +290,7 @@
 /* Begin XCBuildConfiguration section */
 		BC064C0D29E72F44003F97B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C712340A29EEE514006E849F /* team.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -346,6 +351,7 @@
 		};
 		BC064C0E29E72F44003F97B7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C712340A29EEE514006E849F /* team.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -399,15 +405,16 @@
 		};
 		BC064C1029E72F44003F97B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C712340A29EEE514006E849F /* team.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Client/Client.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Client/Preview Content\"";
-				DEVELOPMENT_TEAM = TS6SY4F973;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -426,15 +433,16 @@
 		};
 		BC064C1129E72F44003F97B7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C712340A29EEE514006E849F /* team.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Client/Client.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Client/Preview Content\"";
-				DEVELOPMENT_TEAM = TS6SY4F973;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;

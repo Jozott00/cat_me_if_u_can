@@ -1,16 +1,9 @@
-//
-//  File.swift
-//
-//
-//  Created by Johannes Zottele on 28.03.23.
-//
-
 import Foundation
 import Shared
 
-class Mouse: Character {
+class Exit {
     let id: UUID
-    var position: Position
+    let position: Position
 
     init(id: UUID, position: Position) {
         self.id = id
