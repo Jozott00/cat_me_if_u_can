@@ -8,15 +8,20 @@
 import Foundation
 
 public class Position: Codable {
-    var x: Int
-    var y: Int
+    public var x: Int
+    public var y: Int
 
-    public init(x: Int, y: Int) {
+    public init(
+        x: Int,
+        y: Int
+    ) {
         self.x = x
         self.y = y
     }
 
-    public init(position: Position) {
+    public init(
+        position: Position
+    ) {
         x = position.x
         y = position.y
     }
