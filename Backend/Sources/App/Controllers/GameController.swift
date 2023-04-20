@@ -70,7 +70,6 @@ final class GameController: NetworkDelegate {
     }
 
     private func broadcastGameState() async {
-        // currently just broadcast demo data
         let cats = (await gameState.cats).map { _, cat in ProtoCat(playerID: cat.id.uuidString, position: cat.position) }
         let protoGameState = ProtoGameState(mice: [], cats: cats)
         let update = ProtoUpdate(data: .gameState(state: protoGameState))

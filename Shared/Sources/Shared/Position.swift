@@ -62,8 +62,8 @@ public class Position: Codable {
         y = newY
     }
 
-    public func distance(to: Position) -> Int64 {
-        return Int64(sqrt(pow(Float64(to.x - x), 2.0) + pow(Float64(to.y - y), 2.0)))
+    public func distance(to: Position) -> Double {
+        return sqrt(pow(Float64(to.x - x), 2.0) + pow(Float64(to.y - y), 2.0))
     }
 
     public static func random(in boundary: ClosedRange<Double>) -> Position {
