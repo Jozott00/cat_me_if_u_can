@@ -29,7 +29,7 @@ func generateTunnels() -> [Tunnel] {
             repeat {
                 position = Position(position: virtualCenter)
                 position.translate(
-                    r: Int.random(in: (Constants.EXIT_SIZE * 2) ... (Constants.EXITS_MAX_DISTANCE / 2)),
+                    r: Double.random(in: (Constants.EXIT_SIZE * 2) ... (Constants.EXITS_MAX_DISTANCE / 2)),
                     phi: Float64.random(in: 0 ... 2) * Float64.pi
                 )
             } while exitPositions.contains { ep in

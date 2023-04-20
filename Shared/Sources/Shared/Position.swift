@@ -48,7 +48,7 @@ public class Position: Codable {
     }
 
     /// Move the position by radius and angle (polar coordinates)
-    public func translate(r: Int, phi: Float64, within: Vector2? = nil) {
+    public func translate(r: Double, phi: Float64, within: Vector2? = nil) {
         var newX = Double(Float64(r) * cos(phi))
         var newY = Double(Float64(r) * sin(phi))
 
