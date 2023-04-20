@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  GameState.swift
 //
 //
 //  Created by Johannes Zottele on 28.03.23.
@@ -8,13 +8,28 @@
 import Foundation
 
 actor GameState {
+    
     let tunnels: [Tunnel]
     let mice: [Mouse]
-    let cats: [Cat]
+    var cats: [User: Cat]
 
-    init(tunnels: [Tunnel], mice: [Mouse], cats: [Cat]) {
+    init(tunnels: [Tunnel], mice: [Mouse], cats: [User: Cat]) {
         self.tunnels = tunnels
         self.mice = mice
         self.cats = cats
+    }
+
+    func add(cat: Cat) {
+        cats[cat.user] = cat
+    }
+
+    func removeCat(by user: User) {
+        cats.removeValue(forKey: user)
+    }
+
+    func forEachCat(body: (Cat) -> Void) {
+        for cat in cats.values {
+            body(cat)
+        }
     }
 }

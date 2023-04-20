@@ -18,10 +18,10 @@ public struct ProtoUpdate: Codable {
 }
 
 public enum ProtoUpdateData: Codable {
-    case ack
     // FIXME: Are there any better names possible here?
     case gameState(state: ProtoGameState)
     case gameLayout(layout: ProtoGameLayout)
+    case joinAck(id: String) // TODO: evaluate more precise structure
 }
 
 /// Structure representing the game state that changes frequently

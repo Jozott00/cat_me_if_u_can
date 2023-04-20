@@ -20,4 +20,5 @@ public struct ProtoError: Codable {
 public enum ProtoErrorType: String, Codable {
     case genericError
     case alreadyJoined
+    case userNotYetJoined
 }

@@ -32,7 +32,7 @@ final class NetworkManager {
         routes.webSocket("connect") { _, ws in
             
             let userId = UUID()
-            let user = User(id: userId, ws: ws, networkManager: self)
+            let user = User(id: userId, ws: ws)
             
             self.connectionsQueue.sync {
                 self.connectedClients[userId] = user
@@ -68,7 +68,7 @@ final class NetworkManager {
             for user in clients.values {
                 guard constraint(user) else { continue }
                 group.addTask {
-                    await self.sendToClient(body: body, to: user)
+                    await self.send(msg: body, to: user)
                 }
             }
             await group.waitForAll()
@@ -82,9 +82,9 @@ final class NetworkManager {
     /// - Parameters:
     ///   - body: A `ProtoBody` instance to be sent to the specified client.
     ///   - user: The target `User` object representing the client to receive the message.
-    func sendToClient(body: ProtoBody, to user: User) async {
+    func send(msg: ProtoBody, to user: User) async {
         do {
-            let msg = body.createMsg()
+            let msg = msg.createMsg()
             let json = try JSONEncoder().encode(msg)
             try await user.websocket.send(json.str(.utf8)!)
         } catch {
@@ -121,7 +121,7 @@ final class NetworkManager {
                 await delegate?.on(action: action, from: user)
             } else {
                 let err = ProtoError(code: .genericError, message: "Type of message was not action.")
-                await sendToClient(body: err, to: user)
+                await send(msg: err, to: user)
             }
             
         } catch {
