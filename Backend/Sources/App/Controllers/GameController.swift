@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  GameController.swift
 //
 //
 //  Created by Johannes Zottele on 14.04.23.
@@ -13,13 +13,12 @@ private let log = Logger(label: "GameController")
 
 final class GameController: NetworkDelegate {
     private let networkManager: NetworkManager
-    private let tickInterval: TimeInterval
-    private var gameTimer: Timer?
+    private let tickIntervalMS: TimeInterval
     private var isRunning = false
-    private var gameState = GameState(tunnels: [], mice: [], cats: [])
+    private var gameState = GameState(tunnels: [], mice: [], cats: [:])
 
-    init(networkManager: NetworkManager, tickInterval: TimeInterval = 1) {
-        self.tickInterval = tickInterval
+    init(networkManager: NetworkManager, tickIntervalMS: TimeInterval = 1000) {
+        self.tickIntervalMS = tickIntervalMS
         self.networkManager = networkManager
         networkManager.delegate = self
     }
@@ -28,12 +27,12 @@ final class GameController: NetworkDelegate {
         guard !isRunning else { return }
         log.info("Start Game")
         isRunning = true
-        gameState = GameState(tunnels: generateTunnels(), mice: [], cats: [])
+        gameState = GameState(tunnels: generateTunnels(), mice: [], cats: [:])
 
         while isRunning {
             tick()
 
-            let nanoseconds = Int64(tickInterval * TimeInterval(1_000_000_000))
+            let nanoseconds = Int64(tickIntervalMS * TimeInterval(1_000_000))
             do {
                 try await Task.sleep(nanoseconds: UInt64(nanoseconds))
             } catch {
@@ -55,11 +54,25 @@ final class GameController: NetworkDelegate {
         }
     }
 
-    private func calculateGameState() async {}
+    private func calculateGameState() async {
+        await gameState.forEachCat(body: calculateCatPosition)
+
+        // TODO: calculate mice
+
+        // TODO: check collisions (mice and cats)
+    }
+
+    // TODO: consider to move logic somewhere else
+    private func calculateCatPosition(cat: Cat) {
+        let movementVector = cat.movement.vector * Constants.MOVEMENT_PER_TICK
+        let boardBoundaries = Vector2(Constants.FIELD_LENGTH, Constants.FIELD_LENGTH)
+        cat.position.translate(vec: movementVector, within: boardBoundaries)
+    }
 
     private func broadcastGameState() async {
         // currently just broadcast demo data
-        let protoGameState = ProtoGameState(mice: [], cats: [])
+        let cats = (await gameState.cats).map { _, cat in ProtoCat(playerID: cat.id.uuidString, position: cat.position) }
+        let protoGameState = ProtoGameState(mice: [], cats: cats)
         let update = ProtoUpdate(data: .gameState(state: protoGameState))
         await networkManager.broadcast(body: update, onlyIf: { user in user.joined })
     }
@@ -77,29 +90,40 @@ final class GameController: NetworkDelegate {
         }
     }
 
-    func handleMove(direction _: ProtoDirection, from _: User) async {
-        // TODO: Handle movement
+    func handleMove(direction: ProtoDirection, from user: User) async {
+        let cat = await gameState.cats[user]
+
+        guard user.joined, let cat = cat else {
+            let err = ProtoError(code: .userNotYetJoined, message: "The user hasn't joined yet, so movement is not possible")
+            return await networkManager.send(msg: err, to: user)
+        }
+
+        // set new movement direction
+        cat.movement = direction
     }
 
-    func handleLeave(from _: User) async {
-        // TODO: Handle leave
+    func handleLeave(from user: User) async {
+        await gameState.removeCat(by: user)
     }
 
     func handleJoin(from user: User, name _: String) async {
         guard !user.joined else {
             let err = ProtoError(code: .alreadyJoined, message: "You already joined the game!")
-            return await networkManager.sendToClient(body: err, to: user)
+            return await networkManager.send(msg: err, to: user)
         }
-
         user.joined = true
+
+        // add new cat
+        let newCat = Cat(id: UUID(), position: Position(x: 0, y: 0), user: user)
+        await gameState.add(cat: newCat)
+
+        let ack = ProtoUpdate(data: .joinAck(id: newCat.id.uuidString))
+        await networkManager.send(msg: ack, to: user)
 
         let exits = gameState.tunnels.map { t in
             t.exits.map { e in ProtoExit(exitID: e.id.uuidString, position: e.position) }
         }.reduce([], +)
         let update = ProtoUpdate(data: .gameLayout(layout: ProtoGameLayout(exits: exits)))
-        await networkManager.sendToClient(body: update, to: user)
-
-        // TODO: we should also send the client the current GameState if the
-        // game is already running
+        await networkManager.send(msg: update, to: user)
     }
 }

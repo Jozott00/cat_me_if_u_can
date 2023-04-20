@@ -8,6 +8,11 @@
 import Foundation
 
 final class Constants {
+    // game behaviour
+    static let MOVEMENT_PER_TICK: Double = 1.0
+    static let TICK_INTERVAL_MS: Double = 1000.0
+
+    // board settings
     public static let FIELD_LENGTH = 1000
     static let TUNNELS_NUM = 8
     static let EXIT_SIZE = 10

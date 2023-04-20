@@ -7,13 +7,13 @@ public func configure(_ app: Application) throws {
     networkManager.configureRoutes(routes: app.routes)
 
     // configure game controller
-    let gameController = GameController(networkManager: networkManager)
+    let gameController = GameController(networkManager: networkManager, tickIntervalMS: Constants.TICK_INTERVAL_MS)
 
     Task {
         await gameController.startGame()
     }
 
     try routes(app)
-    
+
     app.logger.info("Configuartion done!")
 }
