@@ -114,7 +114,8 @@ final class GameController: NetworkDelegate {
         user.joined = true
 
         // add new cat
-        let newCat = Cat(id: UUID(), position: Position(x: 0, y: 0), user: user)
+        let catPos = Position.random(in: 0 ... Double(Constants.FIELD_LENGTH))
+        let newCat = Cat(id: UUID(), position: catPos, user: user)
         await gameState.add(cat: newCat)
 
         let ack = ProtoUpdate(data: .joinAck(id: newCat.id.uuidString))
