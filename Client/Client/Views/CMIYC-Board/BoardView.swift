@@ -11,15 +11,29 @@ import SwiftUI
 struct BoardView: View {
     @Binding var currentView: Int  // current view being passed to view
     @Binding var gameLayout: ProtoGameLayout
+    @Binding var gameState: ProtoGameState
     var body: some View {
         Text("Playing Board")
         Canvas { context, size in
             for exit in gameLayout.exits {
-                // let y = Text("(\(exit.position.x), \(exit.position.x)")
-                let y = Text("🚇").font(.system(size: 33))
+                let text = Text("🚇").font(.system(size: 33))
                 context.draw(
-                    y,
+                    text,
                     at: CGPoint(x: exit.position.x, y: exit.position.y)
+                )
+            }
+            for mouse in gameState.mice {
+                let text = Text("🐭").font(.system(size: 33))
+                context.draw(
+                    text,
+                    at: CGPoint(x: mouse.position.x, y: mouse.position.y)
+                )
+            }
+            for cat in gameState.cats {
+                let text = Text("😺").font(.system(size: 33))
+                context.draw(
+                    text,
+                    at: CGPoint(x: cat.position.x, y: cat.position.y)
                 )
             }
         }

@@ -11,22 +11,84 @@ import SwiftUI
 struct MainView: View {
     @State private var currentView: Int = 1
     @State private var gameLayout: ProtoGameLayout = ProtoGameLayout(exits: [
-        ProtoExit(exitID: "testid", position: Position(x: 10, y: 10)),
-        ProtoExit(exitID: "testid", position: Position(x: 100, y: 10)),
-        ProtoExit(exitID: "testid", position: Position(x: 40, y: 700)),
-        ProtoExit(exitID: "testid", position: Position(x: 390, y: 210)),
+        ProtoExit(exitID: "testid1", position: Position(x: 1, y: 1)),
+        ProtoExit(exitID: "testid2", position: Position(x: 100, y: 10)),
+        ProtoExit(exitID: "testid3", position: Position(x: 40, y: 700)),
+        ProtoExit(exitID: "testid4", position: Position(x: 390, y: 210)),
     ])
-    @State private var username: String = "Tim"
+    @State private var gameState: ProtoGameState = ProtoGameState(
+        mice: [ProtoMouse(mouseID: "Mouse1", position: Position(x: 100, y: 10), state: "north")],
+        cats: [ProtoCat(playerID: "player1", position: Position(x: 40, y: 700))]
+    )
+
+    @State private var username: String = RandomTextSelector(fileName: "usernames")
+        .getRandomListElement()
+
+    var xCord: Int = 1
+    var yCord: Int = 1
+
+    // timer bit messy in structs, just for testing
+    @State var timerLogic: TimerLogic!
+
+    class TimerLogic {
+        var structRef: MainView!
+        var timer: Timer!
+
+        init(
+            _ structRef: MainView
+        ) {
+            self.structRef = structRef
+            self.timer = Timer.scheduledTimer(
+                timeInterval: 0.01,
+                target: self,
+                selector: #selector(timerTicked),
+                userInfo: nil,
+                repeats: true
+            )
+        }
+
+        func stopTimer() {
+            self.timer?.invalidate()
+            self.structRef = nil
+        }
+
+        @objc private func timerTicked() {
+            self.structRef.timerTicked()
+        }
+    }
+
+    func startTimer() {
+        self.timerLogic = TimerLogic(self)
+    }
+
+    func endTimer() {
+        self.timerLogic.stopTimer()
+    }
+
+    mutating func timerTicked() {
+        self.yCord += 1
+        self.xCord += 1
+        self.gameState.mice = [
+            ProtoMouse(mouseID: "Mouse1", position: Position(x: xCord, y: yCord), state: "north")
+        ]
+    }
+
+    // let usernamesList: RandomTextSelector =
+
     var body: some View {
         // 4 main view with global navigation
         if currentView == 1 {
             LobbyView(username: $username, currentView: $currentView)
         }
         else if currentView == 2 {
-            LoadingScreenView(currentView: $currentView)
+            LoadingScreenView(
+                currentView: $currentView
+            )
         }
         else if currentView == 3 {
-            BoardView(currentView: $currentView, gameLayout: $gameLayout)
+            BoardView(currentView: $currentView, gameLayout: $gameLayout, gameState: $gameState)
+                .onAppear { startTimer() }
+                .onDisappear { endTimer() }
         }
         else if currentView == 4 {
             EndScreenView(currentView: $currentView)
