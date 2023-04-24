@@ -8,13 +8,25 @@
 import SwiftUI
 
 struct WebsocketInnerView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+  var body: some View {
+    Button("Start Websocket") {
+      let webSocketDelegate = WebSocket()
+      let session = URLSession(
+        configuration: .default,
+        delegate: webSocketDelegate,
+        delegateQueue: OperationQueue()
+      )
+      print("Pressed Button")
+      let url = URL(string: "ws://catme.dobodox.com/connect")!
+      let webSocketTask = session.webSocketTask(with: url)
+      webSocketDelegate.send(webSocketTask: webSocketTask)
+      webSocketTask.resume()
     }
+  }
 }
 
 struct WebsocketInnerView_Previews: PreviewProvider {
-    static var previews: some View {
-        WebsocketInnerView()
-    }
+  static var previews: some View {
+    WebsocketInnerView()
+  }
 }
