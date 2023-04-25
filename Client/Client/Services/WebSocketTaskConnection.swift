@@ -7,13 +7,16 @@
 
 import Foundation
 
-//TODO: add logger
 class WebSocketTaskConnection: NSObject, WebSocketConnection, URLSessionWebSocketDelegate {
 
   var delegate: WebSocketConnectionDelegate?
   var webSocketTask: URLSessionWebSocketTask!
   var urlSession: URLSession!
   let delegateQueue = OperationQueue()
+  enum WsError: Error {
+    // Throw when WS experiences a state that is not supported
+    case notSupported
+  }
 
   init(
     url: URL
@@ -28,6 +31,7 @@ class WebSocketTaskConnection: NSObject, WebSocketConnection, URLSessionWebSocke
     webSocketTask: URLSessionWebSocketTask,
     didOpenWithProtocol protocol: String?
   ) {
+    // called after webSocketTask.resume()
     self.delegate?.onConnected(connection: self)
   }
 
@@ -37,6 +41,7 @@ class WebSocketTaskConnection: NSObject, WebSocketConnection, URLSessionWebSocke
     didCloseWith closeCode: URLSessionWebSocketTask.CloseCode,
     reason: Data?
   ) {
+    // called after webSocketTask.cancel()
     self.delegate?.onDisconnected(connection: self, error: nil)
   }
 
@@ -47,16 +52,16 @@ class WebSocketTaskConnection: NSObject, WebSocketConnection, URLSessionWebSocke
   func disconnect() {
     webSocketTask.cancel(with: .goingAway, reason: nil)
   }
-
-  func send(text: String) {
-    webSocketTask.send(URLSessionWebSocketTask.Message.string(text)) { error in
+  func send(msg: String) {
+    // sends a plain texst message
+    webSocketTask.send(URLSessionWebSocketTask.Message.string(msg)) { error in
       if let error = error {
         self.delegate?.onError(connection: self, error: error)
       }
     }
   }
-
   func listen() {
+    // sistens for new messages
     webSocketTask.receive { result in
       switch result {
         case .failure(let error):
@@ -64,11 +69,13 @@ class WebSocketTaskConnection: NSObject, WebSocketConnection, URLSessionWebSocke
         case .success(let message):
           switch message {
             case .string(let text):
-              self.delegate?.onMessage(connection: self, text: text)
+              self.delegate?.onMessage(connection: self, msg: text)
+            // We do not support binary data messages
+            case .data(_):
+              self.delegate?.onError(connection: self, error: WsError.notSupported)
             @unknown default:
               fatalError()
           }
-
       }
       self.listen()
     }

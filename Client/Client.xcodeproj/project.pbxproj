@@ -34,7 +34,7 @@
 		C72F29B229F6BAFA00B46B19 /* WebSocketConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72F29B129F6BAFA00B46B19 /* WebSocketConnection.swift */; };
 		C72F29B429F6BBE800B46B19 /* WebSocketTaskConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72F29B329F6BBE800B46B19 /* WebSocketTaskConnection.swift */; };
 		C76B071129F7D3760035CAC8 /* WebSocketClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76B071029F7D3760035CAC8 /* WebSocketClient.swift */; };
-		C788C0DC29F7C795000909B9 /* WebSocketAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788C0DB29F7C795000909B9 /* WebSocketAppDelegate.swift */; };
+		C7EC374029F7F6C800268BEE /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = C7EC373F29F7F6C800268BEE /* Logging */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,7 +67,6 @@
 		C72F29B129F6BAFA00B46B19 /* WebSocketConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketConnection.swift; sourceTree = "<group>"; };
 		C72F29B329F6BBE800B46B19 /* WebSocketTaskConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketTaskConnection.swift; sourceTree = "<group>"; };
 		C76B071029F7D3760035CAC8 /* WebSocketClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketClient.swift; sourceTree = "<group>"; };
-		C788C0DB29F7C795000909B9 /* WebSocketAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketAppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7EC374029F7F6C800268BEE /* Logging in Frameworks */,
 				BCD17E4429E815130096428B /* Shared in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -214,7 +214,6 @@
 				C72F29A629F6ABA200B46B19 /* WebsocketInnerView.swift */,
 				C72F29A829F6ABB700B46B19 /* WebsocketContentView.swift */,
 				C72F29AF29F6BA9800B46B19 /* WebSocketConnectionDelegate.swift */,
-				C788C0DB29F7C795000909B9 /* WebSocketAppDelegate.swift */,
 				C72F29B129F6BAFA00B46B19 /* WebSocketConnection.swift */,
 				C72F29B329F6BBE800B46B19 /* WebSocketTaskConnection.swift */,
 				C76B071029F7D3760035CAC8 /* WebSocketClient.swift */,
@@ -240,6 +239,7 @@
 			name = Client;
 			packageProductDependencies = (
 				BCD17E4329E815130096428B /* Shared */,
+				C7EC373F29F7F6C800268BEE /* Logging */,
 			);
 			productName = Client;
 			productReference = BC064C0029E72F43003F97B7 /* Client.app */;
@@ -269,6 +269,9 @@
 				Base,
 			);
 			mainGroup = BC064BF729E72F42003F97B7;
+			packageReferences = (
+				C7EC373E29F7F6C800268BEE /* XCRemoteSwiftPackageReference "swift-log" */,
+			);
 			productRefGroup = BC064C0129E72F43003F97B7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -306,7 +309,6 @@
 				45A55CF929ED724C0029979A /* CMIYC-TextInput.swift in Sources */,
 				45A55D0429ED72FF0029979A /* Scoreboard.swift in Sources */,
 				45A55D0229ED72E50029979A /* BoardView.swift in Sources */,
-				C788C0DC29F7C795000909B9 /* WebSocketAppDelegate.swift in Sources */,
 				C72F29A729F6ABA200B46B19 /* WebsocketInnerView.swift in Sources */,
 				45A55D0029ED72CB0029979A /* Exit.swift in Sources */,
 				45A55D0A29ED733C0029979A /* LoadingIndicator.swift in Sources */,
@@ -528,10 +530,26 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		C7EC373E29F7F6C800268BEE /* XCRemoteSwiftPackageReference "swift-log" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-log.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		BCD17E4329E815130096428B /* Shared */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Shared;
+		};
+		C7EC373F29F7F6C800268BEE /* Logging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C7EC373E29F7F6C800268BEE /* XCRemoteSwiftPackageReference "swift-log" */;
+			productName = Logging;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
+
 // TODO: Remove when done with testing
-// TODO: Write usefull comments
 struct WebsocketInnerView: View {
   var body: some View {
     let ws = WebsocketClient()
@@ -15,7 +15,7 @@ struct WebsocketInnerView: View {
       ws.start()
     }
     Button("Stop Websocket") {
-//        FIXME: method does not disconnect
+      //        FIXME: method does not disconnect
       ws.stop()
     }
 

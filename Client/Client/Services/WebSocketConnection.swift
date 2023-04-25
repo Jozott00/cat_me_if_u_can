@@ -6,11 +6,16 @@
 //
 
 import Foundation
-// TODO: write useful comments
+
 protocol WebSocketConnection {
-  func send(text: String)
+  /// Send plain text message to the WS Server
+  /// - Parameter msg: msg the message to be send
+  func send(msg: String)
+  /// Connnects WS to Server
   func connect()
+  /// Disconnects WS from Server
   func disconnect()
+  /// Delegate object to realize delagate Pattern
   var delegate: WebSocketConnectionDelegate? {
     get
     set
