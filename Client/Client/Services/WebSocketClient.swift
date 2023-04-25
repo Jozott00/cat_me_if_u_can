@@ -22,7 +22,7 @@ class WebsocketClient: WebSocketConnectionDelegate {
 
   /// Starts a WS connection
   func start() {
-    let connection = WebSocketTaskConnection(url: URL(string: "ws://catme.dobodox.com/connect")!)
+    let connection = WebSocketTaskConnection(url: WS.wsConnectionURL)
     connection.delegate = self
     connection.connect()
 
