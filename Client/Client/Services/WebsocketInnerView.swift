@@ -12,7 +12,7 @@ struct WebsocketInnerView: View {
   var body: some View {
     let ws = WebsocketClient()
     Button("Start Websocket") {
-      ws.start()
+      ws.start(userName: "tim2")
     }
     Button("Stop Websocket") {
       //        FIXME: method does not disconnect

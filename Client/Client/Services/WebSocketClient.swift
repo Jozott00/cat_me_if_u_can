@@ -3,6 +3,7 @@
 //  Client
 //
 //  Created by Paul Pinter on 25.04.23.
+//  Inspired by https://github.com/appspector/URLSessionWebSocketTask/blob/master/WebSockets/AppDelegate.swift
 //
 
 import Foundation
@@ -18,11 +19,11 @@ class WebsocketClient: WebSocketConnectionDelegate {
   // TODO: Make that board state variable shareable
   // TODO: make the payload parameterized
   // TODO: Write useful comments
-  // TODO: optional have url as a config variable
 
   /// Starts a WS connection
-  func start() {
+  func start(userName: String) {
     let connection = WebSocketTaskConnection(url: WS.wsConnectionURL)
+    // realize delegate pattern by adding current instance to WS connection
     connection.delegate = self
     connection.connect()
 
@@ -34,7 +35,7 @@ class WebsocketClient: WebSocketConnectionDelegate {
                   "action": {
                       "data": {
                           "join":{
-                              "username":"Tim2"
+                              "username":\(userName)
                           }
                       }
                   }
@@ -44,16 +45,18 @@ class WebsocketClient: WebSocketConnectionDelegate {
       """
     connection.send(msg: payload)
   }
+  // stops the connection to the WS client
   func stop() {
     connection.disconnect()
   }
+
   func onConnected(connection: WebSocketConnection) {
     log.info("Connected")
   }
 
   func onDisconnected(connection: WebSocketConnection, error: Error?) {
     if let error = error {
-      log.info("Disconnected with error: \(error)")
+      log.error("Disconnected with error: \(error)")
     }
     else {
       log.info("Disconnected normally")

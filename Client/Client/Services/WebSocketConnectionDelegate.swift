@@ -3,7 +3,8 @@
 //  Client
 //
 //  Created by Paul Pinter on 24.04.23.
-//
+//  Inspired by https://github.com/appspector/URLSessionWebSocketTask/blob/master/WebSockets/AppDelegate.swift
+
 
 import Foundation
 
