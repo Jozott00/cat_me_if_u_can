@@ -6,10 +6,9 @@
 //
 
 import Foundation
-
+// TODO: write useful comments
 protocol WebSocketConnection {
   func send(text: String)
-  func send(data: Data)
   func connect()
   func disconnect()
   var delegate: WebSocketConnectionDelegate? {

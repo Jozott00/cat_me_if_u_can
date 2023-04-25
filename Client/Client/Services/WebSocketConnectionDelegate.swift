@@ -6,11 +6,10 @@
 //
 
 import Foundation
-
+/// Realizes the delegate Pattern for Websocket ConnectionTask
 protocol WebSocketConnectionDelegate {
-    func onConnected(connection: WebSocketConnection)
-    func onDisconnected(connection: WebSocketConnection, error: Error?)
-    func onError(connection: WebSocketConnection, error: Error)
-    func onMessage(connection: WebSocketConnection, text: String)
-    func onMessage(connection: WebSocketConnection, data: Data)
+  func onConnected(connection: WebSocketConnection)
+  func onDisconnected(connection: WebSocketConnection, error: Error?)
+  func onError(connection: WebSocketConnection, error: Error)
+  func onMessage(connection: WebSocketConnection, text: String)
 }

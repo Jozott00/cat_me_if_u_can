@@ -7,6 +7,7 @@
 
 import Foundation
 
+//TODO: add logger
 class WebSocketTaskConnection: NSObject, WebSocketConnection, URLSessionWebSocketDelegate {
 
   var delegate: WebSocketConnectionDelegate?
@@ -54,13 +55,6 @@ class WebSocketTaskConnection: NSObject, WebSocketConnection, URLSessionWebSocke
       }
     }
   }
-  func send(data: Data) {
-    webSocketTask.send(URLSessionWebSocketTask.Message.data(data)) { error in
-      if let error = error {
-        self.delegate?.onError(connection: self, error: error)
-      }
-    }
-  }
 
   func listen() {
     webSocketTask.receive { result in
@@ -71,8 +65,6 @@ class WebSocketTaskConnection: NSObject, WebSocketConnection, URLSessionWebSocke
           switch message {
             case .string(let text):
               self.delegate?.onMessage(connection: self, text: text)
-            case .data(let data):
-              self.delegate?.onMessage(connection: self, data: data)
             @unknown default:
               fatalError()
           }

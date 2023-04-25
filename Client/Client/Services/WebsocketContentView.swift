@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+//TODO: Remove when done with testing
 struct WebsocketContentView: View {
   var body: some View {
     WebsocketInnerView()
