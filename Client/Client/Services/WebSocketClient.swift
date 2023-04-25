@@ -12,33 +12,47 @@ import Shared
 
 class WebsocketClient: WebSocketConnectionDelegate {
   let connection = WebSocketTaskConnection(url: URL(string: "ws://catme.dobodox.com/connect")!)
+  var gameData: GameData
+
+  init(
+    gameData: GameData
+  ) {
+    self.gameData = gameData
+  }
+
   /// Logger instance for `WebsocketClient`.
   private let log = Logger(label: "WebsocketClient")
 
   // TODO: Add a board state variable here
   // TODO: Make that board state variable shareable
-  // TODO: Write useful comments
 
   /// Starts a WS connection
   func start(userName: String) {
     let connection = WebSocketTaskConnection(url: WS.wsConnectionURL)
     // realize delegate pattern by adding current instance to WS connection
     connection.delegate = self
+    // establishes a connection to WS Server
     connection.connect()
+    // Notifies the server that a player has joined the game
     let action: ProtoAction = ProtoAction(data: .join(username: userName))
-    do {
-      let msg = action.createMsg()
-      let json = try JSONEncoder().encode(msg)
-      connection.send(msg: String(data: json, encoding: .utf8)!)
+    if let msg = action.toJSONString() {
+      connection.send(msg: msg)
     }
-    catch {
+    else {
       log.error("Error while trying to join a game")
-      onError(error: error)
     }
+
   }
   // stops the connection to the WS client
   func stop() {
-    connection.disconnect()
+    let action: ProtoAction = ProtoAction(data: .leave)
+    if let msg = action.toJSONString() {
+      connection.send(msg: msg)
+      connection.disconnect()
+    }
+    else {
+      log.error("Error while trying to leave a game")
+    }
   }
 
   func onConnected(connection: WebSocketConnection) {
@@ -59,25 +73,30 @@ class WebsocketClient: WebSocketConnectionDelegate {
   }
 
   func onMessage(connection: WebSocketConnection, msg: String) {
-    do {
-      let data = msg.data(using: .utf8)!
-      let decoder = JSONDecoder()
-      let msg: ProtocolMsg = try decoder.decode(ProtocolMsg.self, from: data)
-      log.info("\(msg.timestamp)")
-      log.info("\(msg.body)")
-      // TODO: handle update messages
-      if case let .action(action: action) = msg.body {
-        log.info("\(msg.body)")
+
+    if let protocolMsg = msg.toProtoMsg() {
+      if case let .update(update) = protocolMsg.body {
+        switch update.data {
+          case let .gameLayout(layout):
+            print("Game layout: \(layout)")
+            DispatchQueue.main.async {
+              self.gameData.gameLayout = layout
+            }
+          case let .gameState(state):
+            DispatchQueue.main.async {
+              self.gameData.gameState = state
+            }
+            print("Game state: \(state)")
+          case let .joinAck(id):
+            print("Join Acknowledgment: \(id)")
+        }
       }
       else {
-        log.info("error")
-        let err = ProtoError(code: .genericError, message: "Type of message was not action.")
-        //        await send(msg: err, to: user)
+        log.error("The JSON does not contain an update.")
       }
-
     }
-    catch {
-      //      log.error("Error while handling incoming message: \(error.localizedDescription)")
+    else {
+      log.error("Error decoding JSON string.")
     }
   }
 }

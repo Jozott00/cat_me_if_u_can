@@ -47,7 +47,7 @@ class WebSocketTaskConnection: NSObject, WebSocketConnection, URLSessionWebSocke
 
   func connect() {
     webSocketTask.resume()
-    listen()
+    self.listen()
   }
   func disconnect() {
     webSocketTask.cancel(with: .goingAway, reason: nil)

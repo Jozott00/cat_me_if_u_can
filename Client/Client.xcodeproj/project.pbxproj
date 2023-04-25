@@ -33,10 +33,12 @@
 		C72F29B029F6BA9800B46B19 /* WebSocketConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72F29AF29F6BA9800B46B19 /* WebSocketConnectionDelegate.swift */; };
 		C72F29B229F6BAFA00B46B19 /* WebSocketConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72F29B129F6BAFA00B46B19 /* WebSocketConnection.swift */; };
 		C72F29B429F6BBE800B46B19 /* WebSocketTaskConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72F29B329F6BBE800B46B19 /* WebSocketTaskConnection.swift */; };
+		C73C5BFF29F8805900C9E249 /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73C5BFE29F8805900C9E249 /* GameData.swift */; };
 		C76B071129F7D3760035CAC8 /* WebSocketClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76B071029F7D3760035CAC8 /* WebSocketClient.swift */; };
 		C7EC374029F7F6C800268BEE /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = C7EC373F29F7F6C800268BEE /* Logging */; };
 		C7EC374229F7FB0100268BEE /* dev.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C7EC374129F7FB0100268BEE /* dev.xcconfig */; };
 		C7EC374429F7FD4700268BEE /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7EC374329F7FD4700268BEE /* Configuration.swift */; };
+		C7EC374629F8148C00268BEE /* ProtoBodyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7EC374529F8148C00268BEE /* ProtoBodyExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,9 +70,11 @@
 		C72F29AF29F6BA9800B46B19 /* WebSocketConnectionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketConnectionDelegate.swift; sourceTree = "<group>"; };
 		C72F29B129F6BAFA00B46B19 /* WebSocketConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketConnection.swift; sourceTree = "<group>"; };
 		C72F29B329F6BBE800B46B19 /* WebSocketTaskConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketTaskConnection.swift; sourceTree = "<group>"; };
+		C73C5BFE29F8805900C9E249 /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
 		C76B071029F7D3760035CAC8 /* WebSocketClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketClient.swift; sourceTree = "<group>"; };
 		C7EC374129F7FB0100268BEE /* dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = dev.xcconfig; sourceTree = "<group>"; };
 		C7EC374329F7FD4700268BEE /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		C7EC374529F8148C00268BEE /* ProtoBodyExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtoBodyExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,7 +226,9 @@
 				C72F29B129F6BAFA00B46B19 /* WebSocketConnection.swift */,
 				C72F29B329F6BBE800B46B19 /* WebSocketTaskConnection.swift */,
 				C76B071029F7D3760035CAC8 /* WebSocketClient.swift */,
+				C7EC374529F8148C00268BEE /* ProtoBodyExtension.swift */,
 				C7EC374329F7FD4700268BEE /* Configuration.swift */,
+				C73C5BFE29F8805900C9E249 /* GameData.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -314,6 +320,7 @@
 				45A55CEE29ED71480029979A /* LobbyView.swift in Sources */,
 				C7EC374429F7FD4700268BEE /* Configuration.swift in Sources */,
 				45A55CF729ED723A0029979A /* CMIYC-Button.swift in Sources */,
+				C7EC374629F8148C00268BEE /* ProtoBodyExtension.swift in Sources */,
 				45A55CF929ED724C0029979A /* CMIYC-TextInput.swift in Sources */,
 				45A55D0429ED72FF0029979A /* Scoreboard.swift in Sources */,
 				45A55D0229ED72E50029979A /* BoardView.swift in Sources */,
@@ -322,6 +329,7 @@
 				45A55D0A29ED733C0029979A /* LoadingIndicator.swift in Sources */,
 				C76B071129F7D3760035CAC8 /* WebSocketClient.swift in Sources */,
 				45B3CEA629EED64800239E44 /* UIError.swift in Sources */,
+				C73C5BFF29F8805900C9E249 /* GameData.swift in Sources */,
 				C72F29B029F6BA9800B46B19 /* WebSocketConnectionDelegate.swift in Sources */,
 				45A55D0829ED732F0029979A /* LoadingText.swift in Sources */,
 				45A55CFE29ED72BA0029979A /* Mouse.swift in Sources */,
