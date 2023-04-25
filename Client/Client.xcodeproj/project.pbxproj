@@ -33,6 +33,7 @@
 		C72F29B029F6BA9800B46B19 /* WebSocketConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72F29AF29F6BA9800B46B19 /* WebSocketConnectionDelegate.swift */; };
 		C72F29B229F6BAFA00B46B19 /* WebSocketConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72F29B129F6BAFA00B46B19 /* WebSocketConnection.swift */; };
 		C72F29B429F6BBE800B46B19 /* WebSocketTaskConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72F29B329F6BBE800B46B19 /* WebSocketTaskConnection.swift */; };
+		C76B071129F7D3760035CAC8 /* WebSocketClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76B071029F7D3760035CAC8 /* WebSocketClient.swift */; };
 		C788C0DC29F7C795000909B9 /* WebSocketAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788C0DB29F7C795000909B9 /* WebSocketAppDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +66,7 @@
 		C72F29AF29F6BA9800B46B19 /* WebSocketConnectionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketConnectionDelegate.swift; sourceTree = "<group>"; };
 		C72F29B129F6BAFA00B46B19 /* WebSocketConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketConnection.swift; sourceTree = "<group>"; };
 		C72F29B329F6BBE800B46B19 /* WebSocketTaskConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketTaskConnection.swift; sourceTree = "<group>"; };
+		C76B071029F7D3760035CAC8 /* WebSocketClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketClient.swift; sourceTree = "<group>"; };
 		C788C0DB29F7C795000909B9 /* WebSocketAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketAppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -215,6 +217,7 @@
 				C788C0DB29F7C795000909B9 /* WebSocketAppDelegate.swift */,
 				C72F29B129F6BAFA00B46B19 /* WebSocketConnection.swift */,
 				C72F29B329F6BBE800B46B19 /* WebSocketTaskConnection.swift */,
+				C76B071029F7D3760035CAC8 /* WebSocketClient.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 				C72F29A729F6ABA200B46B19 /* WebsocketInnerView.swift in Sources */,
 				45A55D0029ED72CB0029979A /* Exit.swift in Sources */,
 				45A55D0A29ED733C0029979A /* LoadingIndicator.swift in Sources */,
+				C76B071129F7D3760035CAC8 /* WebSocketClient.swift in Sources */,
 				45B3CEA629EED64800239E44 /* UIError.swift in Sources */,
 				C72F29B029F6BA9800B46B19 /* WebSocketConnectionDelegate.swift in Sources */,
 				45A55D0829ED732F0029979A /* LoadingText.swift in Sources */,
