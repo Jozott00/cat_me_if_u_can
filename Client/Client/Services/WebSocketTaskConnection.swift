@@ -56,7 +56,7 @@ class WebSocketTaskConnection: NSObject, WebSocketConnection, URLSessionWebSocke
     // sends a plain texst message
     webSocketTask.send(URLSessionWebSocketTask.Message.string(msg)) { error in
       if let error = error {
-        self.delegate?.onError(connection: self, error: error)
+        self.delegate?.onError(error: error)
       }
     }
   }
@@ -65,14 +65,14 @@ class WebSocketTaskConnection: NSObject, WebSocketConnection, URLSessionWebSocke
     webSocketTask.receive { result in
       switch result {
         case .failure(let error):
-          self.delegate?.onError(connection: self, error: error)
+          self.delegate?.onError(error: error)
         case .success(let message):
           switch message {
             case .string(let text):
               self.delegate?.onMessage(connection: self, msg: text)
             // We do not support binary data messages
             case .data(_):
-              self.delegate?.onError(connection: self, error: WsError.notSupported)
+              self.delegate?.onError(error: WsError.notSupported)
             @unknown default:
               fatalError()
           }

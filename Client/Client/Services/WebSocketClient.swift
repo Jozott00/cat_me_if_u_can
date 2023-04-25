@@ -17,7 +17,6 @@ class WebsocketClient: WebSocketConnectionDelegate {
 
   // TODO: Add a board state variable here
   // TODO: Make that board state variable shareable
-  // TODO: make the payload parameterized
   // TODO: Write useful comments
 
   /// Starts a WS connection
@@ -26,24 +25,16 @@ class WebsocketClient: WebSocketConnectionDelegate {
     // realize delegate pattern by adding current instance to WS connection
     connection.delegate = self
     connection.connect()
-
-    let payload = """
-      {
-          "timestamp": 168488694.712589,
-          "body": {
-              "action": {
-                  "action": {
-                      "data": {
-                          "join":{
-                              "username":\(userName)
-                          }
-                      }
-                  }
-              }
-          }
-      }
-      """
-    connection.send(msg: payload)
+    let action: ProtoAction = ProtoAction(data: .join(username: userName))
+    do {
+      let msg = action.createMsg()
+      let json = try JSONEncoder().encode(msg)
+      connection.send(msg: String(data: json, encoding: .utf8)!)
+    }
+    catch {
+      log.error("Error while trying to join a game")
+      onError(error: error)
+    }
   }
   // stops the connection to the WS client
   func stop() {
@@ -63,8 +54,8 @@ class WebsocketClient: WebSocketConnectionDelegate {
     }
   }
 
-  func onError(connection: WebSocketConnection, error: Error) {
-    log.info("Web Socket connection error \(error)")
+  func onError(error: Error) {
+    log.error("WS Error \(error.localizedDescription)")
   }
 
   func onMessage(connection: WebSocketConnection, msg: String) {
