@@ -10,17 +10,28 @@ import SwiftUI
 struct WebsocketInnerView: View {
   var body: some View {
     Button("Start Websocket") {
-      let webSocketDelegate = WebSocket()
-      let session = URLSession(
-        configuration: .default,
-        delegate: webSocketDelegate,
-        delegateQueue: OperationQueue()
-      )
+      let connection = WebSocketTaskConnection(url: URL(string: "ws://catme.dobodox.com/connect")!)
+      connection.delegate = WebSocketAppDelegate()
       print("Pressed Button")
-      let url = URL(string: "ws://catme.dobodox.com/connect")!
-      let webSocketTask = session.webSocketTask(with: url)
-      webSocketDelegate.send(webSocketTask: webSocketTask)
-      webSocketTask.resume()
+      connection.connect()
+      let payload = """
+        {
+            "timestamp": 168488694.712589,
+            "body": {
+                "action": {
+                    "action": {
+                        "data": {
+                            "join":{
+                                "username":"Tim2"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        """
+      connection.send(text: payload)
+
     }
   }
 }
