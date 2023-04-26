@@ -24,23 +24,13 @@ class GameSession: ObservableObject {
     connection.connect()
     // Notifies the server that a player has joined the game
     let action: ProtoAction = ProtoAction(data: .join(username: userName))
-    if let msg = action.toJSONString() {
-      connection.send(msg: msg)
-    }
-    else {
-      log.error("Error while trying to join a game")
-    }
+    connection.send(action: action)
 
   }
   // stops the connection to the WS client
   func stop() {
     let action: ProtoAction = ProtoAction(data: .leave)
-    if let msg = action.toJSONString() {
-      connection.send(msg: msg)
-      connection.disconnect()
-    }
-    else {
-      log.error("Error while trying to leave a game")
-    }
+    connection.send(action: action)
+    connection.disconnect()
   }
 }

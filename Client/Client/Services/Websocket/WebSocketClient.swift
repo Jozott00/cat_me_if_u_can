@@ -6,11 +6,12 @@
 //  Inspired by https://github.com/appspector/URLSessionWebSocketTask/blob/master/WebSockets/WebSocketConnection.swift
 
 import Foundation
+import Shared
 
 protocol WebSocketConnection {
   /// Send plain text message to the WS Server
   /// - Parameter msg: msg the message to be send
-  func send(msg: String)
+  func send(action: ProtoAction)
   /// Connnects WS to Server
   func connect()
   /// Disconnects WS from Server
@@ -31,6 +32,7 @@ class WebSocketClient: NSObject, WebSocketConnection, URLSessionWebSocketDelegat
   enum WsError: Error {
     // Throw when WS experiences a state that is not supported
     case notSupported
+    case failedToConvertActionToJSON
   }
 
   init(
@@ -67,12 +69,17 @@ class WebSocketClient: NSObject, WebSocketConnection, URLSessionWebSocketDelegat
   func disconnect() {
     webSocketTask.cancel(with: .goingAway, reason: nil)
   }
-  func send(msg: String) {
+  func send(action: ProtoAction) {
     // sends a plain texst message
-    webSocketTask.send(URLSessionWebSocketTask.Message.string(msg)) { error in
-      if let error = error {
-        self.delegate?.onError(error: error)
+    if let msg = action.toJSONString() {
+      webSocketTask.send(URLSessionWebSocketTask.Message.string(msg)) { error in
+        if let error = error {
+          self.delegate?.onError(error: error)
+        }
       }
+    }
+    else {
+      self.delegate?.onError(error: WsError.failedToConvertActionToJSON)
     }
   }
   func listen() {
