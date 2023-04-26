@@ -29,10 +29,9 @@ class RandomTextSelector {
             }
         }
 
-        // read from file
+        // select element from file
         if let data = self.data {
             let rand = Int.random(in: 0..<data.elements.count)
-            print(data.elements[rand])
             return data.elements[rand]
         }
         return ""
