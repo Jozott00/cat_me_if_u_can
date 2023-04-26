@@ -53,7 +53,7 @@ class GameManagerDelegate: WebSocketDelegate {
         }
       }
       else {
-        log.error("The JSON does not contain an update.")
+        log.error("The JSON does not contain an update: \(msg)")
       }
     }
     else {
