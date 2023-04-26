@@ -7,9 +7,24 @@
 
 import Foundation
 
-class WebSocketTaskConnection: NSObject, WebSocketConnection, URLSessionWebSocketDelegate {
+protocol WebSocketConnection {
+  /// Send plain text message to the WS Server
+  /// - Parameter msg: msg the message to be send
+  func send(msg: String)
+  /// Connnects WS to Server
+  func connect()
+  /// Disconnects WS from Server
+  func disconnect()
+  /// Delegate object to realize delagate Pattern
+  var delegate: WebSocketDelegate? {
+    get
+    set
+  }
+}
 
-  var delegate: WebSocketConnectionDelegate?
+class WebSocketClient: NSObject, WebSocketConnection, URLSessionWebSocketDelegate {
+
+  var delegate: WebSocketDelegate?
   var webSocketTask: URLSessionWebSocketTask!
   var urlSession: URLSession!
   let delegateQueue = OperationQueue()
@@ -32,7 +47,7 @@ class WebSocketTaskConnection: NSObject, WebSocketConnection, URLSessionWebSocke
     didOpenWithProtocol protocol: String?
   ) {
     // called after webSocketTask.resume()
-    self.delegate?.onConnected(connection: self)
+    self.delegate?.onConnected()
   }
 
   func urlSession(
@@ -42,7 +57,7 @@ class WebSocketTaskConnection: NSObject, WebSocketConnection, URLSessionWebSocke
     reason: Data?
   ) {
     // called after webSocketTask.cancel()
-    self.delegate?.onDisconnected(connection: self, error: nil)
+    self.delegate?.onDisconnected(error: nil)
   }
 
   func connect() {
@@ -69,7 +84,7 @@ class WebSocketTaskConnection: NSObject, WebSocketConnection, URLSessionWebSocke
         case .success(let message):
           switch message {
             case .string(let text):
-              self.delegate?.onMessage(connection: self, msg: text)
+              self.delegate?.onMessage(msg: text)
             // We do not support binary data messages
             case .data(_):
               self.delegate?.onError(error: WsError.notSupported)

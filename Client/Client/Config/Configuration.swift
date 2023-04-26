@@ -30,9 +30,8 @@ enum Configuration {
   }
 }
 
-enum WS {
-  static var wsConnectionURL: URL {
-      
+enum WSConfig {
+  static var connectionURL: URL {
     return try! URL(string: "ws://" + Configuration.value(for: "WS_HOST") + "/connect")!
   }
 }

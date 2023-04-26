@@ -2,12 +2,13 @@
 //  GameData.swift
 //  Client
 //
-//  Created by Paul Pinter on 25.04.23.
+//  Created by Paul Pinter on 26.04.23.
 //
 
 import Foundation
 import Shared
 
+/// Observable that encapsulates the current game
 class GameData: ObservableObject {
   @Published var gameState: ProtoGameState?
   @Published var gameLayout: ProtoGameLayout?
