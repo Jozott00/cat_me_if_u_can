@@ -14,7 +14,7 @@ protocol WebSocketDelegate {
   /// Called after WS  voluntarly disconnects
   /// - Parameters:
   ///   - error: Error, present when WS Connection produces an error while disconnnecting
-  func onDisconnected(error: Error?)
+  func onDisconnected()
   /// Called  after a WS method produces an error
   /// - Parameters:
   ///   - error: Error, present when WS Connection produces an error while disconnnecting
