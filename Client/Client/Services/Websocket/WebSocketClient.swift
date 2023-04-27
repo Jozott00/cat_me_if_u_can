@@ -59,7 +59,7 @@ class WebSocketClient: NSObject, WebSocketConnection, URLSessionWebSocketDelegat
     reason: Data?
   ) {
     // called after webSocketTask.cancel()
-    self.delegate?.onDisconnected(error: nil)
+    self.delegate?.onDisconnected()
   }
 
   func connect() {
