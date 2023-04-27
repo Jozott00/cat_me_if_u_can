@@ -23,13 +23,8 @@ class GameManagerDelegate: WebSocketDelegate {
     log.info("Connected")
   }
 
-  func onDisconnected(error: Error?) {
-    if let error = error {
-      log.error("Disconnected with error: \(error)")
-    }
-    else {
-      log.info("Disconnected normally")
-    }
+  func onDisconnected() {
+    log.info("Disconnected")
   }
 
   func onError(error: Error) {

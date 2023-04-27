@@ -26,9 +26,11 @@ protocol WebSocketConnection {
 class WebSocketClient: NSObject, WebSocketConnection, URLSessionWebSocketDelegate {
 
   var delegate: WebSocketDelegate?
-  var webSocketTask: URLSessionWebSocketTask!
+  var webSocketTask: URLSessionWebSocketTask?
   var urlSession: URLSession!
   let delegateQueue = OperationQueue()
+  var isConnected = false
+  var url: URL
   enum WsError: Error {
     // Throw when WS experiences a state that is not supported
     case notSupported
@@ -38,9 +40,9 @@ class WebSocketClient: NSObject, WebSocketConnection, URLSessionWebSocketDelegat
   init(
     url: URL
   ) {
+    self.url = url
     super.init()
     urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: delegateQueue)
-    webSocketTask = urlSession.webSocketTask(with: url)
   }
 
   func urlSession(
@@ -50,6 +52,7 @@ class WebSocketClient: NSObject, WebSocketConnection, URLSessionWebSocketDelegat
   ) {
     // called after webSocketTask.resume()
     self.delegate?.onConnected()
+    listen()
   }
 
   func urlSession(
@@ -63,20 +66,28 @@ class WebSocketClient: NSObject, WebSocketConnection, URLSessionWebSocketDelegat
   }
 
   func connect() {
-    webSocketTask.resume()
-    self.listen()
+    if !isConnected {
+      isConnected = true
+      // create a new instance if it doesn't exist
+      webSocketTask = urlSession.webSocketTask(with: self.url)
+      webSocketTask?.resume()
+    }
   }
   func disconnect() {
-    webSocketTask.cancel(with: .goingAway, reason: nil)
+    if isConnected {
+      isConnected = false
+      webSocketTask?.cancel(with: .goingAway, reason: nil)
+    }
   }
   func send(action: ProtoAction) {
     // sends a plain texst message
     if let msg = action.toJSONString() {
-      webSocketTask.send(URLSessionWebSocketTask.Message.string(msg)) { error in
-        if let error = error {
-          self.delegate?.onError(error: error)
+      webSocketTask?
+        .send(URLSessionWebSocketTask.Message.string(msg)) { error in
+          if let error = error {
+            self.delegate?.onError(error: error)
+          }
         }
-      }
     }
     else {
       self.delegate?.onError(error: WsError.failedToConvertActionToJSON)
@@ -84,22 +95,23 @@ class WebSocketClient: NSObject, WebSocketConnection, URLSessionWebSocketDelegat
   }
   func listen() {
     // sistens for new messages
-    webSocketTask.receive { result in
-      switch result {
-        case .failure(let error):
-          self.delegate?.onError(error: error)
-        case .success(let message):
-          switch message {
-            case .string(let text):
-              self.delegate?.onMessage(msg: text)
-            // We do not support binary data messages
-            case .data(_):
-              self.delegate?.onError(error: WsError.notSupported)
-            @unknown default:
-              fatalError()
-          }
+    webSocketTask?
+      .receive { result in
+        switch result {
+          case .failure(let error):
+            self.delegate?.onError(error: error)
+          case .success(let message):
+            switch message {
+              case .string(let text):
+                self.delegate?.onMessage(msg: text)
+              // We do not support binary data messages
+              case .data(_):
+                self.delegate?.onError(error: WsError.notSupported)
+              @unknown default:
+                fatalError()
+            }
+        }
+        self.listen()
       }
-      self.listen()
-    }
   }
 }

@@ -18,19 +18,26 @@ class GameSession: ObservableObject {
 
   /// Starts a WS connection
   func start(userName: String, data: GameData) {
-    // realize delegate pattern by adding current instance to WS connection
-    connection.delegate = GameManagerDelegate(data: data)
-    // establishes a connection to WS Server
-    connection.connect()
-    // Notifies the server that a player has joined the game
-    let action: ProtoAction = ProtoAction(data: .join(username: userName))
-    connection.send(action: action)
+    if !connection.isConnected {
+      // realize delegate pattern by adding current instance to WS connection
+      connection.delegate = GameManagerDelegate(data: data)
+      // establishes a connection to WS Server
+      connection.connect()
+      // Notifies the server that a player has joined the game
+      let action: ProtoAction = ProtoAction(data: .join(username: userName))
+      connection.send(action: action)
+    }
+    else {
+      log.error("The game has already started")
+    }
 
   }
   // stops the connection to the WS client
   func stop() {
-    let action: ProtoAction = ProtoAction(data: .leave)
-    connection.send(action: action)
-    connection.disconnect()
+    if connection.isConnected {
+      let action: ProtoAction = ProtoAction(data: .leave)
+      connection.send(action: action)
+      connection.disconnect()
+    }
   }
 }
