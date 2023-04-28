@@ -10,7 +10,7 @@ import Shared
 
 protocol WebSocketConnection {
   /// Send plain text message to the WS Server
-  /// - Parameter msg: msg the message to be send
+  /// - Parameter action: the command to be send
   func send(action: ProtoAction)
   /// Connnects WS to Server
   func connect()
