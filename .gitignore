@@ -5,7 +5,7 @@
 ### Xcode ###
 ## User settings
 *.xcuserdatad
-*.xcconfig
+*/team.xcconfig
 
 ## Xcode 8 and earlier
 *.xcscmblueprint

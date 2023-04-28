@@ -28,6 +28,16 @@
 		BC064C0B29E72F44003F97B7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC064C0A29E72F44003F97B7 /* Preview Assets.xcassets */; };
 		BCD17E4429E815130096428B /* Shared in Frameworks */ = {isa = PBXBuildFile; productRef = BCD17E4329E815130096428B /* Shared */; };
 		C712340B29EEE514006E849F /* team.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C712340A29EEE514006E849F /* team.xcconfig */; };
+		C72F29A729F6ABA200B46B19 /* WebsocketInnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72F29A629F6ABA200B46B19 /* WebsocketInnerView.swift */; };
+		C72F29A929F6ABB700B46B19 /* WebsocketContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72F29A829F6ABB700B46B19 /* WebsocketContentView.swift */; };
+		C72F29B029F6BA9800B46B19 /* WebSocketDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72F29AF29F6BA9800B46B19 /* WebSocketDelegate.swift */; };
+		C72F29B429F6BBE800B46B19 /* WebSocketClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72F29B329F6BBE800B46B19 /* WebSocketClient.swift */; };
+		C76B071129F7D3760035CAC8 /* GameSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76B071029F7D3760035CAC8 /* GameSession.swift */; };
+		C7B26DAB29F92F0200899121 /* GameManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B26DAA29F92F0200899121 /* GameManagerDelegate.swift */; };
+		C7B26DAE29F9324400899121 /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B26DAD29F9324400899121 /* GameData.swift */; };
+		C7EC374029F7F6C800268BEE /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = C7EC373F29F7F6C800268BEE /* Logging */; };
+		C7EC374229F7FB0100268BEE /* dev.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C7EC374129F7FB0100268BEE /* dev.xcconfig */; };
+		C7EC374429F7FD4700268BEE /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7EC374329F7FD4700268BEE /* Configuration.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +63,16 @@
 		BC064C0A29E72F44003F97B7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		BC064C0C29E72F44003F97B7 /* Client.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Client.entitlements; sourceTree = "<group>"; };
 		C712340A29EEE514006E849F /* team.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = team.xcconfig; sourceTree = "<group>"; };
+		C72F29A629F6ABA200B46B19 /* WebsocketInnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsocketInnerView.swift; sourceTree = "<group>"; };
+		C72F29A829F6ABB700B46B19 /* WebsocketContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsocketContentView.swift; sourceTree = "<group>"; };
+		C72F29AA29F6B10D00B46B19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C72F29AF29F6BA9800B46B19 /* WebSocketDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketDelegate.swift; sourceTree = "<group>"; };
+		C72F29B329F6BBE800B46B19 /* WebSocketClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketClient.swift; sourceTree = "<group>"; };
+		C76B071029F7D3760035CAC8 /* GameSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSession.swift; sourceTree = "<group>"; };
+		C7B26DAA29F92F0200899121 /* GameManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManagerDelegate.swift; sourceTree = "<group>"; };
+		C7B26DAD29F9324400899121 /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
+		C7EC374129F7FB0100268BEE /* dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = dev.xcconfig; sourceTree = "<group>"; };
+		C7EC374329F7FD4700268BEE /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7EC374029F7F6C800268BEE /* Logging in Frameworks */,
 				BCD17E4429E815130096428B /* Shared in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -70,6 +91,7 @@
 		45A55CEB29ED70D80029979A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C7B26DAF29F93FB800899121 /* Demo */,
 				45B3CEA029EECBB100239E44 /* MainView.swift */,
 				45A55CFA29ED72900029979A /* BoardViews */,
 				45A55CF529ED72000029979A /* HelperViews */,
@@ -148,6 +170,7 @@
 		BC064BF729E72F42003F97B7 = {
 			isa = PBXGroup;
 			children = (
+				C7EC374129F7FB0100268BEE /* dev.xcconfig */,
 				C712340A29EEE514006E849F /* team.xcconfig */,
 				BC064C0229E72F43003F97B7 /* Client */,
 				BC064C0129E72F43003F97B7 /* Products */,
@@ -166,6 +189,9 @@
 		BC064C0229E72F43003F97B7 /* Client */ = {
 			isa = PBXGroup;
 			children = (
+				C7B26DA829F92C2400899121 /* Config */,
+				C72F29AA29F6B10D00B46B19 /* Info.plist */,
+				C72F29A329F6AB0A00B46B19 /* Services */,
 				45B3CEA429EED62700239E44 /* Helpers */,
 				45A55CEB29ED70D80029979A /* Views */,
 				BC064C0329E72F43003F97B7 /* ClientApp.swift */,
@@ -191,6 +217,51 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C72F29A329F6AB0A00B46B19 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				C7B26DA929F92EBA00899121 /* Game */,
+				C7B26DA529F92BC900899121 /* Websocket */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		C7B26DA529F92BC900899121 /* Websocket */ = {
+			isa = PBXGroup;
+			children = (
+				C72F29AF29F6BA9800B46B19 /* WebSocketDelegate.swift */,
+				C72F29B329F6BBE800B46B19 /* WebSocketClient.swift */,
+			);
+			path = Websocket;
+			sourceTree = "<group>";
+		};
+		C7B26DA829F92C2400899121 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				C7EC374329F7FD4700268BEE /* Configuration.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		C7B26DA929F92EBA00899121 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				C76B071029F7D3760035CAC8 /* GameSession.swift */,
+				C7B26DAA29F92F0200899121 /* GameManagerDelegate.swift */,
+				C7B26DAD29F9324400899121 /* GameData.swift */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
+		C7B26DAF29F93FB800899121 /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				C72F29A629F6ABA200B46B19 /* WebsocketInnerView.swift */,
+				C72F29A829F6ABB700B46B19 /* WebsocketContentView.swift */,
+			);
+			path = Demo;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -209,6 +280,7 @@
 			name = Client;
 			packageProductDependencies = (
 				BCD17E4329E815130096428B /* Shared */,
+				C7EC373F29F7F6C800268BEE /* Logging */,
 			);
 			productName = Client;
 			productReference = BC064C0029E72F43003F97B7 /* Client.app */;
@@ -238,6 +310,9 @@
 				Base,
 			);
 			mainGroup = BC064BF729E72F42003F97B7;
+			packageReferences = (
+				C7EC373E29F7F6C800268BEE /* XCRemoteSwiftPackageReference "swift-log" */,
+			);
 			productRefGroup = BC064C0129E72F43003F97B7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -254,6 +329,7 @@
 			files = (
 				BC064C0B29E72F44003F97B7 /* Preview Assets.xcassets in Resources */,
 				C712340B29EEE514006E849F /* team.xcconfig in Resources */,
+				C7EC374229F7FB0100268BEE /* dev.xcconfig in Resources */,
 				BC064C0829E72F44003F97B7 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -266,21 +342,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				45A55CF429ED71FA0029979A /* EndScreenView.swift in Sources */,
+				C7B26DAB29F92F0200899121 /* GameManagerDelegate.swift in Sources */,
 				45A55D0C29ED74F80029979A /* FinalScoreboard.swift in Sources */,
 				45B3CEA329EED17F00239E44 /* StatefulPreviewWrapper.swift in Sources */,
 				45A55CFC29ED72A10029979A /* Cat.swift in Sources */,
 				BC064C0429E72F43003F97B7 /* ClientApp.swift in Sources */,
+				C7B26DAE29F9324400899121 /* GameData.swift in Sources */,
 				45A55CEE29ED71480029979A /* LobbyView.swift in Sources */,
+				C7EC374429F7FD4700268BEE /* Configuration.swift in Sources */,
 				45A55CF729ED723A0029979A /* CMIYC-Button.swift in Sources */,
 				45A55CF929ED724C0029979A /* CMIYC-TextInput.swift in Sources */,
 				45A55D0429ED72FF0029979A /* Scoreboard.swift in Sources */,
 				45A55D0229ED72E50029979A /* BoardView.swift in Sources */,
+				C72F29A729F6ABA200B46B19 /* WebsocketInnerView.swift in Sources */,
 				45A55D0029ED72CB0029979A /* Exit.swift in Sources */,
 				45A55D0A29ED733C0029979A /* LoadingIndicator.swift in Sources */,
+				C76B071129F7D3760035CAC8 /* GameSession.swift in Sources */,
 				45B3CEA629EED64800239E44 /* UIError.swift in Sources */,
+				C72F29B029F6BA9800B46B19 /* WebSocketDelegate.swift in Sources */,
 				45A55D0829ED732F0029979A /* LoadingText.swift in Sources */,
 				45A55CFE29ED72BA0029979A /* Mouse.swift in Sources */,
+				C72F29B429F6BBE800B46B19 /* WebSocketClient.swift in Sources */,
 				45B3CEA129EECBB100239E44 /* MainView.swift in Sources */,
+				C72F29A929F6ABB700B46B19 /* WebsocketContentView.swift in Sources */,
 				45A55D0629ED731D0029979A /* LoadingScreenView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -290,7 +374,7 @@
 /* Begin XCBuildConfiguration section */
 		BC064C0D29E72F44003F97B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C712340A29EEE514006E849F /* team.xcconfig */;
+			baseConfigurationReference = C7EC374129F7FB0100268BEE /* dev.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -351,7 +435,7 @@
 		};
 		BC064C0E29E72F44003F97B7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C712340A29EEE514006E849F /* team.xcconfig */;
+			baseConfigurationReference = C7EC374129F7FB0100268BEE /* dev.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -405,7 +489,7 @@
 		};
 		BC064C1029E72F44003F97B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C712340A29EEE514006E849F /* team.xcconfig */;
+			baseConfigurationReference = C7EC374129F7FB0100268BEE /* dev.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -418,6 +502,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Client/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -434,7 +520,7 @@
 		};
 		BC064C1129E72F44003F97B7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C712340A29EEE514006E849F /* team.xcconfig */;
+			baseConfigurationReference = C7EC374129F7FB0100268BEE /* dev.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -447,6 +533,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Client/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -484,10 +572,26 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		C7EC373E29F7F6C800268BEE /* XCRemoteSwiftPackageReference "swift-log" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-log.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		BCD17E4329E815130096428B /* Shared */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Shared;
+		};
+		C7EC373F29F7F6C800268BEE /* Logging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C7EC373E29F7F6C800268BEE /* XCRemoteSwiftPackageReference "swift-log" */;
+			productName = Logging;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
