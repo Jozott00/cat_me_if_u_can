@@ -17,6 +17,7 @@ class GameSession: ObservableObject {
   private let log = Logger(label: "GameSession")
 
   /// Starts a WS connection
+  ///  Does nothing if a connection has already been established
   func start(userName: String, data: GameData) {
     if !connection.isConnected {
       // realize delegate pattern by adding current instance to WS connection
@@ -28,16 +29,30 @@ class GameSession: ObservableObject {
       connection.send(action: action)
     }
     else {
-      log.error("The game has already started")
+      log.info("Did dont reconnected since there is an active connection")
     }
-
   }
-  // stops the connection to the WS client
+  /// stops the connection to the WS client
+  /// does nothing if the client is not connected to the server
   func stop() {
     if connection.isConnected {
       let action: ProtoAction = ProtoAction(data: .leave)
       connection.send(action: action)
       connection.disconnect()
+    }
+    else {
+      log.info("Did not discont as the game has not started yet")
+    }
+  }
+  /// sends the move action to the WS client
+  /// does nothing if the client is not connected
+  func move(direction: ProtoDirection) {
+    if connection.isConnected {
+      let action: ProtoAction = ProtoAction(data: ProtoActionData.move(direction: direction))
+      connection.send(action: action)
+    }
+    else {
+      log.error("Did not move since the game has not started yet")
     }
   }
 }
