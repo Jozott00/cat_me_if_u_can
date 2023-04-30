@@ -28,6 +28,8 @@
 		BC064C0B29E72F44003F97B7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC064C0A29E72F44003F97B7 /* Preview Assets.xcassets */; };
 		BCD17E4429E815130096428B /* Shared in Frameworks */ = {isa = PBXBuildFile; productRef = BCD17E4329E815130096428B /* Shared */; };
 		C712340B29EEE514006E849F /* team.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C712340A29EEE514006E849F /* team.xcconfig */; };
+		C719552129FE96480033066E /* CGKeyCodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C719552029FE96480033066E /* CGKeyCodeExtension.swift */; };
+		C719552329FE97810033066E /* KeyPressObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C719552229FE97810033066E /* KeyPressObserver.swift */; };
 		C72F29A729F6ABA200B46B19 /* WebsocketInnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72F29A629F6ABA200B46B19 /* WebsocketInnerView.swift */; };
 		C72F29A929F6ABB700B46B19 /* WebsocketContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72F29A829F6ABB700B46B19 /* WebsocketContentView.swift */; };
 		C72F29B029F6BA9800B46B19 /* WebSocketDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72F29AF29F6BA9800B46B19 /* WebSocketDelegate.swift */; };
@@ -64,6 +66,8 @@
 		BC064C0A29E72F44003F97B7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		BC064C0C29E72F44003F97B7 /* Client.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Client.entitlements; sourceTree = "<group>"; };
 		C712340A29EEE514006E849F /* team.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = team.xcconfig; sourceTree = "<group>"; };
+		C719552029FE96480033066E /* CGKeyCodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGKeyCodeExtension.swift; sourceTree = "<group>"; };
+		C719552229FE97810033066E /* KeyPressObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPressObserver.swift; sourceTree = "<group>"; };
 		C72F29A629F6ABA200B46B19 /* WebsocketInnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsocketInnerView.swift; sourceTree = "<group>"; };
 		C72F29A829F6ABB700B46B19 /* WebsocketContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsocketContentView.swift; sourceTree = "<group>"; };
 		C72F29AA29F6B10D00B46B19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -219,9 +223,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C719551F29FE96070033066E /* KeyboardDetection */ = {
+			isa = PBXGroup;
+			children = (
+				C719552029FE96480033066E /* CGKeyCodeExtension.swift */,
+				C77B2B1929FE85CC0075EE85 /* KeyDetection.swift */,
+				C719552229FE97810033066E /* KeyPressObserver.swift */,
+			);
+			path = KeyboardDetection;
+			sourceTree = "<group>";
+		};
 		C72F29A329F6AB0A00B46B19 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				C719551F29FE96070033066E /* KeyboardDetection */,
 				C7B26DA929F92EBA00899121 /* Game */,
 				C7B26DA529F92BC900899121 /* Websocket */,
 			);
@@ -251,7 +266,6 @@
 				C76B071029F7D3760035CAC8 /* GameSession.swift */,
 				C7B26DAA29F92F0200899121 /* GameManagerDelegate.swift */,
 				C7B26DAD29F9324400899121 /* GameData.swift */,
-				C77B2B1929FE85CC0075EE85 /* KeyDetection.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -346,7 +360,9 @@
 			files = (
 				45A55CF429ED71FA0029979A /* EndScreenView.swift in Sources */,
 				C7B26DAB29F92F0200899121 /* GameManagerDelegate.swift in Sources */,
+				C719552329FE97810033066E /* KeyPressObserver.swift in Sources */,
 				45A55D0C29ED74F80029979A /* FinalScoreboard.swift in Sources */,
+				C719552129FE96480033066E /* CGKeyCodeExtension.swift in Sources */,
 				45B3CEA329EED17F00239E44 /* StatefulPreviewWrapper.swift in Sources */,
 				45A55CFC29ED72A10029979A /* Cat.swift in Sources */,
 				C77B2B1A29FE85CC0075EE85 /* KeyDetection.swift in Sources */,

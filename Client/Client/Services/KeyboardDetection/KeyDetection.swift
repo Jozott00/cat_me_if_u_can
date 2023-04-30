@@ -8,41 +8,51 @@
 import CoreGraphics
 import Foundation
 
-extension CGKeyCode {
-  //CGKeyCodeKeyCode for Space
-  static let kVK_Space: CGKeyCode = 0x31
-
-  var isPressed: Bool {
-    CGEventSource.keyState(.combinedSessionState, key: self)
-  }
-}
-class SpaceDetector: ObservableObject {
-  @Published var isPressed: Bool = false
-}
-
 class KeyboardManager {
-  static let spaceDetector = SpaceDetector()
+  static let keyPressOberver = KeyPressObservable()
   // higher polling times reduce cpu load
-  private static let pollingInterval: DispatchTimeInterval = .microseconds(1000)
+  private static let pollingInterval: DispatchTimeInterval = .seconds(1)
   private static let pollingQueue = DispatchQueue.main
 
+  // Starts keyboard polling
   static func start() {
     scheduleNextPoll(on: pollingQueue)
   }
 
   static var keyStates: [CGKeyCode: Bool] = [
-    .kVK_Space: false
+    .kVK_UpArrow: false,
+    .kVK_DownArrow: false,
+    .kVK_LeftArrow: false,
+    .kVK_RightArrow: false,
   ]
 
   static func dispatchKeyDown(_ key: CGKeyCode) {
-    if key == .kVK_Space {
-      spaceDetector.isPressed = true
+    if key == .kVK_UpArrow {
+      keyPressOberver.isUpArrowPressed = true
+    }
+    else if key == .kVK_DownArrow {
+      keyPressOberver.isDownArrowPressed = true
+    }
+    else if key == .kVK_LeftArrow {
+      keyPressOberver.isLeftArrowPressed = true
+    }
+    else if key == .kVK_RightArrow {
+      keyPressOberver.isRightArrowPressed = true
     }
   }
 
   static func dispatchKeyUp(_ key: CGKeyCode) {
-    if key == .kVK_Space {
-      spaceDetector.isPressed = false
+    if key == .kVK_UpArrow {
+      keyPressOberver.isUpArrowPressed = false
+    }
+    else if key == .kVK_DownArrow {
+      keyPressOberver.isDownArrowPressed = false
+    }
+    else if key == .kVK_LeftArrow {
+      keyPressOberver.isLeftArrowPressed = false
+    }
+    else if key == .kVK_RightArrow {
+      keyPressOberver.isRightArrowPressed = false
     }
   }
   private static func scheduleNextPoll(on queue: DispatchQueue) {
@@ -62,6 +72,7 @@ class KeyboardManager {
           keyStates[code] = false
         }
       }
+
     }
     scheduleNextPoll(on: pollingQueue)
   }

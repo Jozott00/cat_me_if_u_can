@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WebsocketInnerView: View {
   @EnvironmentObject var data: GameData
-  @StateObject var detector: SpaceDetector = KeyboardManager.spaceDetector
+  @StateObject var detector: KeyPressObservable = KeyboardManager.keyPressOberver
 
   init() {
     KeyboardManager.start()
@@ -44,7 +44,10 @@ struct WebsocketInnerView: View {
           Text("Exit ID: \(exit.exitID), Position: (\(exit.position.x), \(exit.position.y))")
         }
       }
-      Text(detector.isPressed ? "Spacebar is pressed" : "Spacebar is not pressed")
+      Text(detector.isDownArrowPressed ? "Down arrow is pressed" : "Down arrow is not pressed")
+      Text(detector.isUpArrowPressed ? "Up arrow is pressed" : "Up arrow is not pressed")
+      Text(detector.isLeftArrowPressed ? "Left arrow is pressed" : "Left arrow is not pressed")
+      Text(detector.isRightArrowPressed ? "Right arrow is pressed" : "Right arrow is not pressed")
     }
   }
 }
