@@ -6,11 +6,9 @@
 //
 
 import Foundation
+import Shared
 
 /// Tracks wheter a key is pressed or not
 class KeyPressObservable: ObservableObject {
-  @Published var isUpArrowPressed: Bool = false
-  @Published var isDownArrowPressed: Bool = false
-  @Published var isLeftArrowPressed: Bool = false
-  @Published var isRightArrowPressed: Bool = false
+  @Published var direction: ProtoDirection = .stay
 }

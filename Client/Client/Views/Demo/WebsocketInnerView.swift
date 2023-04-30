@@ -44,10 +44,7 @@ struct WebsocketInnerView: View {
           Text("Exit ID: \(exit.exitID), Position: (\(exit.position.x), \(exit.position.y))")
         }
       }
-      Text(detector.isDownArrowPressed ? "Down arrow is pressed" : "Down arrow is not pressed")
-      Text(detector.isUpArrowPressed ? "Up arrow is pressed" : "Up arrow is not pressed")
-      Text(detector.isLeftArrowPressed ? "Left arrow is pressed" : "Left arrow is not pressed")
-      Text(detector.isRightArrowPressed ? "Right arrow is pressed" : "Right arrow is not pressed")
+      Text("Current direction \(detector.direction.rawValue)")
     }
   }
 }

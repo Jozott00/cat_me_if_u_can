@@ -7,6 +7,7 @@
 
 import CoreGraphics
 import Foundation
+import Shared
 
 class KeyboardManager {
   static let keyPressOberver = KeyPressObservable()
@@ -26,35 +27,6 @@ class KeyboardManager {
     .kVK_RightArrow: false,
   ]
 
-  static func dispatchKeyDown(_ key: CGKeyCode) {
-    if key == .kVK_UpArrow {
-      keyPressOberver.isUpArrowPressed = true
-    }
-    else if key == .kVK_DownArrow {
-      keyPressOberver.isDownArrowPressed = true
-    }
-    else if key == .kVK_LeftArrow {
-      keyPressOberver.isLeftArrowPressed = true
-    }
-    else if key == .kVK_RightArrow {
-      keyPressOberver.isRightArrowPressed = true
-    }
-  }
-
-  static func dispatchKeyUp(_ key: CGKeyCode) {
-    if key == .kVK_UpArrow {
-      keyPressOberver.isUpArrowPressed = false
-    }
-    else if key == .kVK_DownArrow {
-      keyPressOberver.isDownArrowPressed = false
-    }
-    else if key == .kVK_LeftArrow {
-      keyPressOberver.isLeftArrowPressed = false
-    }
-    else if key == .kVK_RightArrow {
-      keyPressOberver.isRightArrowPressed = false
-    }
-  }
   private static func scheduleNextPoll(on queue: DispatchQueue) {
     queue.asyncAfter(deadline: .now() + pollingInterval) {
       pollKeyStates()
@@ -62,18 +34,46 @@ class KeyboardManager {
   }
   private static func pollKeyStates() {
     for (code, wasPressed) in keyStates {
+      // currenthardware keyboard state
       if code.isPressed {
+        // previous keyboard state stored in key state array
         if !wasPressed {
-          dispatchKeyDown(code)
           keyStates[code] = true
         }
         else if wasPressed {
-          dispatchKeyUp(code)
           keyStates[code] = false
         }
       }
-
     }
+    keyPressOberver.direction = currentDirection()
     scheduleNextPoll(on: pollingQueue)
+  }
+
+  private static func currentDirection() -> ProtoDirection {
+    let up = keyStates[.kVK_UpArrow] ?? false
+    let down = keyStates[.kVK_DownArrow] ?? false
+    let left = keyStates[.kVK_LeftArrow] ?? false
+    let right = keyStates[.kVK_RightArrow] ?? false
+
+    switch (up, down, left, right) {
+      case (true, false, false, false):
+        return .north
+      case (false, true, false, false):
+        return .south
+      case (false, false, true, false):
+        return .west
+      case (false, false, false, true):
+        return .east
+      case (true, false, true, false):
+        return .northwest
+      case (true, false, false, true):
+        return .northeast
+      case (false, true, true, false):
+        return .southwest
+      case (false, true, false, true):
+        return .southeast
+      default:
+        return .stay
+    }
   }
 }
