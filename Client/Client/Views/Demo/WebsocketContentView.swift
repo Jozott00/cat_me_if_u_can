@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct WebsocketContentView: View {
-  @StateObject var data: GameData = GameData()
-  @StateObject var game: GameSession = GameSession()
   var body: some View {
-    WebsocketInnerView().environmentObject(game).environmentObject(data)
+    WebsocketInnerView().environmentObject(GameSession.data)
   }
 }

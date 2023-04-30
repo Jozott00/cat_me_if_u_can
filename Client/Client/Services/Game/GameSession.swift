@@ -12,13 +12,14 @@ import Shared
 
 /// Responsible for controlling the game flow
 class GameSession: ObservableObject {
-  private let connection = WebSocketClient(url: WSConfig.connectionURL)
+  static private let connection = WebSocketClient(url: WSConfig.connectionURL)
   /// Logger instance for `WebsocketClient`.
-  private let log = Logger(label: "GameSession")
+  static private let log = Logger(label: "GameSession")
+  static let data = GameData()
 
   /// Starts a WS connection
   ///  Does nothing if a connection has already been established
-  func start(userName: String, data: GameData) {
+  static func start(userName: String) {
     if !connection.isConnected {
       // realize delegate pattern by adding current instance to WS connection
       connection.delegate = GameManagerDelegate(data: data)
@@ -34,7 +35,7 @@ class GameSession: ObservableObject {
   }
   /// stops the connection to the WS client
   /// does nothing if the client is not connected to the server
-  func stop() {
+  static func stop() {
     if connection.isConnected {
       let action: ProtoAction = ProtoAction(data: .leave)
       connection.send(action: action)
@@ -46,7 +47,7 @@ class GameSession: ObservableObject {
   }
   /// sends the move action to the WS client
   /// does nothing if the client is not connected
-  func move(direction: ProtoDirection) {
+  static func move(direction: ProtoDirection) {
     if connection.isConnected {
       let action: ProtoAction = ProtoAction(data: ProtoActionData.move(direction: direction))
       connection.send(action: action)

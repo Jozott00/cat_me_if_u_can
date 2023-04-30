@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct WebsocketInnerView: View {
-  @EnvironmentObject var game: GameSession
   @EnvironmentObject var data: GameData
   @StateObject var detector: SpaceDetector = KeyboardManager.spaceDetector
 
@@ -19,10 +18,10 @@ struct WebsocketInnerView: View {
   var body: some View {
     VStack(alignment: .leading) {
       Button("Start Websocket") {
-        game.start(userName: "tim2", data: self.data)
+        GameSession.start(userName: "tim2")
       }
       Button("Stop Websocket") {
-        game.stop()
+        GameSession.stop()
       }
 
       if let gameState = data.gameState {
