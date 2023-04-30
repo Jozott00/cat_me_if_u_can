@@ -3,7 +3,7 @@
 //  Client
 //
 //  Created by Paul Pinter on 30.04.23.
-//
+//  Inspired by https://gist.github.com/chipjarred/e39c48619e591fbf9588af3d3684bed9
 
 import CoreGraphics
 import Foundation
