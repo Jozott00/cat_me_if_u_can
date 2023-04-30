@@ -11,7 +11,7 @@ import Logging
 import Shared
 
 /// Responsible for controlling the game flow
-class GameSession: ObservableObject {
+class GameSession {
   static private let connection = WebSocketClient(url: WSConfig.connectionURL)
   /// Logger instance for `WebsocketClient`.
   static private let log = Logger(label: "GameSession")
@@ -22,7 +22,7 @@ class GameSession: ObservableObject {
   static func start(userName: String) {
     if !connection.isConnected {
       // realize delegate pattern by adding current instance to WS connection
-      connection.delegate = GameManagerDelegate(data: data)
+      connection.delegate = GameManagerDelegate()
       // establishes a connection to WS Server
       connection.connect()
       // Notifies the server that a player has joined the game
@@ -37,6 +37,7 @@ class GameSession: ObservableObject {
   /// does nothing if the client is not connected to the server
   static func stop() {
     if connection.isConnected {
+      KeyboardManager.stop()
       let action: ProtoAction = ProtoAction(data: .leave)
       connection.send(action: action)
       connection.disconnect()

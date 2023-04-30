@@ -12,12 +12,7 @@ import Shared
 /// Responsible handling WS Messages concerning the game
 class GameManagerDelegate: WebSocketDelegate {
   private let log = Logger(label: "GameManagerDelegate")
-  let data: GameData
-  init(
-    data: GameData
-  ) {
-    self.data = data
-  }
+  let data: GameData = GameSession.data
 
   func onConnected() {
     log.info("Connected")
@@ -45,6 +40,8 @@ class GameManagerDelegate: WebSocketDelegate {
             }
           case let .joinAck(id):
             log.info("ack: \(id)")
+            // Start tracking player movement
+            KeyboardManager.start()
         }
       }
       else {

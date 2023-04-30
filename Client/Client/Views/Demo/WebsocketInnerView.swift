@@ -9,12 +9,6 @@ import SwiftUI
 
 struct WebsocketInnerView: View {
   @EnvironmentObject var data: GameData
-  @StateObject var detector: KeyPressObservable = KeyboardManager.keyPressOberver
-
-  init() {
-    KeyboardManager.start()
-  }
-
   var body: some View {
     VStack(alignment: .leading) {
       Button("Start Websocket") {
@@ -44,7 +38,7 @@ struct WebsocketInnerView: View {
           Text("Exit ID: \(exit.exitID), Position: (\(exit.position.x), \(exit.position.y))")
         }
       }
-      Text("Current direction \(detector.direction.rawValue)")
+      Text("Current direction \(data.playerDirection.rawValue)")
     }
   }
 }

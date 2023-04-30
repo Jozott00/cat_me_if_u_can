@@ -10,46 +10,55 @@ import Foundation
 import Shared
 
 class KeyboardManager {
-  static let keyPressOberver = KeyPressObservable()
+  static let data = GameSession.data
   // higher polling times reduce cpu load
-  private static let pollingInterval: DispatchTimeInterval = .seconds(1)
+  private static let pollingInterval: DispatchTimeInterval = .microseconds(100)
+  // queue for polling
   private static let pollingQueue = DispatchQueue.main
+  // controlls for start and stop state
+  private static var isPollingActive = false
 
-  // Starts keyboard polling
+  /// Starts keyboard polling
   static func start() {
+    isPollingActive = true
     scheduleNextPoll(on: pollingQueue)
   }
+  /// Stops keyboard polling
+  static func stop() {
+    isPollingActive = false
+  }
 
+  // snapshot of pressed keys during polling intervall
   static var keyStates: [CGKeyCode: Bool] = [
     .kVK_UpArrow: false,
     .kVK_DownArrow: false,
     .kVK_LeftArrow: false,
     .kVK_RightArrow: false,
   ]
-
+  /// continues polling
   private static func scheduleNextPoll(on queue: DispatchQueue) {
     queue.asyncAfter(deadline: .now() + pollingInterval) {
       pollKeyStates()
     }
   }
   private static func pollKeyStates() {
-    for (code, wasPressed) in keyStates {
-      // currenthardware keyboard state
-      if code.isPressed {
-        // previous keyboard state stored in key state array
-        if !wasPressed {
-          keyStates[code] = true
-        }
-        else if wasPressed {
-          keyStates[code] = false
-        }
-      }
+    // iterates through all observed keys that are tracked
+    for (code, _) in keyStates {
+      keyStates[code] = code.isPressed
     }
-    keyPressOberver.direction = currentDirection()
-    scheduleNextPoll(on: pollingQueue)
+    let currentDirection = calculateDirection()
+    // only tell the server if there is a directional change
+    if currentDirection != data.playerDirection {
+      data.playerDirection = currentDirection
+      GameSession.move(direction: currentDirection)
+    }
+    // continue if not the stop signal wasn't send
+    if isPollingActive {
+      scheduleNextPoll(on: pollingQueue)
+    }
   }
-
-  private static func currentDirection() -> ProtoDirection {
+  /// calculates direction based on keys state
+  private static func calculateDirection() -> ProtoDirection {
     let up = keyStates[.kVK_UpArrow] ?? false
     let down = keyStates[.kVK_DownArrow] ?? false
     let left = keyStates[.kVK_LeftArrow] ?? false
