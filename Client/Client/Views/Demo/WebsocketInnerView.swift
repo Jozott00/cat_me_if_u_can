@@ -10,6 +10,11 @@ import SwiftUI
 struct WebsocketInnerView: View {
   @EnvironmentObject var game: GameSession
   @EnvironmentObject var data: GameData
+  @StateObject var detector: SpaceDetector = KeyboardManager.spaceDetector
+
+  init() {
+    KeyboardManager.start()
+  }
 
   var body: some View {
     VStack(alignment: .leading) {
@@ -40,6 +45,7 @@ struct WebsocketInnerView: View {
           Text("Exit ID: \(exit.exitID), Position: (\(exit.position.x), \(exit.position.y))")
         }
       }
+      Text(detector.isPressed ? "Spacebar is pressed" : "Spacebar is not pressed")
     }
   }
 }
