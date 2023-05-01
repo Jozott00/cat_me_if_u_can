@@ -9,7 +9,11 @@ import SwiftUI
 
 struct LobbyView: View {
     @Binding var username: String
-    @Binding var currentView: Int  // current view being passed to view
+    @Binding var currentView: Int // current view being passed to view
+
+    @EnvironmentObject var game: GameSession
+    @EnvironmentObject var data: GameData
+
     var body: some View {
         // Text("Lobby")
         // contains username input
@@ -18,18 +22,17 @@ struct LobbyView: View {
             // contains start game button
 
             Button("Play") {
-                currentView = 2
+                game.start(userName: username, data: data.self)
+                currentView = 3
             }
-
         }
-
     }
 }
 
-/*struct LobbyView_Previews: PreviewProvider {
-  static var previews: some View {
-    StatefulPreviewWrapper("Tim") {
-      StatefulPreviewWrapper(1) { LobbyView(username: $0, currentView: $0) }
-    }
-  }
-}*/
+/* struct LobbyView_Previews: PreviewProvider {
+   static var previews: some View {
+     StatefulPreviewWrapper("Tim") {
+       StatefulPreviewWrapper(1) { LobbyView(username: $0, currentView: $0) }
+     }
+   }
+ } */
