@@ -1,0 +1,11 @@
+//
+//  dev.xcconfig
+//  Client
+//
+//  Created by Paul Pinter on 25.04.23.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+#include "team.xcconfig"
+WS_HOST = catme.dobodox.com
