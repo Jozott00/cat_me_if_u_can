@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct WebsocketContentView: View {
-  @StateObject var data: GameData = GameData()
-  @StateObject var game: GameSession = GameSession()
+  init() {
+    // omits alert sound when pressing down keys
+    NSEvent.addLocalMonitorForEvents(matching: .keyDown) { _ in return nil }
+  }
   var body: some View {
-    WebsocketInnerView().environmentObject(game).environmentObject(data)
+    WebsocketInnerView().environmentObject(GameSession.data)
   }
 }

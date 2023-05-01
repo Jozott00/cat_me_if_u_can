@@ -10,7 +10,7 @@ import Shared
 
 protocol WebSocketConnection {
   /// Send plain text message to the WS Server
-  /// - Parameter msg: msg the message to be send
+  /// - Parameter action: the command to be send
   func send(action: ProtoAction)
   /// Connnects WS to Server
   func connect()
@@ -86,6 +86,10 @@ class WebSocketClient: NSObject, WebSocketConnection, URLSessionWebSocketDelegat
         .send(URLSessionWebSocketTask.Message.string(msg)) { error in
           if let error = error {
             self.delegate?.onError(error: error)
+            // Here we realize that we do not have a connection to the server
+            if error._domain == NSURLErrorDomain && error._code == -1004 {
+              self.isConnected = false
+            }
           }
         }
     }
