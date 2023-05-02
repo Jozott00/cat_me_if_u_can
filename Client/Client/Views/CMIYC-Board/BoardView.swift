@@ -9,10 +9,7 @@ import Shared
 import SwiftUI
 
 struct BoardView: View {
-    @Binding var currentView: Int // current view being passed to view
-    // test
-//    @Binding var gameLayout: ProtoGameLayout
-//    @Binding var gameState: ProtoGameState
+    @Binding var currentView: Int
     @EnvironmentObject var data: GameData
 
     var body: some View {
@@ -47,16 +44,6 @@ struct BoardView: View {
         }
         .frame(width: 800, height: 800)
         .border(Color.blue)
-        // uses tunnel exits, mice and cats
-        // contains scoreboard
-
-        /* ForEach(gameLayout.exits, id: \.exitID) { exit in
-             let y = Text("(\(exit.position.x ?? 0), \(exit.position.x ?? 0)")
-             context.draw(
-                 y,
-                 at: CGPoint(x: size.width / 2, y: 10)
-             )
-         } */
 
         Button(
             "Return to Lobby",
@@ -73,10 +60,3 @@ struct BoardView: View {
         )
     }
 }
-
-/* struct BoardView_Previews: PreviewProvider {
- static var previews: some View {
- StatefulPreviewWrapper(2) { BoardView(currentView: $0) }
- }
- }
- */
