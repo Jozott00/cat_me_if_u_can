@@ -12,4 +12,5 @@ import Shared
 class GameData: ObservableObject {
   @Published var gameState: ProtoGameState?
   @Published var gameLayout: ProtoGameLayout?
+  @Published var playerDirection: ProtoDirection = .stay
 }

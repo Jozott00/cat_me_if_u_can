@@ -31,11 +31,13 @@
 		BC064C0B29E72F44003F97B7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC064C0A29E72F44003F97B7 /* Preview Assets.xcassets */; };
 		BCD17E4429E815130096428B /* Shared in Frameworks */ = {isa = PBXBuildFile; productRef = BCD17E4329E815130096428B /* Shared */; };
 		C712340B29EEE514006E849F /* team.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C712340A29EEE514006E849F /* team.xcconfig */; };
+		C719552129FE96480033066E /* CGKeyCodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C719552029FE96480033066E /* CGKeyCodeExtension.swift */; };
 		C72F29A729F6ABA200B46B19 /* WebsocketInnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72F29A629F6ABA200B46B19 /* WebsocketInnerView.swift */; };
 		C72F29A929F6ABB700B46B19 /* WebsocketContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72F29A829F6ABB700B46B19 /* WebsocketContentView.swift */; };
 		C72F29B029F6BA9800B46B19 /* WebSocketDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72F29AF29F6BA9800B46B19 /* WebSocketDelegate.swift */; };
 		C72F29B429F6BBE800B46B19 /* WebSocketClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72F29B329F6BBE800B46B19 /* WebSocketClient.swift */; };
 		C76B071129F7D3760035CAC8 /* GameSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76B071029F7D3760035CAC8 /* GameSession.swift */; };
+		C77B2B1A29FE85CC0075EE85 /* KeyBoardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77B2B1929FE85CC0075EE85 /* KeyBoardManager.swift */; };
 		C7B26DAB29F92F0200899121 /* GameManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B26DAA29F92F0200899121 /* GameManagerDelegate.swift */; };
 		C7B26DAE29F9324400899121 /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B26DAD29F9324400899121 /* GameData.swift */; };
 		C7EC374029F7F6C800268BEE /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = C7EC373F29F7F6C800268BEE /* Logging */; };
@@ -69,12 +71,14 @@
 		BC064C0A29E72F44003F97B7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		BC064C0C29E72F44003F97B7 /* Client.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Client.entitlements; sourceTree = "<group>"; };
 		C712340A29EEE514006E849F /* team.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = team.xcconfig; sourceTree = "<group>"; };
+		C719552029FE96480033066E /* CGKeyCodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGKeyCodeExtension.swift; sourceTree = "<group>"; };
 		C72F29A629F6ABA200B46B19 /* WebsocketInnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsocketInnerView.swift; sourceTree = "<group>"; };
 		C72F29A829F6ABB700B46B19 /* WebsocketContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsocketContentView.swift; sourceTree = "<group>"; };
 		C72F29AA29F6B10D00B46B19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C72F29AF29F6BA9800B46B19 /* WebSocketDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketDelegate.swift; sourceTree = "<group>"; };
 		C72F29B329F6BBE800B46B19 /* WebSocketClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketClient.swift; sourceTree = "<group>"; };
 		C76B071029F7D3760035CAC8 /* GameSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSession.swift; sourceTree = "<group>"; };
+		C77B2B1929FE85CC0075EE85 /* KeyBoardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyBoardManager.swift; sourceTree = "<group>"; };
 		C7B26DAA29F92F0200899121 /* GameManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManagerDelegate.swift; sourceTree = "<group>"; };
 		C7B26DAD29F9324400899121 /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
 		C7EC374129F7FB0100268BEE /* dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = dev.xcconfig; sourceTree = "<group>"; };
@@ -226,9 +230,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C719551F29FE96070033066E /* Keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				C719552029FE96480033066E /* CGKeyCodeExtension.swift */,
+				C77B2B1929FE85CC0075EE85 /* KeyBoardManager.swift */,
+			);
+			path = Keyboard;
+			sourceTree = "<group>";
+		};
 		C72F29A329F6AB0A00B46B19 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				C719551F29FE96070033066E /* Keyboard */,
 				C7B26DA929F92EBA00899121 /* Game */,
 				C7B26DA529F92BC900899121 /* Websocket */,
 			);
@@ -355,8 +369,10 @@
 				45A55CF429ED71FA0029979A /* EndScreenView.swift in Sources */,
 				C7B26DAB29F92F0200899121 /* GameManagerDelegate.swift in Sources */,
 				45A55D0C29ED74F80029979A /* FinalScoreboard.swift in Sources */,
+				C719552129FE96480033066E /* CGKeyCodeExtension.swift in Sources */,
 				45B3CEA329EED17F00239E44 /* StatefulPreviewWrapper.swift in Sources */,
 				45A55CFC29ED72A10029979A /* Cat.swift in Sources */,
+				C77B2B1A29FE85CC0075EE85 /* KeyBoardManager.swift in Sources */,
 				BC064C0429E72F43003F97B7 /* ClientApp.swift in Sources */,
 				C7B26DAE29F9324400899121 /* GameData.swift in Sources */,
 				45A55CEE29ED71480029979A /* LobbyView.swift in Sources */,
