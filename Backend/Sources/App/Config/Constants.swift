@@ -13,7 +13,7 @@ final class Constants {
     static let TICK_INTERVAL_MS: Double = 1000.0
 
     // board settings
-    public static let FIELD_LENGTH = 1000
+    public static let FIELD_LENGTH: Double = 1000
     static let TUNNELS_NUM = 8
     static let EXIT_SIZE: Double = 10
     static let MAX_EXITS = 4
