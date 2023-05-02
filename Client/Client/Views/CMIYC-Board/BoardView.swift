@@ -12,6 +12,14 @@ struct BoardView: View {
     @Binding var currentView: Int
     @EnvironmentObject var data: GameData
 
+    init(
+        currentView: Binding<Int>
+    ) {
+        self._currentView = currentView
+        // omits alert sound when pressing down keys
+        NSEvent.addLocalMonitorForEvents(matching: .keyDown) { _ in return nil }
+    }
+
     var body: some View {
         Text("Playing Board")
         Canvas { context, _ in
