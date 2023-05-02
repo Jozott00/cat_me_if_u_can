@@ -8,8 +8,12 @@
 import Foundation
 
 public class Position: Codable {
-  public var x: Double
-  public var y: Double
+    public var x: Double
+    public var y: Double
+
+    public var description: String {
+        return "Position(x: \(x), y: \(y))"
+    }
 
     public init(x: Double, y: Double) {
         self.x = x
@@ -29,17 +33,14 @@ public class Position: Codable {
 
     /// Move the position by x and y cartesian coordinates
     public func translate(x: Double, y: Double, within: Vector2? = nil) {
-        var newX = self.x + x
-        var newY = self.y + y
+        self.x += x
+        self.y += y
 
         // if within is set, check boundaries
         if let within = within {
-            newX = min(max(newX, 0), within.x)
-            newY = min(max(newY, 0), within.y)
+            self.x = min(max(self.x, 0), within.x)
+            self.y = min(max(self.y, 0), within.y)
         }
-
-        self.x = newX
-        self.y = newY
     }
 
     /// Move the position by x and y cartesian coordinates (as vector).
@@ -51,21 +52,18 @@ public class Position: Codable {
 
     /// Move the position by radius and angle (polar coordinates)
     public func translate(r: Double, phi: Float64, within: Vector2? = nil) {
-        var newX = Double(Float64(r) * cos(phi))
-        var newY = Double(Float64(r) * sin(phi))
+        x += r * cos(phi)
+        y += r * sin(phi)
 
         // if within is set, check boundaries
         if let within = within {
-            newX = min(max(newX, 0), within.x)
-            newY = min(max(newY, 0), within.y)
+            x = min(max(x, 0), within.x)
+            y = min(max(y, 0), within.y)
         }
-
-        x = newX
-        y = newY
     }
 
     public func distance(to: Position) -> Double {
-        return sqrt(pow(Float64(to.x - x), 2.0) + pow(Float64(to.y - y), 2.0))
+        return sqrt(pow(to.x - x, 2.0) + pow(to.y - y, 2.0))
     }
 
     public static func random(in boundary: ClosedRange<Double>) -> Position {
