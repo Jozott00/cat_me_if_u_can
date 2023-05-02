@@ -20,15 +20,26 @@ final class GameController: NetworkDelegate {
     init(networkManager: NetworkManager, tickIntervalMS: TimeInterval = 1000) {
         self.tickIntervalMS = tickIntervalMS
         self.networkManager = networkManager
-        networkManager.delegate = self
+        networkManager.delegates.append(self)
     }
 
-    func startGame() async {
+    func startGame(users: [User]) async {
         guard !isRunning else { return }
         log.info("Start Game")
         isRunning = true
-        gameState = GameState(tunnels: generateTunnels(), mice: [], cats: [:])
+        let cats = generateCats(from: users)
+        log.info("Generate tunnels")
+        gameState = GameState(tunnels: generateTunnels(), mice: [], cats: cats)
 
+        log.info("Join all users")
+        // set all users to joined, so they get game updates
+        users.forEach { u in u.joined = true }
+
+        log.info("Broadcast layout")
+        // broadcast gamelayout
+        await broadcastGameLayout()
+
+        log.info("Run eventloop")
         while isRunning {
             tick()
 
@@ -42,6 +53,7 @@ final class GameController: NetworkDelegate {
     }
 
     func stopGame() {
+        log.info("Stop game...")
         isRunning = false
     }
 
@@ -76,16 +88,24 @@ final class GameController: NetworkDelegate {
         await networkManager.broadcast(body: update, onlyIf: { user in user.joined })
     }
 
+    private func broadcastGameLayout() async {
+        let exits = gameState.tunnels.map { t in
+            t.exits.map { e in ProtoExit(exitID: e.id.uuidString, position: e.position) }
+        }.reduce([], +)
+        let update = ProtoUpdate(data: .gameLayout(layout: ProtoGameLayout(exits: exits)))
+        await networkManager.broadcast(body: update, onlyIf: { user in user.joined })
+    }
+
     func on(action: ProtoAction, from user: User) async {
         log.info("Recognize action \(action.data) by \(user.id.uuidString)")
 
         switch action.data {
         case let .move(direction: direction):
             await handleMove(direction: direction, from: user)
-        case let .join(username: username):
-            await handleJoin(from: user, name: username)
         case .leave:
             await handleLeave(from: user)
+        default:
+            break
         }
     }
 
@@ -105,25 +125,10 @@ final class GameController: NetworkDelegate {
         await gameState.removeCat(by: user)
     }
 
-    func handleJoin(from user: User, name _: String) async {
-        guard !user.joined else {
-            let err = ProtoError(code: .alreadyJoined, message: "You already joined the game!")
-            return await networkManager.send(msg: err, to: user)
+    private func generateCats(from users: [User]) -> [User: Cat] {
+        return users.reduce(into: [User: Cat]()) { res, u in
+            let catPos = Position.random(in: 0 ... Double(Constants.FIELD_LENGTH))
+            res[u] = Cat(id: u.id, position: catPos, user: u)
         }
-        user.joined = true
-
-        // add new cat
-        let catPos = Position.random(in: 0 ... Double(Constants.FIELD_LENGTH))
-        let newCat = Cat(id: UUID(), position: catPos, user: user)
-        await gameState.add(cat: newCat)
-
-        let ack = ProtoUpdate(data: .joinAck(id: newCat.id.uuidString))
-        await networkManager.send(msg: ack, to: user)
-
-        let exits = gameState.tunnels.map { t in
-            t.exits.map { e in ProtoExit(exitID: e.id.uuidString, position: e.position) }
-        }.reduce([], +)
-        let update = ProtoUpdate(data: .gameLayout(layout: ProtoGameLayout(exits: exits)))
-        await networkManager.send(msg: update, to: user)
     }
 }

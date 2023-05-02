@@ -14,7 +14,7 @@ import Vapor
 final class NetworkManager {
     /// `NetworkDelegate` should be implemented by any class that wants to listen
     /// for incoming messages and respond to client disconnections.
-    var delegate: NetworkDelegate?
+    var delegates: [NetworkDelegate] = []
     
     /// Logger instance for `NetworkManager`.
     private let log = Logger(label: "NetworkManager")
@@ -100,7 +100,9 @@ final class NetworkManager {
     /// - Parameter user: The `User` object representing the disconnected client.
     private func clientDisconnected(user: User) async {
         let action = ProtoAction(data: .leave)
-        await delegate?.on(action: action, from: user)
+        for d in delegates {
+            await d.on(action: action, from: user)
+        }
     }
     
     /// Handles an incoming message from a client.
@@ -118,7 +120,9 @@ final class NetworkManager {
             let msg: ProtocolMsg = try decoder.decode(ProtocolMsg.self, from: data)
             
             if case let .action(action: action) = msg.body {
-                await delegate?.on(action: action, from: user)
+                for d in delegates {
+                    await d.on(action: action, from: user)
+                }
             } else {
                 let err = ProtoError(code: .genericError, message: "Type of message was not action.")
                 await send(msg: err, to: user)

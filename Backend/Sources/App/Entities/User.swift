@@ -13,10 +13,10 @@ import WebSocketKit
 class User: Hashable {
     let id: UUID
     let websocket: WebSocket
-    var joined = false // checks if user already joined a game
+    var joined = false // checks if user is part of actual game
 
     init(id: UUID, ws: WebSocket) {
-        self.websocket = ws
+        websocket = ws
         self.id = id
     }
 
@@ -24,7 +24,7 @@ class User: Hashable {
         lhs.id == rhs.id
     }
 
-    func hash(into hasher: inout Hasher) {
+    nonisolated func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
 }
