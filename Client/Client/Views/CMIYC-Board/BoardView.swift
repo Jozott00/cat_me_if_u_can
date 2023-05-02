@@ -17,30 +17,20 @@ struct BoardView: View {
         Canvas { context, _ in
             if let gameLayout = data.gameLayout {
                 for exit in gameLayout.exits {
-                    let text = Text("🚇").font(.system(size: 33))
-                    context.draw(
-                        text,
-                        at: CGPoint(x: exit.position.x, y: exit.position.y)
-                    )
+                    Exit(context: context, exit: exit)
                 }
             }
 
             if let gameState = data.gameState {
                 for mouse in gameState.mice {
-                    let text = Text("🐭").font(.system(size: 33))
-                    context.draw(
-                        text,
-                        at: CGPoint(x: mouse.position.x, y: mouse.position.y)
-                    )
+                    Mouse(context: context, mouse: mouse)
                 }
                 for cat in gameState.cats {
-                    let text = Text("😺").font(.system(size: 33))
-                    context.draw(
-                        text,
-                        at: CGPoint(x: cat.position.x, y: cat.position.y)
-                    )
+                    Cat(context: context, cat: cat)
                 }
             }
+
+            let _ = print("Current direction \(data.playerDirection.rawValue)")
         }
         .frame(width: 800, height: 800)
         .border(Color.blue)

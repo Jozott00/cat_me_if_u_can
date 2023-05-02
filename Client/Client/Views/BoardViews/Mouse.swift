@@ -5,18 +5,18 @@
 //  Created by Tim Dirr on 17.04.23.
 //
 
+import Shared
 import SwiftUI
 
-struct Mouse: View {
-  var body: some View {
-    Text("Mouse")
-
-    // helper board view displaying a mouse
-  }
-}
-
-struct Mouse_Previews: PreviewProvider {
-  static var previews: some View {
-    Mouse()
-  }
+struct Mouse {
+    init(
+        context: GraphicsContext,
+        mouse: ProtoMouse
+    ) {
+        let mouseEmoji = Text("🐭").font(.system(size: 33))
+        context.draw(
+            mouseEmoji,
+            at: CGPoint(x: mouse.position.x, y: mouse.position.y)
+        )
+    }
 }

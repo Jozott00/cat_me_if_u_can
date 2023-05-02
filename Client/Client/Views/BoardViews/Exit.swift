@@ -5,18 +5,18 @@
 //  Created by Tim Dirr on 17.04.23.
 //
 
+import Shared
 import SwiftUI
 
-struct Exit: View {
-  var body: some View {
-    Text("Exit")
-
-    // helper board view displaying a tunnel exit
-  }
-}
-
-struct Exit_Previews: PreviewProvider {
-  static var previews: some View {
-    Exit()
-  }
+struct Exit {
+    init(
+        context: GraphicsContext,
+        exit: ProtoExit
+    ) {
+        let exitEmoji = Text("🚇").font(.system(size: 33))
+        context.draw(
+            exitEmoji,
+            at: CGPoint(x: exit.position.x, y: exit.position.y)
+        )
+    }
 }
