@@ -17,8 +17,8 @@ func generateTunnels() -> [Tunnel] {
         // FIXME: This is not optimal, because they will cluster in the middle
         let padding = Constants.FIELD_LENGTH / 10
         let virtualCenter = Position(
-            x: Double(Int.random(in: padding ... (Constants.FIELD_LENGTH - padding))),
-            y: Double(Int.random(in: padding ... (Constants.FIELD_LENGTH - padding)))
+            x: Double.random(in: padding ... (Constants.FIELD_LENGTH - padding)),
+            y: Double.random(in: padding ... (Constants.FIELD_LENGTH - padding))
         )
 
         let exits = (2 ... numExits).map { _ in
@@ -30,7 +30,7 @@ func generateTunnels() -> [Tunnel] {
                 position = Position(position: virtualCenter)
                 position.translate(
                     r: Double.random(in: (Constants.EXIT_SIZE * 2) ... (Constants.EXITS_MAX_DISTANCE / 2)),
-                    phi: Float64.random(in: 0 ... 2) * Float64.pi
+                    phi: Double.random(in: 0 ... 2) * Double.pi
                 )
             } while exitPositions.contains { ep in
                 ep.distance(to: position) < Constants.EXITS_MIN_DISTANCE
