@@ -15,8 +15,8 @@ final class Constants {
     // board settings
     public static let FIELD_LENGTH: Double = 800
     static let TUNNELS_NUM = 8
-    static let EXIT_SIZE: Double = 10
+    static let EXIT_SIZE: Double = 33
     static let MAX_EXITS = 4
-    static let EXITS_MAX_DISTANCE: Double = 100
-    static let EXITS_MIN_DISTANCE: Double = .init(EXIT_SIZE) * 2
+    static let EXITS_MAX_DISTANCE: Double = 200
+    static let EXITS_MIN_DISTANCE: Double = .init(EXIT_SIZE) * 2.5
 }
