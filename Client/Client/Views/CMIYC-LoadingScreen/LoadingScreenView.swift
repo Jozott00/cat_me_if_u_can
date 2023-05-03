@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct LoadingScreenView: View {
-    @Binding var currentView: Int  // current view being passed to view
+    @Binding var currentView: MainViews  // current view being passed to view
     let loadingMessagesList: RandomTextSelector = RandomTextSelector(fileName: "loading-messages")
     var body: some View {
-        
+
         Text(loadingMessagesList.getRandomListElement())
 
         // contains Loading Text and Loading Indicotor
@@ -19,7 +19,7 @@ struct LoadingScreenView: View {
         Button(
             "Skip button to insta start game for testing",
             action: {
-                currentView = 3
+                currentView = .board
             }
         )
 

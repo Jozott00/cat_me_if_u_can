@@ -9,7 +9,7 @@ import Shared
 import SwiftUI
 
 struct Exit {
-    init(
+    static func draw(
         context: GraphicsContext,
         exit: ProtoExit
     ) {

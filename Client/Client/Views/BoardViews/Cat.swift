@@ -9,7 +9,7 @@ import Shared
 import SwiftUI
 
 struct Cat {
-    init(
+    static func draw(
         context: GraphicsContext,
         cat: ProtoCat
     ) {

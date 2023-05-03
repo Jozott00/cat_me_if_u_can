@@ -9,14 +9,14 @@ import SwiftUI
 
 struct LobbyView: View {
     @Binding var username: String
-    @Binding var currentView: Int  // current view being passed to view
+    @Binding var currentView: MainViews  // current view being passed to view
 
     var body: some View {
         VStack {
             CMIYC_TextInput(username: $username)
             Button("Play") {
                 GameSession.start(userName: username)
-                currentView = 3
+                currentView = .board
             }
         }
     }

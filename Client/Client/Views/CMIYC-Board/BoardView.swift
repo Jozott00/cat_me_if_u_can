@@ -9,11 +9,11 @@ import Shared
 import SwiftUI
 
 struct BoardView: View {
-    @Binding var currentView: Int
+    @Binding var currentView: MainViews
     @EnvironmentObject var data: GameData
 
     init(
-        currentView: Binding<Int>
+        currentView: Binding<MainViews>
     ) {
         self._currentView = currentView
         // omits alert sound when pressing down keys
@@ -25,16 +25,16 @@ struct BoardView: View {
         Canvas { context, _ in
             if let gameLayout = data.gameLayout {
                 for exit in gameLayout.exits {
-                    Exit(context: context, exit: exit)
+                    Exit.draw(context: context, exit: exit)
                 }
             }
 
             if let gameState = data.gameState {
                 for mouse in gameState.mice {
-                    Mouse(context: context, mouse: mouse)
+                    Mouse.draw(context: context, mouse: mouse)
                 }
                 for cat in gameState.cats {
-                    Cat(context: context, cat: cat)
+                    Cat.draw(context: context, cat: cat)
                 }
             }
 
@@ -46,14 +46,14 @@ struct BoardView: View {
         Button(
             "Return to Lobby",
             action: {
-                currentView = 1
+                currentView = .lobby
             }
         )
 
         Button(
             "Go to endscreen",
             action: {
-                currentView = 4
+                currentView = .end
             }
         )
     }

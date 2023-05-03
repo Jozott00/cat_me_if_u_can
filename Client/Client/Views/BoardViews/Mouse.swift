@@ -9,7 +9,7 @@ import Shared
 import SwiftUI
 
 struct Mouse {
-    init(
+    static func draw(
         context: GraphicsContext,
         mouse: ProtoMouse
     ) {
