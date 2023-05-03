@@ -1,6 +1,19 @@
 # Cat Me If U Can
 
+![Screenshot](screenshot.png)
+
 This repository contains the source code for the "Cat Me If U Can" game, which includes a server/backend, client, and a shared library.
+
+## Run the Server
+
+```bash
+cd Backend
+swift run
+```
+The local server will listen on port `8080`.
+
+**Note:** If you want to use the local in the client you need to change in
+`Client/dev.xcconfig` the host field to `WS_HOST = localhost:8080`
 
 ## Repository Structure
 

@@ -10,9 +10,11 @@ import Foundation
 /// Structure representing a game state update.
 
 public struct ProtoUpdate: Codable {
-    public let data: ProtoUpdateData // The type of the update.
+    public let data: ProtoUpdateData  // The type of the update.
 
-    public init(data: ProtoUpdateData) {
+    public init(
+        data: ProtoUpdateData
+    ) {
         self.data = data
     }
 }
@@ -36,10 +38,17 @@ public enum ProtoUpdateData: Codable {
 
 /// Structure representing the game state that changes frequently
 public struct ProtoGameState: Codable {
-    public let mice: [ProtoMouse]
-    public let cats: [ProtoCat]
 
-    public init(mice: [ProtoMouse], cats: [ProtoCat]) {
+    // tim changed let to var for testing, if not removed pls remove
+    public var mice: [ProtoMouse]
+
+    // tim changed let to var for testing, if not removed pls remove
+    public var cats: [ProtoCat]
+
+    public init(
+        mice: [ProtoMouse],
+        cats: [ProtoCat]
+    ) {
         self.mice = mice
         self.cats = cats
     }
@@ -77,9 +86,13 @@ public struct ProtoUser: Codable {
 
 /// Structure representing the game state that only changes every round
 public struct ProtoGameLayout: Codable {
-    public let exits: [ProtoExit]
 
-    public init(exits: [ProtoExit]) {
+    // tim changed let to var for testing, if not removed pls remove
+    public var exits: [ProtoExit]
+
+    public init(
+        exits: [ProtoExit]
+    ) {
         self.exits = exits
     }
 }
@@ -97,7 +110,11 @@ public struct ProtoMouse: Codable {
         case state
     }
 
-    public init(mouseID: String, position: Position, state: String) {
+    public init(
+        mouseID: String,
+        position: Position,
+        state: String
+    ) {
         self.mouseID = mouseID
         self.position = position
         self.state = state
@@ -139,7 +156,10 @@ public struct ProtoExit: Codable {
         case position
     }
 
-    public init(exitID: String, position: Position) {
+    public init(
+        exitID: String,
+        position: Position
+    ) {
         self.exitID = exitID
         self.position = position
     }

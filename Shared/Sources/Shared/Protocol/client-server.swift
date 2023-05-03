@@ -41,21 +41,21 @@ public enum ProtoDirection: String, Codable {
     public var vector: Vector2 {
         switch self {
         case .north:
-            return Vector2(0, 1)
-        case .south:
             return Vector2(0, -1)
+        case .south:
+            return Vector2(0, 1)
         case .east:
             return Vector2(1, 0)
         case .west:
             return Vector2(-1, 0)
         case .northeast:
-            return Vector2(1, 1).normalized
-        case .northwest:
-            return Vector2(-1, 1).normalized
-        case .southeast:
             return Vector2(1, -1).normalized
-        case .southwest:
+        case .northwest:
             return Vector2(-1, -1).normalized
+        case .southeast:
+            return Vector2(1, 1).normalized
+        case .southwest:
+            return Vector2(-1, 1).normalized
         case .stay:
             return Vector2(0, 0)
         }

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CMIYC_Button: View {
+  @Binding var lable: String
+
   var body: some View {
     Text("Button")
 
@@ -17,6 +19,6 @@ struct CMIYC_Button: View {
 
 struct CMIYC_Button_Previews: PreviewProvider {
   static var previews: some View {
-    CMIYC_Button()
+    StatefulPreviewWrapper("Test Button") { CMIYC_Button(lable: $0) }
   }
 }

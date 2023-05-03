@@ -24,3 +24,6 @@
 ### VSCODE ###
 .vscode/*
 
+**/.idea/*
+
+

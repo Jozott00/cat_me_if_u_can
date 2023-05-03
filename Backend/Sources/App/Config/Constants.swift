@@ -9,8 +9,9 @@ import Foundation
 
 final class Constants {
     // game behaviour
-    static let MOVEMENT_PER_TICK: Double = 1.0
-    static let TICK_INTERVAL_MS: Double = 1000.0
+    static let POINTS_PER_SEC: Double = 100.0 // movement speed in seconds
+    static let TICK_INTERVAL_MS: Double = 8.0
+    static let MOVEMENT_PER_TICK: Double = (TICK_INTERVAL_MS / 1000) * POINTS_PER_SEC // actual movement per tick
 
     // lobby settings
     static let JOINED_USER_START_NR = 1

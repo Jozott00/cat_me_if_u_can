@@ -30,25 +30,29 @@ class GameManagerDelegate: WebSocketDelegate {
     if let protocolMsg = msg.toProtoMsg() {
       if case let .update(update) = protocolMsg.body {
         switch update.data {
-          case let .gameLayout(layout):
-            DispatchQueue.main.async {
-              self.data.gameLayout = layout
-            }
-          case let .gameState(state):
-            DispatchQueue.main.async {
-              self.data.gameState = state
-            }
-          case let .joinAck(id):
-            log.info("ack: \(id)")
-            // Start tracking player movement
-            KeyboardManager.start()
+        case let .gameStart(layout):
+          DispatchQueue.main.async {
+            self.data.gameLayout = layout
+          }
+        case let .gameState(state):
+          DispatchQueue.main.async {
+            self.data.gameState = state
+          }
+        case let .joinAck(id):
+          log.info("ack: \(id)")
+          // Start tracking player movement
+          KeyboardManager.start()
+        case .lobbyUpdate(users: _, gameRunning: _):
+          fatalError("Not implemented")
+        case .scoreboard(board: _):
+          fatalError("Not implemented")
+        case .gameEnd(score: _):
+          fatalError("Not implemented")
         }
-      }
-      else {
+      } else {
         log.error("The JSON does not contain an update: \(msg)")
       }
-    }
-    else {
+    } else {
       log.error("Error decoding JSON string.")
     }
   }

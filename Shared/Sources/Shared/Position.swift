@@ -20,7 +20,9 @@ public class Position: Codable {
         self.y = y
     }
 
-    public init(position: Position) {
+    public init(
+        position: Position
+    ) {
         x = position.x
         y = position.y
     }
