@@ -13,7 +13,7 @@ import WebSocketKit
 class User: Hashable {
     let id: UUID
     let websocket: WebSocket
-    var joined = false // checks if user is part of actual game
+    var inGame = false // checks if user is part of actual game
     var name: String?
 
     init(id: UUID, ws: WebSocket) {

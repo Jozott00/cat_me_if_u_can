@@ -128,7 +128,7 @@ class LobbyController: NetworkDelegate {
         let scoreboard = ProtoScoreBoard(scores: scores, miceMissed: miceMissed, miceLeft: miceLeft, gameDurationSec: Int(duration))
         let update = ProtoUpdateData.gameEnd(score: scoreboard)
         let body = ProtoUpdate(data: update)
-        await networkManager.broadcast(body: body, onlyIf: { u in u.joined == true })
+        await networkManager.broadcast(body: body, onlyIf: { u in u.inGame == true })
     }
 
     private func broadcastLobbyUpdate() async {

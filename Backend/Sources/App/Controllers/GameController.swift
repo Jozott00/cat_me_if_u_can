@@ -31,7 +31,7 @@ final class GameController: NetworkDelegate {
         gameState = GameState(tunnels: generateTunnels(), mice: [], cats: cats)
 
         // set all users to joined, so they get game updates
-        users.forEach { u in u.joined = true }
+        users.forEach { u in u.inGame = true }
 
         // broadcast gamelayout
         await broadcastGameLayout()
@@ -62,7 +62,7 @@ final class GameController: NetworkDelegate {
         guard isRunning else { return }
         log.info("Hot joining \(user.name!)")
         await gameState.hotJoin(cat: generateCat(from: user))
-        user.joined = true
+        user.inGame = true
 
         let gameLayoutUpdate = createProtoGameLayout()
         await networkManager.send(msg: gameLayoutUpdate, to: user)
@@ -95,7 +95,7 @@ final class GameController: NetworkDelegate {
         let cats = (await gameState.cats).map { _, cat in ProtoCat(playerID: cat.id.uuidString, position: cat.position, name: cat.user.name!) }
         let protoGameState = ProtoGameState(mice: [], cats: cats)
         let update = ProtoUpdate(data: .gameCharacterState(state: protoGameState))
-        await networkManager.broadcast(body: update, onlyIf: { user in user.joined })
+        await networkManager.broadcast(body: update, onlyIf: { user in user.inGame })
     }
 
     private func createProtoGameLayout() -> ProtoUpdate {
@@ -107,7 +107,7 @@ final class GameController: NetworkDelegate {
 
     private func broadcastGameLayout() async {
         let update = createProtoGameLayout()
-        await networkManager.broadcast(body: update, onlyIf: { user in user.joined })
+        await networkManager.broadcast(body: update, onlyIf: { user in user.inGame })
     }
 
     func on(action: ProtoAction, from user: User) async {
@@ -126,7 +126,7 @@ final class GameController: NetworkDelegate {
     func handleMove(direction: ProtoDirection, from user: User) async {
         let cat = await gameState.cats[user]
 
-        guard user.joined, let cat = cat else {
+        guard user.inGame, let cat = cat else {
             let err = ProtoError(code: .userNotYetJoined, message: "The user hasn't joined yet, so movement is not possible")
             return await networkManager.send(msg: err, to: user)
         }
