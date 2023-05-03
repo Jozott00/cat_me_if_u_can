@@ -4,7 +4,6 @@ import Shared
 /// Generate the tunnel layout for a new round of the game
 /// - Returns: the list of tunnels
 func generateTunnels() -> [Tunnel] {
-    print("Start tunnel generation")
     var tunnels: [Tunnel] = []
     var exitPositions: [Position] = []
 
@@ -28,7 +27,6 @@ func generateTunnels() -> [Tunnel] {
             // other tunnels)
             var position: Position
             repeat {
-                print("Do this")
                 position = Position(position: virtualCenter)
                 position.translate(
                     r: Double.random(in: (Constants.EXIT_SIZE * 2) ... (Constants.EXITS_MAX_DISTANCE / 2)),
@@ -46,8 +44,6 @@ func generateTunnels() -> [Tunnel] {
             Tunnel(id: UUID(), exits: exits, isGoal: i == 0)
         )
     }
-
-    print("Return from tunnel generation")
 
     return tunnels
 }

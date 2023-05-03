@@ -22,6 +22,16 @@ class ThreadSafe<T> {
     }
 }
 
+actor Sync {
+    func run<R>(_ op: () async throws -> R) async rethrows -> R {
+        return try await op()
+    }
+
+    func run<R>(_ op: () throws -> R) rethrows -> R {
+        return try op()
+    }
+}
+
 class SafeArray<T> {
     private var array: [T]
     private let queue = DispatchQueue(label: "me.cat.\(UUID().uuidString)", attributes: .concurrent)

@@ -19,9 +19,19 @@ public struct ProtoUpdate: Codable {
 
 public enum ProtoUpdateData: Codable {
     // FIXME: Are there any better names possible here?
+    // game start   .. indicates start of round
+    case gameStart(layout: ProtoGameLayout)
+    // game end     .. indicates end of round
+    case gameEnd(score: ProtoScoreBoard)
+    // state update .. comes after each tick
     case gameState(state: ProtoGameState)
-    case gameLayout(layout: ProtoGameLayout)
+
+    // scoreboard   .. shows scores of all players
+    case scoreboard(board: ProtoScoreBoard)
+    // join ack     .. tells assigned id after joining lobby
     case joinAck(id: String) // TODO: evaluate more precise structure
+    // lobby update .. comes if user joined or left the lobby
+    case lobbyUpdate(users: [ProtoUser], gameRunning: Bool)
 }
 
 /// Structure representing the game state that changes frequently
@@ -32,6 +42,28 @@ public struct ProtoGameState: Codable {
     public init(mice: [ProtoMouse], cats: [ProtoCat]) {
         self.mice = mice
         self.cats = cats
+    }
+}
+
+public struct ProtoScoreBoard: Codable {
+    public let scores: [ProtoCat: Int]
+    public let missedMouses: Int
+    public let gameDurationSec: Int
+
+    public init(scores: [ProtoCat: Int], missedMouses: Int, gameDurationSec: Int) {
+        self.scores = scores
+        self.missedMouses = missedMouses
+        self.gameDurationSec = gameDurationSec
+    }
+}
+
+public struct ProtoUser: Codable {
+    public let id: String
+    public let name: String
+
+    public init(id: String, name: String) {
+        self.id = id
+        self.name = name
     }
 }
 
@@ -64,18 +96,29 @@ public struct ProtoMouse: Codable {
     }
 }
 
-public struct ProtoCat: Codable {
+public struct ProtoCat: Codable, Hashable {
     public let playerID: String
     public let position: Position
+    public let name: String
 
     enum CodingKeys: String, CodingKey {
         case playerID = "player_id"
         case position
+        case name
     }
 
-    public init(playerID: String, position: Position) {
+    public init(playerID: String, position: Position, name: String) {
         self.playerID = playerID
         self.position = position
+        self.name = name
+    }
+
+    public static func == (lhs: ProtoCat, rhs: ProtoCat) -> Bool {
+        return lhs.playerID == rhs.playerID
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(playerID)
     }
 }
 

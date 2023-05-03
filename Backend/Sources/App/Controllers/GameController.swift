@@ -23,23 +23,19 @@ final class GameController: NetworkDelegate {
         networkManager.delegates.append(self)
     }
 
-    func startGame(users: [User]) async {
-        guard !isRunning else { return }
+    func startGame(users: [User]) async -> GameState? {
+        guard !isRunning else { return nil }
         log.info("Start Game")
         isRunning = true
         let cats = generateCats(from: users)
-        log.info("Generate tunnels")
         gameState = GameState(tunnels: generateTunnels(), mice: [], cats: cats)
 
-        log.info("Join all users")
         // set all users to joined, so they get game updates
         users.forEach { u in u.joined = true }
 
-        log.info("Broadcast layout")
         // broadcast gamelayout
         await broadcastGameLayout()
 
-        log.info("Run eventloop")
         while isRunning {
             tick()
 
@@ -50,6 +46,11 @@ final class GameController: NetworkDelegate {
                 log.error("Game loop interrupted: \(error.localizedDescription)")
             }
         }
+
+        // set game endtime
+        await gameState.endGame()
+
+        return gameState
     }
 
     func stopGame() {
@@ -74,7 +75,6 @@ final class GameController: NetworkDelegate {
         // TODO: check collisions (mice and cats)
     }
 
-    // TODO: consider to move logic somewhere else
     private func calculateCatPosition(cat: Cat) {
         let movementVector = cat.movement.vector * Constants.MOVEMENT_PER_TICK
         let boardBoundaries = Vector2(Constants.FIELD_LENGTH, Constants.FIELD_LENGTH)
@@ -82,7 +82,7 @@ final class GameController: NetworkDelegate {
     }
 
     private func broadcastGameState() async {
-        let cats = (await gameState.cats).map { _, cat in ProtoCat(playerID: cat.id.uuidString, position: cat.position) }
+        let cats = (await gameState.cats).map { _, cat in ProtoCat(playerID: cat.id.uuidString, position: cat.position, name: cat.user.name!) }
         let protoGameState = ProtoGameState(mice: [], cats: cats)
         let update = ProtoUpdate(data: .gameState(state: protoGameState))
         await networkManager.broadcast(body: update, onlyIf: { user in user.joined })
@@ -92,7 +92,7 @@ final class GameController: NetworkDelegate {
         let exits = gameState.tunnels.map { t in
             t.exits.map { e in ProtoExit(exitID: e.id.uuidString, position: e.position) }
         }.reduce([], +)
-        let update = ProtoUpdate(data: .gameLayout(layout: ProtoGameLayout(exits: exits)))
+        let update = ProtoUpdate(data: .gameStart(layout: ProtoGameLayout(exits: exits)))
         await networkManager.broadcast(body: update, onlyIf: { user in user.joined })
     }
 

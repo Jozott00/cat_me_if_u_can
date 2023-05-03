@@ -21,4 +21,6 @@ public enum ProtoErrorType: String, Codable {
     case genericError
     case alreadyJoined
     case userNotYetJoined
+    case gameAlreadyStarted
+    case notEnoughPlayers
 }

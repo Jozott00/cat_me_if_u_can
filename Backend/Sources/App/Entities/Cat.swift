@@ -10,9 +10,10 @@ import Shared
 
 class Cat: Character {
     let id: UUID
+    let user: User
+
     var position: Position
     var movement: ProtoDirection = .stay
-    let user: User
 
     init(id: UUID, position: Position, user: User) {
         self.id = id
