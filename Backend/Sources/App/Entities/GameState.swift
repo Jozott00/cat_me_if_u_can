@@ -38,4 +38,25 @@ actor GameState {
             body(cat)
         }
     }
+
+    func calculateScores() -> (scores: [Cat: Int], miceMissed: Int, miceLeft: Int) {
+        var scores = cats.values.reduce(into: [Cat: Int]()) { res, el in
+            res[el] = 0
+        }
+
+        var miceMissed = 0
+        // should be 0 afterwards
+        var miceLeft = 0
+
+        for mouse in mice {
+            switch mouse.state {
+            case .catchable: miceLeft += 1
+            case .reachedGoal: miceMissed += 1
+            case let .catched(by: cat):
+                scores[cat]! += 1
+            }
+        }
+
+        return (scores, miceMissed, miceLeft)
+    }
 }

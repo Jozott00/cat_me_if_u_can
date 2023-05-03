@@ -8,7 +8,7 @@
 import Foundation
 import Shared
 
-class Cat: Character {
+class Cat: Character, Hashable {
     let id: UUID
     let user: User
 
@@ -19,5 +19,14 @@ class Cat: Character {
         self.id = id
         self.position = position
         self.user = user
+    }
+
+    public static func == (lhs: Cat, rhs: Cat) -> Bool {
+        return lhs.id == rhs.id && lhs.user == rhs.user
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(user)
     }
 }

@@ -46,14 +46,22 @@ public struct ProtoGameState: Codable {
 }
 
 public struct ProtoScoreBoard: Codable {
+    /// number of catched mice per cat/user
     public let scores: [ProtoCat: Int]
-    public let missedMouses: Int
+
+    /// number of mices that reached the destiniation
+    public let miceMissed: Int
+    /// number of mices that can still get catched
+    public let miceLeft: Int
+
+    /// duration of game since start in seconds
     public let gameDurationSec: Int
 
-    public init(scores: [ProtoCat: Int], missedMouses: Int, gameDurationSec: Int) {
+    public init(scores: [ProtoCat: Int], miceMissed: Int, miceLeft: Int, gameDurationSec: Int) {
         self.scores = scores
-        self.missedMouses = missedMouses
+        self.miceMissed = miceMissed
         self.gameDurationSec = gameDurationSec
+        self.miceLeft = miceLeft
     }
 }
 
