@@ -20,14 +20,21 @@ final class GameController: NetworkDelegate {
     init(networkManager: NetworkManager, tickIntervalMS: TimeInterval = 1000) {
         self.tickIntervalMS = tickIntervalMS
         self.networkManager = networkManager
-        networkManager.delegate = self
+        networkManager.delegates.append(self)
     }
 
-    func startGame() async {
-        guard !isRunning else { return }
+    func startGame(users: [User]) async -> GameState? {
+        guard !isRunning else { return nil }
         log.info("Start Game")
         isRunning = true
-        gameState = GameState(tunnels: generateTunnels(), mice: [], cats: [:])
+        let cats = generateCats(from: users)
+        gameState = GameState(tunnels: generateTunnels(), mice: [], cats: cats)
+
+        // set all users to joined, so they get game updates
+        users.forEach { u in u.inGame = true }
+
+        // broadcast gamelayout
+        await broadcastGameLayout()
 
         while isRunning {
             tick()
@@ -39,10 +46,26 @@ final class GameController: NetworkDelegate {
                 log.error("Game loop interrupted: \(error.localizedDescription)")
             }
         }
+
+        // set game endtime
+        await gameState.endGame()
+
+        return gameState
     }
 
     func stopGame() {
+        log.info("Stop game...")
         isRunning = false
+    }
+
+    func hotJoin(user: User) async {
+        guard isRunning else { return }
+        log.info("Hot joining \(user.name!)")
+        await gameState.hotJoin(cat: generateCat(from: user))
+        user.inGame = true
+
+        let gameLayoutUpdate = createProtoGameLayout()
+        await networkManager.send(msg: gameLayoutUpdate, to: user)
     }
 
     private func tick() {
@@ -62,7 +85,6 @@ final class GameController: NetworkDelegate {
         // TODO: check collisions (mice and cats)
     }
 
-    // TODO: consider to move logic somewhere else
     private func calculateCatPosition(cat: Cat) {
         let movementVector = cat.movement.vector * Constants.MOVEMENT_PER_TICK
         let boardBoundaries = Vector2(Constants.FIELD_LENGTH, Constants.FIELD_LENGTH)
@@ -70,10 +92,22 @@ final class GameController: NetworkDelegate {
     }
 
     private func broadcastGameState() async {
-        let cats = (await gameState.cats).map { _, cat in ProtoCat(playerID: cat.id.uuidString, position: cat.position) }
+        let cats = (await gameState.cats).map { _, cat in ProtoCat(playerID: cat.id.uuidString, position: cat.position, name: cat.user.name!) }
         let protoGameState = ProtoGameState(mice: [], cats: cats)
-        let update = ProtoUpdate(data: .gameState(state: protoGameState))
-        await networkManager.broadcast(body: update, onlyIf: { user in user.joined })
+        let update = ProtoUpdate(data: .gameCharacterState(state: protoGameState))
+        await networkManager.broadcast(body: update, onlyIf: { user in user.inGame })
+    }
+
+    private func createProtoGameLayout() -> ProtoUpdate {
+        let exits = gameState.tunnels.map { t in
+            t.exits.map { e in ProtoExit(exitID: e.id.uuidString, position: e.position) }
+        }.reduce([], +)
+        return ProtoUpdate(data: .gameStart(layout: ProtoGameLayout(exits: exits)))
+    }
+
+    private func broadcastGameLayout() async {
+        let update = createProtoGameLayout()
+        await networkManager.broadcast(body: update, onlyIf: { user in user.inGame })
     }
 
     func on(action: ProtoAction, from user: User) async {
@@ -82,17 +116,17 @@ final class GameController: NetworkDelegate {
         switch action.data {
         case let .move(direction: direction):
             await handleMove(direction: direction, from: user)
-        case let .join(username: username):
-            await handleJoin(from: user, name: username)
         case .leave:
             await handleLeave(from: user)
+        default:
+            break
         }
     }
 
     func handleMove(direction: ProtoDirection, from user: User) async {
         let cat = await gameState.cats[user]
 
-        guard user.joined, let cat = cat else {
+        guard user.inGame, let cat = cat else {
             let err = ProtoError(code: .userNotYetJoined, message: "The user hasn't joined yet, so movement is not possible")
             return await networkManager.send(msg: err, to: user)
         }
@@ -105,25 +139,14 @@ final class GameController: NetworkDelegate {
         await gameState.removeCat(by: user)
     }
 
-    func handleJoin(from user: User, name _: String) async {
-        guard !user.joined else {
-            let err = ProtoError(code: .alreadyJoined, message: "You already joined the game!")
-            return await networkManager.send(msg: err, to: user)
+    private func generateCats(from users: [User]) -> [User: Cat] {
+        return users.reduce(into: [User: Cat]()) { res, u in
+            res[u] = generateCat(from: u)
         }
-        user.joined = true
+    }
 
-        // add new cat
+    private func generateCat(from user: User) -> Cat {
         let catPos = Position.random(in: 0 ... Double(Constants.FIELD_LENGTH))
-        let newCat = Cat(id: UUID(), position: catPos, user: user)
-        await gameState.add(cat: newCat)
-
-        let ack = ProtoUpdate(data: .joinAck(id: newCat.id.uuidString))
-        await networkManager.send(msg: ack, to: user)
-
-        let exits = gameState.tunnels.map { t in
-            t.exits.map { e in ProtoExit(exitID: e.id.uuidString, position: e.position) }
-        }.reduce([], +)
-        let update = ProtoUpdate(data: .gameLayout(layout: ProtoGameLayout(exits: exits)))
-        await networkManager.send(msg: update, to: user)
+        return Cat(id: user.id, position: catPos, user: user)
     }
 }

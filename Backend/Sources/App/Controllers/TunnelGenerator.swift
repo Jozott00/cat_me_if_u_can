@@ -21,23 +21,35 @@ func generateTunnels() -> [Tunnel] {
             y: Double.random(in: padding ... (Constants.FIELD_LENGTH - padding))
         )
 
-        let exits = (2 ... numExits).map { _ in
-            // Optimistically generate a position for this exit and check if
-            // it is viable (not too close to any other exit of any of the
-            // other tunnels)
-            var position: Position
-            repeat {
-                position = Position(position: virtualCenter)
-                position.translate(
-                    r: Double.random(in: (Constants.EXIT_SIZE * 2) ... (Constants.EXITS_MAX_DISTANCE / 2)),
-                    phi: Double.random(in: 0 ... 2) * Double.pi
-                )
-            } while exitPositions.contains { ep in
-                ep.distance(to: position) < Constants.EXITS_MIN_DISTANCE
-            }
+        var exits: [Exit] = []
+        do {
+            exits = try (1 ... numExits).map { _ in
+                // Optimistically generate a position for this exit and check if
+                // it is viable (not too close to any other exit of any of the
+                // other tunnels)
+                var position: Position
+                var tries = 0
+                repeat {
+                    tries += 1
+                    guard tries < 100 else {
+                        throw InfiniteLoopError()
+                    }
 
-            exitPositions.append(position)
-            return Exit(id: UUID(), position: position)
+                    position = Position(position: virtualCenter)
+                    position.translate(
+                        r: Double.random(in: (Constants.EXIT_SIZE * 2) ... (Constants.EXITS_MAX_DISTANCE / 2)),
+                        phi: Double.random(in: 0 ... 2) * Double.pi
+                    )
+                } while exitPositions.contains { ep in
+                    ep.distance(to: position) < Constants.EXITS_MIN_DISTANCE
+                }
+
+                exitPositions.append(position)
+                return Exit(id: UUID(), position: position)
+            }
+        } catch {
+            // Let's ignore that tunnel, it was unable to generate exits for it
+            continue
         }
 
         tunnels.append(

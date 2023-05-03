@@ -12,8 +12,16 @@ class Mouse: Character {
     let id: UUID
     var position: Position
 
+    var state: MouseState = .catchable
+
     init(id: UUID, position: Position) {
         self.id = id
         self.position = position
     }
+}
+
+enum MouseState {
+    case catched(by: Cat)
+    case reachedGoal
+    case catchable
 }

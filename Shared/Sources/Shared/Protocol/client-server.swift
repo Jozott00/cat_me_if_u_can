@@ -16,15 +16,15 @@ public struct ProtoAction: Codable {
 }
 
 public enum ProtoActionData: Codable {
-    case move(direction: ProtoDirection)
-    case leave
+    // join         .. if client wants to join game lobby
     case join(username: String)
-}
-
-public enum ProtoActionType: String, Codable {
-    case move
+    // startGame    .. if client wants to start game
+    case startGame
+    // leave        .. if client leaves the lobby (implicit)
     case leave
-    case join
+
+    // move         .. indiciates new movement of client
+    case move(direction: ProtoDirection)
 }
 
 public enum ProtoDirection: String, Codable {

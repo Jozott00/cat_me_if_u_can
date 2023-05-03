@@ -8,12 +8,8 @@ public func configure(_ app: Application) throws {
 
     // configure game controller
     let gameController = GameController(networkManager: networkManager, tickIntervalMS: Constants.TICK_INTERVAL_MS)
-
-    Task {
-        await gameController.startGame()
-    }
+    _ = LobbyController(game: gameController, networkManager: networkManager)
 
     try routes(app)
-
     app.logger.info("Configuartion done!")
 }

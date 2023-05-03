@@ -13,6 +13,9 @@ final class Constants {
     static let TICK_INTERVAL_MS: Double = 8.0
     static let MOVEMENT_PER_TICK: Double = (TICK_INTERVAL_MS / 1000) * POINTS_PER_SEC // actual movement per tick
 
+    // lobby settings
+    static let JOINED_USER_START_NR = 1
+
     // board settings
     public static let FIELD_LENGTH: Double = 800
     static let TUNNELS_NUM = 8

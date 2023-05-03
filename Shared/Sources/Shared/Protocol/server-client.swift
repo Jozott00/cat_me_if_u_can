@@ -10,7 +10,7 @@ import Foundation
 /// Structure representing a game state update.
 
 public struct ProtoUpdate: Codable {
-    public let data: ProtoUpdateData  // The type of the update.
+    public let data: ProtoUpdateData // The type of the update.
 
     public init(
         data: ProtoUpdateData
@@ -21,14 +21,23 @@ public struct ProtoUpdate: Codable {
 
 public enum ProtoUpdateData: Codable {
     // FIXME: Are there any better names possible here?
-    case gameState(state: ProtoGameState)
-    case gameLayout(layout: ProtoGameLayout)
-    case joinAck(id: String)  // TODO: evaluate more precise structure
+    // game start   .. indicates start of round
+    case gameStart(layout: ProtoGameLayout)
+    // game end     .. indicates end of round
+    case gameEnd(score: ProtoScoreBoard)
+    // state update .. comes after each tick
+    case gameCharacterState(state: ProtoGameState)
+
+    // scoreboard   .. shows scores of all players
+    case scoreboard(board: ProtoScoreBoard)
+    // join ack     .. tells assigned id after joining lobby
+    case joinAck(id: String) // TODO: evaluate more precise structure
+    // lobby update .. comes if user joined or left the lobby
+    case lobbyUpdate(users: [ProtoUser], gameRunning: Bool)
 }
 
 /// Structure representing the game state that changes frequently
 public struct ProtoGameState: Codable {
-
     // tim changed let to var for testing, if not removed pls remove
     public var mice: [ProtoMouse]
 
@@ -44,9 +53,38 @@ public struct ProtoGameState: Codable {
     }
 }
 
+public struct ProtoScoreBoard: Codable {
+    /// number of catched mice per cat/user
+    public let scores: [ProtoCat: Int]
+
+    /// number of mices that reached the destiniation
+    public let miceMissed: Int
+    /// number of mices that can still get catched
+    public let miceLeft: Int
+
+    /// duration of game since start in seconds
+    public let gameDurationSec: Int
+
+    public init(scores: [ProtoCat: Int], miceMissed: Int, miceLeft: Int, gameDurationSec: Int) {
+        self.scores = scores
+        self.miceMissed = miceMissed
+        self.gameDurationSec = gameDurationSec
+        self.miceLeft = miceLeft
+    }
+}
+
+public struct ProtoUser: Codable {
+    public let id: String
+    public let name: String
+
+    public init(id: String, name: String) {
+        self.id = id
+        self.name = name
+    }
+}
+
 /// Structure representing the game state that only changes every round
 public struct ProtoGameLayout: Codable {
-
     // tim changed let to var for testing, if not removed pls remove
     public var exits: [ProtoExit]
 
@@ -81,21 +119,29 @@ public struct ProtoMouse: Codable {
     }
 }
 
-public struct ProtoCat: Codable {
+public struct ProtoCat: Codable, Hashable {
     public let playerID: String
     public let position: Position
+    public let name: String
 
     enum CodingKeys: String, CodingKey {
         case playerID = "player_id"
         case position
+        case name
     }
 
-    public init(
-        playerID: String,
-        position: Position
-    ) {
+    public init(playerID: String, position: Position, name: String) {
         self.playerID = playerID
         self.position = position
+        self.name = name
+    }
+
+    public static func == (lhs: ProtoCat, rhs: ProtoCat) -> Bool {
+        return lhs.playerID == rhs.playerID
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(playerID)
     }
 }
 

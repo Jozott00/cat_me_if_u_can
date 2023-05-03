@@ -28,16 +28,22 @@ final class JsonDemoStrings: XCTestCase {
         try printMsgDemo(msg: msg, desc: "Msg.Action.Leave")
     }
 
+    func test_produceActionJson_startGame() throws {
+        let action = ProtoAction(data: .startGame)
+        let msg = ProtocolMsg(type: .action(action: action), timestamp: Date().timeIntervalSince1970)
+        try printMsgDemo(msg: msg, desc: "Msg.Action.StartGame")
+    }
+
     func test_produceJSON_UpdateGameState() throws {
-        let update = ProtoUpdate(data: .gameState(state: ProtoGameState(mice: [], cats: [])))
+        let update = ProtoUpdate(data: .gameCharacterState(state: ProtoGameState(mice: [], cats: [])))
         let msg = ProtocolMsg(type: .update(update: update), timestamp: Date().timeIntervalSince1970)
         try printMsgDemo(msg: msg, desc: "Msg.Update.State")
     }
 
-    func test_produceJSON_UpdateGameLayout() throws {
-        let update = ProtoUpdate(data: .gameLayout(layout: ProtoGameLayout(exits: [])))
+    func test_produceJSON_UpdateGameStart() throws {
+        let update = ProtoUpdate(data: .gameStart(layout: ProtoGameLayout(exits: [])))
         let msg = ProtocolMsg(type: .update(update: update), timestamp: Date().timeIntervalSince1970)
-        try printMsgDemo(msg: msg, desc: "Msg.Update.State")
+        try printMsgDemo(msg: msg, desc: "Msg.Update.GameStart")
     }
 
     private func printMsgDemo(msg: ProtocolMsg, desc: String) throws {
