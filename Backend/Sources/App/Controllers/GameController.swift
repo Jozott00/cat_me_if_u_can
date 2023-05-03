@@ -58,6 +58,16 @@ final class GameController: NetworkDelegate {
         isRunning = false
     }
 
+    func hotJoin(user: User) async {
+        guard isRunning else { return }
+        log.info("Hot joining \(user.name!)")
+        await gameState.hotJoin(cat: generateCat(from: user))
+        user.joined = true
+
+        let gameLayoutUpdate = createProtoGameLayout()
+        await networkManager.send(msg: gameLayoutUpdate, to: user)
+    }
+
     private func tick() {
         Task {
             // start calculation of next tick
@@ -88,11 +98,15 @@ final class GameController: NetworkDelegate {
         await networkManager.broadcast(body: update, onlyIf: { user in user.joined })
     }
 
-    private func broadcastGameLayout() async {
+    private func createProtoGameLayout() -> ProtoUpdate {
         let exits = gameState.tunnels.map { t in
             t.exits.map { e in ProtoExit(exitID: e.id.uuidString, position: e.position) }
         }.reduce([], +)
-        let update = ProtoUpdate(data: .gameStart(layout: ProtoGameLayout(exits: exits)))
+        return ProtoUpdate(data: .gameStart(layout: ProtoGameLayout(exits: exits)))
+    }
+
+    private func broadcastGameLayout() async {
+        let update = createProtoGameLayout()
         await networkManager.broadcast(body: update, onlyIf: { user in user.joined })
     }
 
@@ -127,8 +141,12 @@ final class GameController: NetworkDelegate {
 
     private func generateCats(from users: [User]) -> [User: Cat] {
         return users.reduce(into: [User: Cat]()) { res, u in
-            let catPos = Position.random(in: 0 ... Double(Constants.FIELD_LENGTH))
-            res[u] = Cat(id: u.id, position: catPos, user: u)
+            res[u] = generateCat(from: u)
         }
+    }
+
+    private func generateCat(from user: User) -> Cat {
+        let catPos = Position.random(in: 0 ... Double(Constants.FIELD_LENGTH))
+        return Cat(id: user.id, position: catPos, user: user)
     }
 }

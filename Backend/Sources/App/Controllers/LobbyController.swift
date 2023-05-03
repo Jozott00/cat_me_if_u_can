@@ -86,6 +86,10 @@ class LobbyController: NetworkDelegate {
         user.name = name
         joinedUsers.append(user)
 
+        if gameRunning {
+            await game.hotJoin(user: user)
+        }
+
         // send client join ack
         let ack = ProtoUpdate(data: .joinAck(id: user.id.uuidString))
         await networkManager.send(msg: ack, to: user)

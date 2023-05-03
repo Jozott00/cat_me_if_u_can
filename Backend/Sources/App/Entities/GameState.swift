@@ -39,6 +39,10 @@ actor GameState {
         }
     }
 
+    func hotJoin(cat: Cat) {
+        cats[cat.user] = cat
+    }
+
     func calculateScores() -> (scores: [Cat: Int], miceMissed: Int, miceLeft: Int) {
         var scores = cats.values.reduce(into: [Cat: Int]()) { res, el in
             res[el] = 0
