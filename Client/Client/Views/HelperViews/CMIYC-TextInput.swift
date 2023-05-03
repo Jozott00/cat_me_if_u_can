@@ -8,15 +8,17 @@
 import SwiftUI
 
 struct CMIYC_TextInput: View {
-  var body: some View {
-    Text("TextInput")
-
-    // helper view for text input
-  }
+    @Binding var username: String
+    var body: some View {
+        TextField(
+            "User name",
+            text: $username
+        )
+    }
 }
 
 struct CMIYC_TextInput_Previews: PreviewProvider {
-  static var previews: some View {
-    CMIYC_TextInput()
-  }
+    static var previews: some View {
+        StatefulPreviewWrapper("Test Username") { CMIYC_TextInput(username: $0) }
+    }
 }

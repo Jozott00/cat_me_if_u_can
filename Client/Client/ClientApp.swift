@@ -9,9 +9,10 @@ import SwiftUI
 
 @main
 struct ClientApp: App {
-  var body: some Scene {
-    WindowGroup {
-      WebsocketContentView()
+    var body: some Scene {
+        WindowGroup {
+//      WebsocketContentView()
+            MainView()
+        }
     }
-  }
 }

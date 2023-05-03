@@ -8,20 +8,16 @@
 import SwiftUI
 
 struct LobbyView: View {
-  @Binding var currentView: Int  // current view being passed to view
-  var body: some View {
-    // Text("Lobby")
-    // contains username input
-    // contains start game button
+    @Binding var username: String
+    @Binding var currentView: MainViews  // current view being passed to view
 
-    Button("Play") {
-      currentView = 2
+    var body: some View {
+        VStack {
+            CMIYC_TextInput(username: $username)
+            Button("Play") {
+                GameSession.start(userName: username)
+                currentView = .board
+            }
+        }
     }
-  }
-}
-
-struct LobbyView_Previews: PreviewProvider {
-  static var previews: some View {
-    StatefulPreviewWrapper(1) { LobbyView(currentView: $0) }
-  }
 }
