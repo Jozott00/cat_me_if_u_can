@@ -94,7 +94,7 @@ final class GameController: NetworkDelegate {
     private func broadcastGameState() async {
         let cats = (await gameState.cats).map { _, cat in ProtoCat(playerID: cat.id.uuidString, position: cat.position, name: cat.user.name!) }
         let protoGameState = ProtoGameState(mice: [], cats: cats)
-        let update = ProtoUpdate(data: .gameState(state: protoGameState))
+        let update = ProtoUpdate(data: .gameCharacterState(state: protoGameState))
         await networkManager.broadcast(body: update, onlyIf: { user in user.joined })
     }
 

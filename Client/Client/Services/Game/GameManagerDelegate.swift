@@ -34,7 +34,7 @@ class GameManagerDelegate: WebSocketDelegate {
                     DispatchQueue.main.async {
                         self.data.gameLayout = layout
                     }
-                case let .gameState(state):
+                case let .gameCharacterState(state):
                     DispatchQueue.main.async {
                         self.data.gameState = state
                     }

@@ -35,7 +35,7 @@ final class JsonDemoStrings: XCTestCase {
     }
 
     func test_produceJSON_UpdateGameState() throws {
-        let update = ProtoUpdate(data: .gameState(state: ProtoGameState(mice: [], cats: [])))
+        let update = ProtoUpdate(data: .gameCharacterState(state: ProtoGameState(mice: [], cats: [])))
         let msg = ProtocolMsg(type: .update(update: update), timestamp: Date().timeIntervalSince1970)
         try printMsgDemo(msg: msg, desc: "Msg.Update.State")
     }

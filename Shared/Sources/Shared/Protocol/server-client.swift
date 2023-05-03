@@ -10,7 +10,7 @@ import Foundation
 /// Structure representing a game state update.
 
 public struct ProtoUpdate: Codable {
-    public let data: ProtoUpdateData  // The type of the update.
+    public let data: ProtoUpdateData // The type of the update.
 
     public init(
         data: ProtoUpdateData
@@ -26,7 +26,7 @@ public enum ProtoUpdateData: Codable {
     // game end     .. indicates end of round
     case gameEnd(score: ProtoScoreBoard)
     // state update .. comes after each tick
-    case gameState(state: ProtoGameState)
+    case gameCharacterState(state: ProtoGameState)
 
     // scoreboard   .. shows scores of all players
     case scoreboard(board: ProtoScoreBoard)
@@ -38,7 +38,6 @@ public enum ProtoUpdateData: Codable {
 
 /// Structure representing the game state that changes frequently
 public struct ProtoGameState: Codable {
-
     // tim changed let to var for testing, if not removed pls remove
     public var mice: [ProtoMouse]
 
@@ -86,7 +85,6 @@ public struct ProtoUser: Codable {
 
 /// Structure representing the game state that only changes every round
 public struct ProtoGameLayout: Codable {
-
     // tim changed let to var for testing, if not removed pls remove
     public var exits: [ProtoExit]
 
