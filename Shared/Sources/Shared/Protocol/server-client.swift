@@ -100,18 +100,23 @@ public struct ProtoGameLayout: Codable {
 public struct ProtoMouse: Codable {
     public let mouseID: String
     public let position: Position
-    public let state: String
+    public let state: ProtoMouseState
 
     enum CodingKeys: String, CodingKey {
         case mouseID = "mouse_id"
         case position
         case state
     }
+    
+    public enum ProtoMouseState: Codable {
+        case alive
+        case dead
+    }
 
     public init(
         mouseID: String,
         position: Position,
-        state: String
+        state: ProtoMouseState
     ) {
         self.mouseID = mouseID
         self.position = position

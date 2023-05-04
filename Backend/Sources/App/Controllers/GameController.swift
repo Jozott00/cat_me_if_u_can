@@ -88,18 +88,20 @@ final class GameController: NetworkDelegate {
     }
 
     private func calculateCatPosition(cat: Cat) {
-        let movementVector = cat.movement.vector * Constants.MOVEMENT_PER_TICK
+        let movementVector = cat.movement.vector * Constants.CAT_MOVEMENT_PER_TICK
         let boardBoundaries = Vector2(Constants.FIELD_LENGTH, Constants.FIELD_LENGTH)
         cat.position.translate(vec: movementVector, within: boardBoundaries)
     }
 
     private func broadcastGameState() async {
-        let cats = (await gameState.cats).map { _, cat in ProtoCat(playerID: cat.id.uuidString, position: cat.position, name: cat.user.name!) }
+        let cats = (await gameState.cats).map { _, cat in
+            ProtoCat(playerID: cat.id.uuidString, position: cat.position, name: cat.user.name!)
+        }
         let mice = gameState.mice
             .filter { mouse in !mouse.isHidden }
             .map { mouse in
-            ProtoMouse(mouseID: mouse.id.uuidString, position: mouse.position, state: "whatever")
-        }
+                ProtoMouse(mouseID: mouse.id.uuidString, position: mouse.position, state: mouse.isDead ? .dead : .alive)
+            }
         let protoGameState = ProtoGameState(mice: mice, cats: cats)
         let update = ProtoUpdate(data: .gameCharacterState(state: protoGameState))
         await networkManager.broadcast(body: update, onlyIf: { user in user.inGame })
@@ -118,7 +120,7 @@ final class GameController: NetworkDelegate {
     }
 
     func on(action: ProtoAction, from user: User) async {
-        log.info("Recognize action \(action.data) by \(user.id.uuidString)")
+        log.info("Recognize action \(action.data) by \(user)")
 
         switch action.data {
         case let .move(direction: direction):
