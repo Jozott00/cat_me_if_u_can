@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class Position: Codable {
+public class Position: Codable, CustomStringConvertible {
     public var x: Double
     public var y: Double
 
