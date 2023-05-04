@@ -80,11 +80,16 @@ final class GameController: NetworkDelegate {
     }
 
     private func calculateGameState() async {
-        await gameState.forEachCat(body: calculateCatPosition)
+        await gameState.forEachCat(calculateCatPosition)
 
-        // TODO: calculate mice
+        // TODO: calculate mice properly
+        // This just moves them down slowly and is just for developing the client
+        gameState.mice.forEach { m in
+            m.position.translate(x: 0, y: Constants.MOUSE_MOVEMENT_PER_TICK, within: Vector2(Constants.FIELD_LENGTH, Constants.FIELD_LENGTH))
+        }
 
-        // TODO: check collisions (mice and cats)
+        // Check collisions (mice and cats)
+        await checkCollisons()
     }
 
     private func calculateCatPosition(cat: Cat) {
@@ -93,12 +98,30 @@ final class GameController: NetworkDelegate {
         cat.position.translate(vec: movementVector, within: boardBoundaries)
     }
 
+    private func checkCollisons() async {
+        // Get all mice that are on the surface and alive
+        var catchableMice = gameState.mice.filter { m in
+            !m.isDead && !m.isHidden
+        }
+
+        // Kill all mice that are too close to a cat
+        await gameState.forEachCat { cat in
+            catchableMice.filter { mouse in
+                mouse.position.distance(to: cat.position) < (Constants.CAT_SIZE/2 + Constants.MICE_SIZE/2)
+            }
+            .forEach { mouse in
+                mouse.state = .catched(by: cat)
+            }
+        }
+    }
+
     private func broadcastGameState() async {
         let cats = (await gameState.cats).map { _, cat in
             ProtoCat(playerID: cat.id.uuidString, position: cat.position, name: cat.user.name!)
         }
         let mice = gameState.mice
-            .filter { mouse in !mouse.isHidden }
+            // FIXME: Reinclude this line, only disabled for developing purposes
+            // .filter { mouse in !mouse.isHidden }
             .map { mouse in
                 ProtoMouse(mouseID: mouse.id.uuidString, position: mouse.position, state: mouse.isDead ? .dead : .alive)
             }

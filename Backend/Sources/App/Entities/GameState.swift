@@ -33,10 +33,8 @@ actor GameState {
         cats.removeValue(forKey: user)
     }
 
-    func forEachCat(body: (Cat) -> Void) {
-        for cat in cats.values {
-            body(cat)
-        }
+    func forEachCat(_ body: (Cat) throws -> Void) rethrows {
+        try cats.values.forEach(body)
     }
 
     func hotJoin(cat: Cat) {
