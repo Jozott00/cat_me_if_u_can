@@ -27,8 +27,10 @@ final class GameController: NetworkDelegate {
         guard !isRunning else { return nil }
         log.info("Start Game")
         isRunning = true
-        let cats = generateCats(from: users)
-        gameState = GameState(tunnels: generateTunnels(), mice: [], cats: cats)
+        let tunnels = generateTunnels()
+        let mice = spawnMice(in: tunnels)
+        let cats = spawnCats(from: users)
+        gameState = GameState(tunnels: tunnels, mice: mice, cats: cats)
 
         // set all users to joined, so they get game updates
         users.forEach { u in u.inGame = true }
@@ -61,7 +63,7 @@ final class GameController: NetworkDelegate {
     func hotJoin(user: User) async {
         guard isRunning else { return }
         log.info("Hot joining \(user.name!)")
-        await gameState.hotJoin(cat: generateCat(from: user))
+        await gameState.hotJoin(cat: spawnCat(from: user))
         user.inGame = true
 
         let gameLayoutUpdate = createProtoGameLayout()
@@ -93,7 +95,12 @@ final class GameController: NetworkDelegate {
 
     private func broadcastGameState() async {
         let cats = (await gameState.cats).map { _, cat in ProtoCat(playerID: cat.id.uuidString, position: cat.position, name: cat.user.name!) }
-        let protoGameState = ProtoGameState(mice: [], cats: cats)
+        let mice = gameState.mice
+            .filter { mouse in !mouse.isHidden }
+            .map { mouse in
+            ProtoMouse(mouseID: mouse.id.uuidString, position: mouse.position, state: "whatever")
+        }
+        let protoGameState = ProtoGameState(mice: mice, cats: cats)
         let update = ProtoUpdate(data: .gameCharacterState(state: protoGameState))
         await networkManager.broadcast(body: update, onlyIf: { user in user.inGame })
     }
@@ -139,14 +146,25 @@ final class GameController: NetworkDelegate {
         await gameState.removeCat(by: user)
     }
 
-    private func generateCats(from users: [User]) -> [User: Cat] {
+    private func spawnCats(from users: [User]) -> [User: Cat] {
         return users.reduce(into: [User: Cat]()) { res, u in
-            res[u] = generateCat(from: u)
+            res[u] = spawnCat(from: u)
         }
     }
 
-    private func generateCat(from user: User) -> Cat {
+    private func spawnCat(from user: User) -> Cat {
         let catPos = Position.random(in: 0 ... Double(Constants.FIELD_LENGTH))
         return Cat(id: user.id, position: catPos, user: user)
+    }
+
+    private func spawnMice(in tunnels: [Tunnel]) -> [Mouse] {
+        return (1 ... Constants.MICE_NUM).map { _ in
+            // Select a random tunnel in which we spawn (except the win tunnel.
+            let tunnel = tunnels.filter { t in !t.isGoal }.randomElement()!
+            let position = tunnel.exits.randomElement()!.position
+            // FIXME: Instead of selecting one exit we could select two and choose a point between them.
+
+            return Mouse(id: UUID(), position: position, hidesIn: tunnel)
+        }
     }
 }
