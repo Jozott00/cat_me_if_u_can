@@ -85,6 +85,7 @@ final class GameController: NetworkDelegate {
         // TODO: calculate mice properly
         // This just moves them down slowly and is just for developing the client
         gameState.mice.forEach { m in
+            m.state = .catchable
             m.position.translate(x: 0, y: Constants.MOUSE_MOVEMENT_PER_TICK, within: Vector2(Constants.FIELD_LENGTH, Constants.FIELD_LENGTH))
         }
 
@@ -120,8 +121,7 @@ final class GameController: NetworkDelegate {
             ProtoCat(playerID: cat.id.uuidString, position: cat.position, name: cat.user.name!)
         }
         let mice = gameState.mice
-            // FIXME: Reinclude this line, only disabled for developing purposes
-            // .filter { mouse in !mouse.isHidden }
+            .filter { mouse in !mouse.isHidden }
             .map { mouse in
                 ProtoMouse(mouseID: mouse.id.uuidString, position: mouse.position, state: mouse.isDead ? .dead : .alive)
             }
