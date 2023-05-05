@@ -104,14 +104,14 @@ final class GameController: NetworkDelegate {
 
     private func checkCollisons() async {
         // Get all mice that are on the surface and alive
-        var catchableMice = gameState.mice.filter { m in
+        let catchableMice = gameState.mice.filter { m in
             !m.isDead && !m.isHidden
         }
 
         // Kill all mice that are too close to a cat
         await gameState.forEachCat { cat in
             catchableMice.filter { mouse in
-                mouse.position.distance(to: cat.position) < (Constants.CAT_SIZE/2 + Constants.MICE_SIZE/2)
+                mouse.position.distance(to: cat.position) < (Constants.CAT_SIZE/2 + Constants.MOUSE_SIZE/2)
             }
             .forEach { mouse in
                 mouse.state = .catched(by: cat)

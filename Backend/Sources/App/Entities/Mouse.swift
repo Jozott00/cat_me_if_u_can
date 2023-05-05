@@ -20,7 +20,7 @@ class Mouse: Character {
 
     var isDead: Bool {
         switch state {
-        case .catched(_):
+        case .catched:
             return true
         default:
             return false
