@@ -84,8 +84,11 @@ final class GameController: NetworkDelegate {
 
         // TODO: calculate mice properly
         // This just moves them down slowly and is just for developing the client
-        gameState.mice.forEach { m in
-            m.state = .catchable
+        gameState.mice.filter { m in
+            !m.isDead
+        }
+        .forEach { m in
+            m.hidesIn = nil
             m.position.translate(x: 0, y: Constants.MOUSE_MOVEMENT_PER_TICK, within: Vector2(Constants.FIELD_LENGTH, Constants.FIELD_LENGTH))
         }
 

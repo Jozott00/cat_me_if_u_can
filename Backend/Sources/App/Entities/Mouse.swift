@@ -30,6 +30,7 @@ class Mouse: Character {
     init(id: UUID, position: Position, hidesIn: Tunnel) {
         self.id = id
         self.position = position
+        self.hidesIn = hidesIn
     }
 }
 
