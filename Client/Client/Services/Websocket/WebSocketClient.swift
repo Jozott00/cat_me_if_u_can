@@ -6,6 +6,7 @@
 //  Inspired by https://github.com/appspector/URLSessionWebSocketTask/blob/master/WebSockets/WebSocketConnection.swift
 
 import Foundation
+import Logging
 import Shared
 
 protocol WebSocketConnection {
@@ -36,6 +37,7 @@ class WebSocketClient: NSObject, WebSocketConnection, URLSessionWebSocketDelegat
     case notSupported
     case failedToConvertActionToJSON
   }
+  private let log = Logger(label: "WebSocketClient")
 
   init(
     url: URL
@@ -80,7 +82,7 @@ class WebSocketClient: NSObject, WebSocketConnection, URLSessionWebSocketDelegat
     }
   }
   func send(action: ProtoAction) {
-    // sends a plain texst message
+    // sends a plain text message
     if let msg = action.toJSONString() {
       webSocketTask?
         .send(URLSessionWebSocketTask.Message.string(msg)) { error in
@@ -90,6 +92,9 @@ class WebSocketClient: NSObject, WebSocketConnection, URLSessionWebSocketDelegat
             if error._domain == NSURLErrorDomain && error._code == -1004 {
               self.isConnected = false
             }
+          }
+          else {
+            self.log.debug("Send \(msg) to client")
           }
         }
     }

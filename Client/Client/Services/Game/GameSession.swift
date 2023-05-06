@@ -17,9 +17,9 @@ class GameSession {
   static private let log = Logger(label: "GameSession")
   static let data = GameData()
 
-  /// Starts a WS connection
+  /// Establishes  a WS connection
   ///  Does nothing if a connection has already been established
-  static func start(userName: String) {
+  static func join(userName: String) {
     if !connection.isConnected {
       // realize delegate pattern by adding current instance to WS connection
       connection.delegate = GameManagerDelegate()
@@ -32,6 +32,12 @@ class GameSession {
     else {
       log.info("Did dont reconnected since there is an active connection")
     }
+  }
+  ///  Starts a game session
+  ///  Does nothing if the game has already started
+  static func gameStart() {
+    let action: ProtoAction = ProtoAction(data: .startGame)
+    connection.send(action: action)
   }
   /// stops the connection to the WS client
   /// does nothing if the client is not connected to the server

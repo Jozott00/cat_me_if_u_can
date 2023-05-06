@@ -5,14 +5,27 @@
 //  Created by Paul Pinter on 24.04.23.
 //
 
+import Shared
 import SwiftUI
 
 struct WebsocketInnerView: View {
   @EnvironmentObject var data: GameData
+  private func mouseStateDescription(mouse: ProtoMouse) -> String {
+    switch mouse.state {
+      case .alive:
+        return "Alive"
+      case .dead:
+        return "Dead"
+    }
+  }
   var body: some View {
     VStack(alignment: .leading) {
+        
+      Button("Join Websocket") {
+        GameSession.join(userName: "tim\(Int.random(in: 1...10000))")
+      }
       Button("Start Websocket") {
-        GameSession.start(userName: "tim2")
+        GameSession.gameStart()
       }
       Button("Stop Websocket") {
         GameSession.stop()
@@ -24,7 +37,7 @@ struct WebsocketInnerView: View {
         Text("Cats count: \(gameState.cats.count)")
         ForEach(gameState.mice, id: \.mouseID) { mouse in
           Text(
-            "Mouse ID: \(mouse.mouseID), Position: (\(mouse.position.x), \(mouse.position.y)), State: \(mouse.state)"
+            "Mouse ID: \(mouse.mouseID), Position: (\(mouse.position.x), \(mouse.position.y)), State: \(mouse.stateDescription))"
           )
         }
         ForEach(gameState.cats, id: \.playerID) { cat in
