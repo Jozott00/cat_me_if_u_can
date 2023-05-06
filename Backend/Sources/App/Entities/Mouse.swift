@@ -13,10 +13,24 @@ class Mouse: Character {
     var position: Position
 
     var state: MouseState = .catchable
+    var hidesIn: Tunnel?
+    var isHidden: Bool {
+        hidesIn != nil
+    }
 
-    init(id: UUID, position: Position) {
+    var isDead: Bool {
+        switch state {
+        case .catched:
+            return true
+        default:
+            return false
+        }
+    }
+
+    init(id: UUID, position: Position, hidesIn: Tunnel) {
         self.id = id
         self.position = position
+        self.hidesIn = hidesIn
     }
 }
 
