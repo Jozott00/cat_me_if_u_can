@@ -10,17 +10,9 @@ import SwiftUI
 
 struct WebsocketInnerView: View {
   @EnvironmentObject var data: GameData
-  private func mouseStateDescription(mouse: ProtoMouse) -> String {
-    switch mouse.state {
-      case .alive:
-        return "Alive"
-      case .dead:
-        return "Dead"
-    }
-  }
   var body: some View {
     VStack(alignment: .leading) {
-        
+
       Button("Join Websocket") {
         GameSession.join(userName: "tim\(Int.random(in: 1...10000))")
       }
