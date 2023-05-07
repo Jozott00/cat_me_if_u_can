@@ -8,5 +8,5 @@
 // Configuration settings file format documentation can be found at:
 // https://help.apple.com/xcode/#/dev745c5c974
 #include "team.xcconfig"
-WS_HOST = catme.dobodox.com
-// WS_HOST = localhost:8080
+//WS_HOST = catme.dobodox.com
+WS_HOST = localhost:8080

@@ -78,9 +78,13 @@ public struct ProtoScoreBoard: Codable {
   }
 }
 
-public struct ProtoUser: Codable {
+public struct ProtoUser: Codable, Equatable {
   public let id: String
   public let name: String
+
+  public static func == (lhs: Self, rhs: Self) -> Bool {
+    lhs.id == rhs.id
+  }
 
   public init(
     id: String,
