@@ -65,7 +65,12 @@ public struct ProtoScoreBoard: Codable {
   /// duration of game since start in seconds
   public let gameDurationSec: Int
 
-  public init(scores: [ProtoCat: Int], miceMissed: Int, miceLeft: Int, gameDurationSec: Int) {
+  public init(
+    scores: [ProtoCat: Int],
+    miceMissed: Int,
+    miceLeft: Int,
+    gameDurationSec: Int
+  ) {
     self.scores = scores
     self.miceMissed = miceMissed
     self.gameDurationSec = gameDurationSec
@@ -73,11 +78,18 @@ public struct ProtoScoreBoard: Codable {
   }
 }
 
-public struct ProtoUser: Codable {
+public struct ProtoUser: Codable, Equatable {
   public let id: String
   public let name: String
 
-  public init(id: String, name: String) {
+  public static func == (lhs: Self, rhs: Self) -> Bool {
+    lhs.id == rhs.id
+  }
+
+  public init(
+    id: String,
+    name: String
+  ) {
     self.id = id
     self.name = name
   }
@@ -101,6 +113,14 @@ public struct ProtoMouse: Codable {
   public let mouseID: String
   public let position: Position
   public let state: ProtoMouseState
+  public var stateDescription: String {
+    switch state {
+      case .alive:
+        return "🐭"
+      case .dead:
+        return "💀"
+    }
+  }
 
   enum CodingKeys: String, CodingKey {
     case mouseID = "mouse_id"
@@ -111,6 +131,7 @@ public struct ProtoMouse: Codable {
   public enum ProtoMouseState: Codable {
     case alive
     case dead
+
   }
 
   public init(
@@ -135,7 +156,11 @@ public struct ProtoCat: Codable, Hashable {
     case name
   }
 
-  public init(playerID: String, position: Position, name: String) {
+  public init(
+    playerID: String,
+    position: Position,
+    name: String
+  ) {
     self.playerID = playerID
     self.position = position
     self.name = name

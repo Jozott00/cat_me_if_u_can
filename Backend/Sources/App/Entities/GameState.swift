@@ -46,9 +46,14 @@ actor GameState {
       res[el] = 0
     }
 
-    var miceMissed = 0
-    // should be 0 afterwards
-    var miceLeft = 0
+        for mouse in mice {
+            switch mouse.state {
+            case .catchable: miceLeft += 1
+            case .reachedGoal: miceMissed += 1
+            case let .catched(by: cat):
+                scores[cat] = (scores[cat] ?? 0) + 1
+            }
+        }
 
     for mouse in mice {
       switch mouse.state {
