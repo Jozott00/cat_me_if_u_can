@@ -92,8 +92,7 @@ class WebSocketClient: NSObject, WebSocketConnection, URLSessionWebSocketDelegat
             if error._domain == NSURLErrorDomain && error._code == -1004 {
               self.isConnected = false
             }
-          }
-          else {
+          } else {
             self.log.debug("Send \(msg) to client")
           }
         }
