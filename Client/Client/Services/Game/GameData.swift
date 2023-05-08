@@ -13,4 +13,6 @@ class GameData: ObservableObject {
   @Published var gameState: ProtoGameState?
   @Published var gameLayout: ProtoGameLayout?
   @Published var playerDirection: ProtoDirection = .stay
+  @Published var activeUsers: [ProtoUser]?
+  @Published var scoreBoard: ProtoScoreBoard?
 }

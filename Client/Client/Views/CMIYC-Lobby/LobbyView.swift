@@ -15,7 +15,7 @@ struct LobbyView: View {
         VStack {
             CMIYC_TextInput(username: $username)
             Button("Play") {
-                GameSession.start(userName: username)
+                GameSession.join(userName: username)
                 currentView = .board
             }
         }
