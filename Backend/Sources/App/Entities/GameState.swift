@@ -55,9 +55,7 @@ actor GameState {
             case .catchable: miceLeft += 1
             case .reachedGoal: miceMissed += 1
             case let .catched(by: cat):
-                // FIXME: Causes NP exception
-                // Maybe add(cat was not used apropreadly
-                scores[cat]! += 1
+                scores[cat] = (scores[cat] ?? 0) + 1
             }
         }
 
