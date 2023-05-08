@@ -9,13 +9,13 @@ import Foundation
 import Shared
 
 class Tunnel {
-    let id: UUID
-    let exits: [Exit]
-    let isGoal: Bool
+  let id: UUID
+  let exits: [Exit]
+  let isGoal: Bool
 
-    init(id: UUID, exits: [Exit], isGoal: Bool) {
-        self.id = id
-        self.exits = exits
-        self.isGoal = isGoal
-    }
+  init(id: UUID, exits: [Exit], isGoal: Bool) {
+    self.id = id
+    self.exits = exits
+    self.isGoal = isGoal
+  }
 }

@@ -8,19 +8,19 @@
 import Foundation
 
 public struct ProtoError: Codable {
-    public let code: ProtoErrorType
-    public let message: String
+  public let code: ProtoErrorType
+  public let message: String
 
-    public init(code: ProtoErrorType, message: String) {
-        self.code = code
-        self.message = message
-    }
+  public init(code: ProtoErrorType, message: String) {
+    self.code = code
+    self.message = message
+  }
 }
 
 public enum ProtoErrorType: String, Codable {
-    case genericError
-    case alreadyJoined
-    case userNotYetJoined
-    case gameAlreadyStarted
-    case notEnoughPlayers
+  case genericError
+  case alreadyJoined
+  case userNotYetJoined
+  case gameAlreadyStarted
+  case notEnoughPlayers
 }

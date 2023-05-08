@@ -36,3 +36,13 @@ Some of the main types and functionality provided by the Shared library include:
 
 For more information read the README of the shared library.
 
+## Development
+We format the codebase with Apples [swift-format](https://github.com/apple/swift-format).
+
+You can format the whole codebase with:
+```bash
+swift-format format -r -i .
+```
+
+Or use extensions for [VSCode](https://marketplace.visualstudio.com/items?itemName=vknabel.vscode-apple-swift-format)
+and [XCode](https://github.com/ruiaureliano/X-SwiftFormat)

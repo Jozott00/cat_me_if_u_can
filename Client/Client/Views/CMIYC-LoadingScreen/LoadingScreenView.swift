@@ -8,23 +8,23 @@
 import SwiftUI
 
 struct LoadingScreenView: View {
-    @Binding var currentView: MainViews  // current view being passed to view
-    let loadingMessagesList: RandomTextSelector = RandomTextSelector(fileName: "loading-messages")
-    var body: some View {
+  @Binding var currentView: MainViews  // current view being passed to view
+  let loadingMessagesList: RandomTextSelector = RandomTextSelector(fileName: "loading-messages")
+  var body: some View {
 
-        Text(loadingMessagesList.getRandomListElement())
+    Text(loadingMessagesList.getRandomListElement())
 
-        // contains Loading Text and Loading Indicotor
-        // contains insta start game button for testing
-        Button(
-            "Skip button to insta start game for testing",
-            action: {
-                currentView = .board
-            }
-        )
+    // contains Loading Text and Loading Indicotor
+    // contains insta start game button for testing
+    Button(
+      "Skip button to insta start game for testing",
+      action: {
+        currentView = .board
+      }
+    )
 
-        // maybe add countdown before start of the game
-    }
+    // maybe add countdown before start of the game
+  }
 }
 
 /*struct LoadingScreenView_Previews: PreviewProvider {

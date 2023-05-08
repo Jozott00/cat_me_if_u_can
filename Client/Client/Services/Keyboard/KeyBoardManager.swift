@@ -65,24 +65,24 @@ class KeyboardManager {
     let right = keyStates[.kVK_RightArrow] ?? false
 
     switch (up, down, left, right) {
-      case (true, false, false, false):
-        return .north
-      case (false, true, false, false):
-        return .south
-      case (false, false, true, false):
-        return .west
-      case (false, false, false, true):
-        return .east
-      case (true, false, true, false):
-        return .northwest
-      case (true, false, false, true):
-        return .northeast
-      case (false, true, true, false):
-        return .southwest
-      case (false, true, false, true):
-        return .southeast
-      default:
-        return .stay
+    case (true, false, false, false):
+      return .north
+    case (false, true, false, false):
+      return .south
+    case (false, false, true, false):
+      return .west
+    case (false, false, false, true):
+      return .east
+    case (true, false, true, false):
+      return .northwest
+    case (true, false, false, true):
+      return .northeast
+    case (false, true, true, false):
+      return .southwest
+    case (false, true, false, true):
+      return .southeast
+    default:
+      return .stay
     }
   }
 }
