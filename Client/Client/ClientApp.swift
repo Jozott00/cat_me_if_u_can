@@ -11,8 +11,8 @@ import SwiftUI
 struct ClientApp: App {
   var body: some Scene {
     WindowGroup {
-      WebsocketContentView()
-      //            MainView()
+      //      WebsocketContentView()
+      MainView()
     }
   }
 }

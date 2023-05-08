@@ -44,6 +44,17 @@ struct WebsocketInnerView: View {
         }
       }
       Text("Current direction \(data.playerDirection.rawValue)")
+
+      if let scoreBoard = data.scoreBoard {
+        Text("Scoreboard:")
+        ForEach(scoreBoard.scores.keys.sorted(by: { $0.playerID < $1.playerID }), id: \.playerID) {
+          cat in
+          Text("Cat Player ID: \(cat.playerID), Score: \(scoreBoard.scores[cat] ?? 0)")
+        }
+        Text("Mice missed: \(scoreBoard.miceMissed)")
+        Text("Mice left: \(scoreBoard.miceLeft)")
+        Text("Game duration: \(scoreBoard.gameDurationSec) seconds")
+      }
     }
   }
 }
