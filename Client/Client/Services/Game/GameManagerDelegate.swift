@@ -51,7 +51,7 @@ class GameManagerDelegate: WebSocketDelegate {
               self.data.activeUsers = users
             }
           case let .scoreboard(board):
-            log.info("Recived Scoreboard")
+            log.info("Received Scoreboard")
             DispatchQueue.main.async {
               self.data.scoreBoard = board
 
