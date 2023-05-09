@@ -16,7 +16,7 @@ struct LobbyView: View {
             CMIYC_TextInput(username: $username)
             Button("Play") {
                 GameSession.join(userName: username)
-                currentView = .board
+                currentView = .loadingScreen
             }
         }
     }
