@@ -82,16 +82,12 @@ final class GameController: NetworkDelegate {
   private func calculateGameState() async {
     await gameState.forEachCat(calculateCatPosition)
 
-    // TODO: calculate mice properly
-    // This just moves them down slowly and is just for developing the client
+    let cats = (await gameState.cats.values.map { m in m })
     gameState.mice.filter { m in
-      !m.isDead
+      !m.isDead && !m.hasReachedGoal
     }
     .forEach { m in
-      m.hidesIn = nil
-      m.position.translate(
-        x: 0, y: Constants.MOUSE_MOVEMENT_PER_TICK,
-        within: Vector2(Constants.FIELD_LENGTH, Constants.FIELD_LENGTH))
+      calculateMousePosition(mouse: m, tunnels: gameState.tunnels, cats: cats)
     }
 
     // Check collisions (mice and cats)

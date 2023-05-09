@@ -27,6 +27,15 @@ class Mouse: Character {
     }
   }
 
+  var hasReachedGoal: Bool {
+    switch state {
+    case .reachedGoal:
+      return true
+    default:
+      return false
+    }
+  }
+
   init(id: UUID, position: Position, hidesIn: Tunnel) {
     self.id = id
     self.position = position

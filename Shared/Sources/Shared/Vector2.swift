@@ -21,11 +21,11 @@ public struct Vector2 {
     self.y = Double(y)
   }
 
-  var length: Double {
+  public var length: Double {
     return sqrt(x * x + y * y)
   }
 
-  var normalized: Vector2 {
+  public var normalized: Vector2 {
     let len = length
     return Vector2(x / len, y / len)
   }
