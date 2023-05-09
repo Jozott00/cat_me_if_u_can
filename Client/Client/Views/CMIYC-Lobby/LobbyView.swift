@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct LobbyView: View {
-  @Binding var username: String
-  @Binding var currentView: MainViews  // current view being passed to view
+    @Binding var username: String
+    @Binding var currentView: MainViews  // current view being passed to view
 
-  var body: some View {
-    VStack {
-      CMIYC_TextInput(username: $username)
-      Button("Play") {
-        GameSession.join(userName: username)
-        currentView = .board
-      }
+    var body: some View {
+        VStack {
+            CMIYC_TextInput(username: $username)
+            Button("Play") {
+                GameSession.join(userName: username)
+                currentView = .loadingScreen
+            }
+        }
     }
-  }
 }
