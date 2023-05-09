@@ -17,8 +17,9 @@ struct LoadingScreenView: View {
         // contains Loading Text and Loading Indicotor
         // contains insta start game button for testing
         Button(
-            "Skip button to insta start game for testing",
+            "Start the game",
             action: {
+                GameSession.gameStart()
                 currentView = .board
             }
         )
