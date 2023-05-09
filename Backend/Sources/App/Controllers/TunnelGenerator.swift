@@ -7,7 +7,7 @@ func generateTunnels() -> [Tunnel] {
   var tunnels: [Tunnel] = []
   var exitPositions: [Position] = []
 
-  for i in 1...Constants.TUNNELS_NUM {
+  for i in 0..<Constants.TUNNELS_NUM {
     // Generate how many exits the tunnel should have
     let numExits = Int.random(in: 2...Constants.MAX_EXITS)
 

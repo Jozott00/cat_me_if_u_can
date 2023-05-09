@@ -123,11 +123,13 @@ final class GameController: NetworkDelegate {
       ProtoCat(playerID: cat.id.uuidString, position: cat.position, name: cat.user.name!)
     }
     let mice = gameState.mice
-      .filter { mouse in !mouse.isHidden }
+      // FIXME: remove for non-debugging
+      //.filter { mouse in !mouse.isHidden }
       .map { mouse in
         ProtoMouse(
           mouseID: mouse.id.uuidString, position: mouse.position,
-          state: mouse.isDead ? .dead : .alive)
+          state: mouse.isHidden ? .hidden : (mouse.isDead ? .dead : .alive)
+        )
       }
     let protoGameState = ProtoGameState(mice: mice, cats: cats)
     let update = ProtoUpdate(data: .gameCharacterState(state: protoGameState))
@@ -191,9 +193,8 @@ final class GameController: NetworkDelegate {
     return (1...Constants.MICE_NUM).map { _ in
       // Select a random tunnel in which we spawn (except the win tunnel.
       let tunnel = tunnels.filter { t in !t.isGoal }.randomElement()!
-      let position = tunnel.exits.randomElement()!.position
+      let position = Position(position: tunnel.exits.randomElement()!.position)
       // FIXME: Instead of selecting one exit we could select two and choose a point between them.
-
       return Mouse(id: UUID(), position: position, hidesIn: tunnel)
     }
   }
