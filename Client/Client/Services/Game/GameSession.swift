@@ -28,8 +28,7 @@ class GameSession {
       // Notifies the server that a player has joined the game
       let action: ProtoAction = ProtoAction(data: .join(username: userName))
       connection.send(action: action)
-    }
-    else {
+    } else {
       log.info("Did dont reconnected since there is an active connection")
     }
   }
@@ -47,8 +46,7 @@ class GameSession {
       let action: ProtoAction = ProtoAction(data: .leave)
       connection.send(action: action)
       connection.disconnect()
-    }
-    else {
+    } else {
       log.info("Did not discont as the game has not started yet")
     }
   }
@@ -58,8 +56,7 @@ class GameSession {
     if connection.isConnected {
       let action: ProtoAction = ProtoAction(data: ProtoActionData.move(direction: direction))
       connection.send(action: action)
-    }
-    else {
+    } else {
       log.error("Did not move since the game has not started yet")
     }
   }

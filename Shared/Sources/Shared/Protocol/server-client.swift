@@ -115,10 +115,10 @@ public struct ProtoMouse: Codable {
   public let state: ProtoMouseState
   public var stateDescription: String {
     switch state {
-      case .alive:
-        return "🐭"
-      case .dead:
-        return "💀"
+    case .alive:
+      return "🐭"
+    case .dead:
+      return "💀"
     }
   }
 

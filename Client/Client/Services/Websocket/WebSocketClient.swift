@@ -92,13 +92,11 @@ class WebSocketClient: NSObject, WebSocketConnection, URLSessionWebSocketDelegat
             if error._domain == NSURLErrorDomain && error._code == -1004 {
               self.isConnected = false
             }
-          }
-          else {
+          } else {
             self.log.debug("Send \(msg) to client")
           }
         }
-    }
-    else {
+    } else {
       self.delegate?.onError(error: WsError.failedToConvertActionToJSON)
     }
   }
@@ -107,18 +105,18 @@ class WebSocketClient: NSObject, WebSocketConnection, URLSessionWebSocketDelegat
     webSocketTask?
       .receive { result in
         switch result {
-          case .failure(let error):
-            self.delegate?.onError(error: error)
-          case .success(let message):
-            switch message {
-              case .string(let text):
-                self.delegate?.onMessage(msg: text)
-              // We do not support binary data messages
-              case .data(_):
-                self.delegate?.onError(error: WsError.notSupported)
-              @unknown default:
-                fatalError()
-            }
+        case .failure(let error):
+          self.delegate?.onError(error: error)
+        case .success(let message):
+          switch message {
+          case .string(let text):
+            self.delegate?.onMessage(msg: text)
+          // We do not support binary data messages
+          case .data(_):
+            self.delegate?.onError(error: WsError.notSupported)
+          @unknown default:
+            fatalError()
+          }
         }
         self.listen()
       }

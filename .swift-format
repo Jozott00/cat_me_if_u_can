@@ -1,0 +1,14 @@
+{
+  "lineBreakBeforeEachGenericRequirement" : false,
+  "indentConditionalCompilationBlocks" : true,
+  "lineBreakBeforeControlFlowKeywords" : false,
+  "indentation" : {
+    "spaces" : 2
+  },
+  "respectsExistingLineBreaks" : true,
+  "prioritizeKeepingFunctionOutputTogether" : false,
+  "tabWidth" : 8,
+  "maximumBlankLines" : 1,
+  "lineLength" : 100,
+  "lineBreakBeforeEachArgument" : false
+}
