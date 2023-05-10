@@ -80,6 +80,7 @@ final class GameController: NetworkDelegate {
   }
 
   private func calculateGameState() async {
+    let start = Date()
     await gameState.forEachCat(calculateCatPosition)
 
     let cats = (await gameState.cats.values.map { m in m })
@@ -92,6 +93,7 @@ final class GameController: NetworkDelegate {
 
     // Check collisions (mice and cats)
     await checkCollisons()
+    //log.info("Elapse tick: \(Date().timeIntervalSince(start)*1000)ms")
   }
 
   private func calculateCatPosition(cat: Cat) {
@@ -123,12 +125,12 @@ final class GameController: NetworkDelegate {
       ProtoCat(playerID: cat.id.uuidString, position: cat.position, name: cat.user.name!)
     }
     let mice = gameState.mice
-      // FIXME: remove for non-debugging
-      //.filter { mouse in !mouse.isHidden }
+      .filter { mouse in !mouse.isHidden }
       .map { mouse in
         ProtoMouse(
           mouseID: mouse.id.uuidString, position: mouse.position,
-          state: mouse.isHidden ? .hidden : (mouse.isDead ? .dead : .alive)
+          //state: mouse.isHidden ? .hidden : (mouse.isDead ? .dead : .alive)
+          state: mouse.isDead ? .dead : .alive
         )
       }
     let protoGameState = ProtoGameState(mice: mice, cats: cats)
@@ -190,12 +192,26 @@ final class GameController: NetworkDelegate {
   }
 
   private func spawnMice(in tunnels: [Tunnel]) -> [Mouse] {
-    return (1...Constants.MICE_NUM).map { _ in
-      // Select a random tunnel in which we spawn (except the win tunnel.
+
+    var mice: [Mouse] = []
+    var occupied: Set<Exit> = []
+
+    for _ in 0...Constants.MICE_NUM * 10 {
       let tunnel = tunnels.filter { t in !t.isGoal }.randomElement()!
-      let position = Position(position: tunnel.exits.randomElement()!.position)
+      let exit = tunnel.exits.randomElement()!
+
+      // Avoid spawing mices over each other
+      if occupied.contains(exit) {
+        continue
+      } else {
+        occupied.insert(exit)
+      }
+
+      let position = Position(position: exit.position)
       // FIXME: Instead of selecting one exit we could select two and choose a point between them.
-      return Mouse(id: UUID(), position: position, hidesIn: tunnel)
+      mice.append(Mouse(id: UUID(), position: position, hidesIn: tunnel))
     }
+
+    return mice
   }
 }

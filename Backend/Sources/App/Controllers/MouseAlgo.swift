@@ -125,11 +125,9 @@ func calculateMousePosition(mouse: Mouse, tunnels: [Tunnel], cats: [Cat]) {
 
   if curPos.distance(to: nextPos) <= Constants.CAT_MOVEMENT_PER_TICK {
     mouse.position = Position(position: nextPos)
-    print("Too close to the sun")
 
     // Exit the tunnel if in tunnel if the next node is not in the same tunnel
     if mouse.isHidden {
-      print("Stop Hiding")
       mouse.hidesIn = nil
       return
     }
