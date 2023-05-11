@@ -15,6 +15,6 @@ class Exit: Hashable, Equatable {
   }
 
   func hash(into hasher: inout Hasher) {
-    return id.hash(into: &hasher)
+    hasher.combine(id)
   }
 }

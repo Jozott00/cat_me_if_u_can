@@ -19,7 +19,6 @@ struct Node: Hashable, Equatable {
 
   func hash(into hasher: inout Hasher) {
     hasher.combine(exit)
-    hasher.combine(tunnel)
   }
 
 }
@@ -57,20 +56,17 @@ func getSavestPath(mouse: Mouse, tunnels: [Tunnel], cats: [Cat]) -> Path {
     }
   }
 
-  var visited: Set<Node> = []
   var costs: [Node: Double] = [:]
   var paths: [Node: Path] = [:]
 
-  // Set all costs to infity
-  nodes.forEach { n in
-    costs[n] = Double.infinity
-  }
 
   // Calcualte the reachabel costs
-  nodes.filter { n in
-    !mouse.isHidden || n.tunnel == mouse.hidesIn
-  }
-  .forEach { n in
+  for n in nodes {
+    guard !mouse.isHidden || n.tunnel == mouse.hidesIn else {
+      costs[n] = Double.infinity
+      continue
+    }
+
     if mouse.isHidden && mouse.hidesIn == n.tunnel {
       costs[n] = 0
     } else {
@@ -79,12 +75,12 @@ func getSavestPath(mouse: Mouse, tunnels: [Tunnel], cats: [Cat]) -> Path {
     paths[n] = Path(nodes: [n])
   }
 
+
   // Let dijkstra do the job
-  while visited.count < nodes.count {
+  var unvisited = Set<Node>(nodes.map { $0 })
+  while !unvisited.isEmpty {
     // 1. Select the shortest not filtered node
-    let selected = nodes.filter { n in
-      !visited.contains(n)
-    }.min { a, b in
+    let selected = unvisited.min { a, b in
       costs[a]! < costs[b]!
     }!
 
@@ -92,21 +88,20 @@ func getSavestPath(mouse: Mouse, tunnels: [Tunnel], cats: [Cat]) -> Path {
       return paths[selected]!
     }
 
-    // 2. Update all new possible distances from the selected node
-    nodes.filter { n in
-      !visited.contains(n) && selected != n
-    }.forEach { n in
+    // 2. Make the selected visited
+    unvisited.remove(selected)
+
+    // 3. Update all new possible distances from the selected node
+    for n in unvisited {
       let newCost = costs[selected]! + costBetween(from: selected, to: n)
       guard newCost < costs[n]! else {
-        return
+        continue
       }
 
       costs[n] = newCost
       paths[n] = paths[selected]!.extendBy(node: n)
     }
 
-    // 3. Make the selected visited
-    visited.insert(selected)
   }
 
   // This cannot be reached
