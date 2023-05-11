@@ -6,15 +6,17 @@ import Shared
 func generateTunnels() -> [Tunnel] {
   var tunnels: [Tunnel] = []
   var exitPositions: [Position] = []
+  for i in 0...Constants.TUNNELS_NUM * 3 {
+    guard tunnels.count < Constants.TUNNELS_NUM else {
+      break
+    }
 
-  for i in 0..<Constants.TUNNELS_NUM {
     // Generate how many exits the tunnel should have
     let numExits = Int.random(in: 2...Constants.MAX_EXITS)
 
     // First we create a virtual center point for our tunnel, around this
     // center we will generate the exits of the tunnel (with polar
     // translation)
-    // FIXME: This is not optimal, because they will cluster in the middle
     let padding = Constants.FIELD_LENGTH / 10
     let virtualCenter = Position(
       x: Double.random(in: padding...(Constants.FIELD_LENGTH - padding)),
@@ -36,9 +38,11 @@ func generateTunnels() -> [Tunnel] {
           }
 
           position = Position(position: virtualCenter)
+          let r = (Constants.EXITS_MAX_DISTANCE / 2) * sqrt(Double.random(in: 0...1))
+          let phi = Double.random(in: 0...2) * Double.pi
           position.translate(
-            r: Double.random(in: (Constants.EXIT_SIZE * 2)...(Constants.EXITS_MAX_DISTANCE / 2)),
-            phi: Double.random(in: 0...2) * Double.pi
+            r: r,
+            phi: phi
           )
         } while exitPositions.contains { ep in
           ep.distance(to: position) < Constants.EXITS_MIN_DISTANCE
