@@ -8,10 +8,19 @@
 import Foundation
 import Shared
 
-struct Node: Hashable, Equatable {
+class Node: Hashable, Equatable {
+
   var position: Position
   var exit: Exit
   var tunnel: Tunnel
+  var cost: Double
+
+  init(position: Position, exit: Exit, tunnel: Tunnel, cost: Double) {
+    self.position = position
+    self.exit = exit
+    self.tunnel = tunnel
+    self.cost = cost
+  }
 
   static func == (lhs: Node, rhs: Node) -> Bool {
     lhs.exit == rhs.exit
@@ -43,45 +52,34 @@ func costBetween(from: Node, to: Node) -> Double {
 
 func getSavestPath(mouse: Mouse, tunnels: [Tunnel], cats: [Cat]) -> Path {
   // Create all nodes
-  var nodes: [Node] = []
-  for tunnel in tunnels {
-    for exit in tunnel.exits {
-      nodes.append(
-        Node(
-          position: exit.position,
-          exit: exit,
-          tunnel: tunnel
-        )
-      )
+  var nodes: [Node] = tunnels.flatMap { t in
+    t.exits.map { e in
+      Node(position: e.position, exit: e, tunnel: t, cost: Double.infinity)
     }
   }
-
-  var costs: [Node: Double] = [:]
   var paths: [Node: Path] = [:]
-
 
   // Calcualte the reachabel costs
   for n in nodes {
     guard !mouse.isHidden || n.tunnel == mouse.hidesIn else {
-      costs[n] = Double.infinity
       continue
     }
 
     if mouse.isHidden && mouse.hidesIn == n.tunnel {
-      costs[n] = 0
+      n.cost = 0
     } else {
-      costs[n] = mouse.position.distance(to: n.position)
+      n.cost = mouse.position.distance(to: n.position)
     }
     paths[n] = Path(nodes: [n])
   }
 
-
   // Let dijkstra do the job
   var unvisited = Set<Node>(nodes.map { $0 })
   while !unvisited.isEmpty {
+
     // 1. Select the shortest not filtered node
     let selected = unvisited.min { a, b in
-      costs[a]! < costs[b]!
+      a.cost < b.cost
     }!
 
     if selected.tunnel.isGoal {
@@ -93,12 +91,12 @@ func getSavestPath(mouse: Mouse, tunnels: [Tunnel], cats: [Cat]) -> Path {
 
     // 3. Update all new possible distances from the selected node
     for n in unvisited {
-      let newCost = costs[selected]! + costBetween(from: selected, to: n)
-      guard newCost < costs[n]! else {
+      let newCost = selected.cost + costBetween(from: selected, to: n)
+      guard newCost < n.cost else {
         continue
       }
 
-      costs[n] = newCost
+      n.cost = newCost
       paths[n] = paths[selected]!.extendBy(node: n)
     }
 
@@ -106,8 +104,8 @@ func getSavestPath(mouse: Mouse, tunnels: [Tunnel], cats: [Cat]) -> Path {
 
   // This cannot be reached
   // FIXME: throw error or something
-  assert(false, "We shouldn't get here")
-
+  assertionFailure("We shouldn't get here")
+  return Path(nodes: [])
 }
 
 func calculateMousePosition(mouse: Mouse, tunnels: [Tunnel], cats: [Cat]) {
