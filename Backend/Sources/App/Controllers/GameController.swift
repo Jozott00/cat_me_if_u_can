@@ -31,6 +31,9 @@ final class GameController: NetworkDelegate {
     let mice = spawnMice(in: tunnels)
     let cats = spawnCats(from: users)
     gameState = GameState(tunnels: tunnels, mice: mice, cats: cats)
+    log.info(
+      "Mice: \(mice.count), Exits: \(tunnels.reduce(0) { a, b in a + b.exits.count}), Tunnels: \(tunnels.count)"
+    )
 
     // set all users to joined, so they get game updates
     users.forEach { u in u.inGame = true }
@@ -192,23 +195,19 @@ final class GameController: NetworkDelegate {
   }
 
   private func spawnMice(in tunnels: [Tunnel]) -> [Mouse] {
-
     var mice: [Mouse] = []
-    var occupied: Set<Exit> = []
-
-    for _ in 0...Constants.MICE_NUM * 10 {
-      let tunnel = tunnels.filter { t in !t.isGoal }.randomElement()!
-      let exit = tunnel.exits.randomElement()!
-
-      // Avoid spawing mices over each other
-      if occupied.contains(exit) {
-        continue
-      } else {
-        occupied.insert(exit)
+    var available: Set<Exit> = Set(tunnels.flatMap { $0.exits })
+    let partOfTunnel = tunnels.reduce(into: [Exit: Tunnel]()) { dict, tunnel in
+      for exit in tunnel.exits {
+        dict[exit] = tunnel
       }
+    }
 
+    while mice.count < Constants.MICE_NUM && !available.isEmpty {
+      let exit = available.randomElement()!
+      available.remove(exit)
+      let tunnel = partOfTunnel[exit]!
       let position = Position(position: exit.position)
-      // FIXME: Instead of selecting one exit we could select two and choose a point between them.
       mice.append(Mouse(id: UUID(), position: position, hidesIn: tunnel))
     }
 
