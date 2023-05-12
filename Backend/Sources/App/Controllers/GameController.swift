@@ -13,11 +13,11 @@ private let log = Logger(label: "GameController")
 
 final class GameController: NetworkDelegate {
   private let networkManager: NetworkManager
-  private let tickIntervalMS: TimeInterval
+  private let tickIntervalMS: UInt64
   private var isRunning = false
   private var gameState = GameState(tunnels: [], mice: [], cats: [:])
 
-  init(networkManager: NetworkManager, tickIntervalMS: TimeInterval = 1000) {
+  init(networkManager: NetworkManager, tickIntervalMS: UInt64 = 1000) {
     self.tickIntervalMS = tickIntervalMS
     self.networkManager = networkManager
     networkManager.delegates.append(self)
@@ -42,11 +42,16 @@ final class GameController: NetworkDelegate {
     await broadcastGameLayout()
 
     while isRunning {
-      tick()
 
-      let nanoseconds = Int64(tickIntervalMS * TimeInterval(1_000_000))
+      let before = Int64(DispatchTime.now().uptimeNanoseconds)
+      await tick()
+      let after = Int64(DispatchTime.now().uptimeNanoseconds)
+      let duration = max(
+        0,
+        Int64(tickIntervalMS) * 1000_000 - (after - before)
+      )
       do {
-        try await Task.sleep(nanoseconds: UInt64(nanoseconds))
+        try await Task.sleep(nanoseconds: UInt64(duration))
       } catch {
         log.error("Game loop interrupted: \(error.localizedDescription)")
       }
@@ -73,13 +78,11 @@ final class GameController: NetworkDelegate {
     await networkManager.send(msg: gameLayoutUpdate, to: user)
   }
 
-  private func tick() {
-    Task {
-      // start calculation of next tick
-      await calculateGameState()
-      // start broadcasting of current state
-      await broadcastGameState()
-    }
+  private func tick() async {
+    // start calculation of next tick
+    await calculateGameState()
+    // start broadcasting of current state
+    await broadcastGameState()
   }
 
   private func calculateGameState() async {
@@ -100,7 +103,7 @@ final class GameController: NetworkDelegate {
 
     // Check collisions (mice and cats)
     await checkCollisons()
-    //log.info("Elapse tick: \(String(format: "%.2f", Date().timeIntervalSince(start)*1000))ms")
+    log.info("Elapse tick: \(String(format: "%.2f", Date().timeIntervalSince(start)*1000))ms")
   }
 
   private func calculateCatPosition(cat: Cat) {

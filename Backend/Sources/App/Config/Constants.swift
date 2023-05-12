@@ -9,7 +9,7 @@ import Foundation
 
 final class Constants {
   // core game behaviour
-  static let TICK_INTERVAL_MS: Double = 8.0
+  static let TICK_INTERVAL_MS: UInt64 = 8
 
   // lobby settings
   static let JOINED_USER_START_NR = 1
@@ -17,10 +17,11 @@ final class Constants {
   // cats (player)
   static let CAT_SIZE: Double = 33
   static let CAT_POINTS_PER_SEC: Double = 250.0  // movement speed in seconds
-  static let CAT_MOVEMENT_PER_TICK: Double = (TICK_INTERVAL_MS / 1000) * CAT_POINTS_PER_SEC  // actual movement per tick
+  static let CAT_MOVEMENT_PER_TICK: Double =
+    (Double(TICK_INTERVAL_MS) / 1000) * CAT_POINTS_PER_SEC  // actual movement per tick
 
   // mice (NPCs)
-  static let MICE_NUM = 30
+  static let MICE_NUM = 50
   static let MOUSE_SIZE: Double = 33
   static let MOUSE_MOVEMENT_PER_TICK: Double = CAT_MOVEMENT_PER_TICK * 0.3
 
