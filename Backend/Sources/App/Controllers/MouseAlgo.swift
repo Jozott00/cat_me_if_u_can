@@ -52,7 +52,7 @@ func costBetween(from: Node, to: Node) -> Double {
 
 func getSavestPath(mouse: Mouse, tunnels: [Tunnel], cats: [Cat]) -> Path {
   // Create all nodes
-  var nodes: [Node] = tunnels.flatMap { t in
+  let nodes: [Node] = tunnels.flatMap { t in
     t.exits.map { e in
       Node(position: e.position, exit: e, tunnel: t, cost: Double.infinity)
     }
@@ -108,11 +108,18 @@ func getSavestPath(mouse: Mouse, tunnels: [Tunnel], cats: [Cat]) -> Path {
   return Path(nodes: [])
 }
 
-func calculateMousePosition(mouse: Mouse, tunnels: [Tunnel], cats: [Cat]) {
+func calculateMousePosition(mouse: Mouse, mice: inout [Mouse], tunnels: [Tunnel], cats: [Cat])
+{
   let curPos = mouse.position
+  let path = mouse.cachedPath ?? getSavestPath(mouse: mouse, tunnels: tunnels, cats: cats)
 
-  //mouse.hidesIn = nil
-  let path = getSavestPath(mouse: mouse, tunnels: tunnels, cats: cats)
+  // Update the cache for hidden mice
+  if mouse.isHidden {
+    mouse.cachedPath = path
+  } else {
+    mouse.cachedPath = nil
+  }
+
   let nextNode = path.nodes.first!
   let nextPos = nextNode.position
 
@@ -122,17 +129,25 @@ func calculateMousePosition(mouse: Mouse, tunnels: [Tunnel], cats: [Cat]) {
     // Exit the tunnel if in tunnel if the next node is not in the same tunnel
     if mouse.isHidden {
       mouse.hidesIn = nil
-      return
-    }
+      mouse.cachedPath = nil
 
-    // If we are on the surface we must have directly chosen a exit we want to enter
-    if !mouse.isHidden {
+    } else {
       mouse.hidesIn = nextNode.tunnel
-      // FIXME: Notify the other mice about the cats
       if nextNode.tunnel.isGoal {
         mouse.state = .reachedGoal
+        return
       }
-      return
+
+      // Update cache and invalidate other mices caches
+      mouse.cachedPath = Path(nodes: Array(path.nodes[1...]))
+      mice.filter { m in
+        m.hidesIn == mouse.hidesIn
+      }.forEach { m in
+        m.cachedPath = nil
+      }
+
+      // FIXME: Notify the other mice about the cats
+
     }
 
     return

@@ -87,16 +87,20 @@ final class GameController: NetworkDelegate {
     await gameState.forEachCat(calculateCatPosition)
 
     let cats = (await gameState.cats.values.map { m in m })
-    gameState.mice.filter { m in
-      !m.isDead && !m.hasReachedGoal
-    }
-    .forEach { m in
-      calculateMousePosition(mouse: m, tunnels: gameState.tunnels, cats: cats)
+    let tunnels = gameState.tunnels
+    var mice = gameState.mice
+    //log.info("Alive: \(mice.filter{!$0.isDead && !$0.hasReachedGoal}.count)")
+    for mouse in mice {
+      guard !mouse.isDead && !mouse.hasReachedGoal else {
+        continue
+      }
+
+      calculateMousePosition(mouse: mouse, mice: &mice, tunnels: tunnels, cats: cats)
     }
 
     // Check collisions (mice and cats)
     await checkCollisons()
-    //log.info("Elapse tick: \(Date().timeIntervalSince(start)*1000)ms")
+    //log.info("Elapse tick: \(String(format: "%.2f", Date().timeIntervalSince(start)*1000))ms")
   }
 
   private func calculateCatPosition(cat: Cat) {
