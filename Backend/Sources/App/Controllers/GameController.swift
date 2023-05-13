@@ -63,6 +63,7 @@ final class GameController: NetworkDelegate {
     return gameState
   }
 
+  /// Stopps the current round
   func stopGame() {
     log.info("Stop game...")
     isRunning = false
@@ -103,6 +104,12 @@ final class GameController: NetworkDelegate {
 
     // Check collisions (mice and cats)
     await checkCollisons()
+
+    // Check if the game should end
+    if mice.filter { m in !m.isDead && !m.hasReachedGoal }.isEmpty {
+      stopGame()
+    }
+
     log.info("Elapse tick: \(String(format: "%.2f", Date().timeIntervalSince(start)*1000))ms")
   }
 
@@ -221,3 +228,4 @@ final class GameController: NetworkDelegate {
     return mice
   }
 }
+
