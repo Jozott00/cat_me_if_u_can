@@ -89,7 +89,7 @@ final class GameController: NetworkDelegate {
     let start = Date()
     await gameState.forEachCat(calculateCatPosition)
 
-    let cats = (await gameState.cats.values.map { m in m })
+    let cats = (await gameState.cats.values.map { m in m.position })
     let tunnels = gameState.tunnels
     var mice = gameState.mice
     //log.info("Alive: \(mice.filter{!$0.isDead && !$0.hasReachedGoal}.count)")
@@ -203,7 +203,7 @@ final class GameController: NetworkDelegate {
 
   private func spawnMice(in tunnels: [Tunnel]) -> [Mouse] {
     var mice: [Mouse] = []
-    var available: Set<Exit> = Set(tunnels.flatMap { $0.exits })
+    var available: Set<Exit> = Set(tunnels.filter { !$0.isGoal }.flatMap { $0.exits })
     let partOfTunnel = tunnels.reduce(into: [Exit: Tunnel]()) { dict, tunnel in
       for exit in tunnel.exits {
         dict[exit] = tunnel

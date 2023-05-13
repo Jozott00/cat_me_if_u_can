@@ -15,6 +15,7 @@ class Mouse: Character {
   var state: MouseState = .catchable
   var hidesIn: Tunnel?
   var cachedPath: Path?
+  var sightedCats: [Position]?
 
   var isHidden: Bool {
     hidesIn != nil

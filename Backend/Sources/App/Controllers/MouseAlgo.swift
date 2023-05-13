@@ -42,15 +42,44 @@ struct Path {
   }
 }
 
-func costBetween(from: Node, to: Node) -> Double {
+func costBetween(from: Node, to: Node, cats: [Position]?) -> Double {
   if from.tunnel == to.tunnel {
     return 0
   }
 
-  return from.position.distance(to: to.position)
+  let start = from.position
+  let end = to.position
+
+  let lineLength = start.distance(to: end)
+  guard let cats = cats else {
+    return lineLength
+  }
+
+  var risk: Double = 0
+  for cat in cats {
+    var t =
+      ((cat.x - start.x) * (end.x - start.x)
+        + (cat.y - start.y) * (end.y - start.y)) / (lineLength * lineLength)
+
+    if t < 0 {
+      t = 0
+    } else if t > 1 {
+      t = 1
+    }
+
+    let nearestPointonLine = Position(
+      x: start.x + t * (end.x - start.x),
+      y: start.y + t * (end.y - start.y)
+    )
+
+    let catDistance = cat.distance(to: nearestPointonLine)
+    risk += (1 / catDistance)
+  }
+
+  return lineLength * risk
 }
 
-func getSavestPath(mouse: Mouse, tunnels: [Tunnel], cats: [Cat]) -> Path {
+func getSavestPath(mouse: Mouse, tunnels: [Tunnel], cats: [Position]?) -> Path {
   // Create all nodes
   let nodes: [Node] = tunnels.flatMap { t in
     t.exits.map { e in
@@ -60,16 +89,19 @@ func getSavestPath(mouse: Mouse, tunnels: [Tunnel], cats: [Cat]) -> Path {
   var paths: [Node: Path] = [:]
 
   // Calcualte the reachabel costs
+  let pseudoExit = Exit(id: UUID(), position: mouse.position)
+  let pseudoStartNode = Node(
+    position: mouse.position,
+    exit: pseudoExit,
+    tunnel: mouse.hidesIn ?? Tunnel(id: UUID(), exits: [pseudoExit], isGoal: false),
+    cost: Double.infinity)
+
   for n in nodes {
     guard !mouse.isHidden || n.tunnel == mouse.hidesIn else {
       continue
     }
 
-    if mouse.isHidden && mouse.hidesIn == n.tunnel {
-      n.cost = 0
-    } else {
-      n.cost = mouse.position.distance(to: n.position)
-    }
+    n.cost = costBetween(from: pseudoStartNode, to: n, cats: cats)
     paths[n] = Path(nodes: [n])
   }
 
@@ -91,7 +123,7 @@ func getSavestPath(mouse: Mouse, tunnels: [Tunnel], cats: [Cat]) -> Path {
 
     // 3. Update all new possible distances from the selected node
     for n in unvisited {
-      let newCost = selected.cost + costBetween(from: selected, to: n)
+      let newCost = selected.cost + costBetween(from: selected, to: n, cats: cats)
       guard newCost < n.cost else {
         continue
       }
@@ -108,10 +140,13 @@ func getSavestPath(mouse: Mouse, tunnels: [Tunnel], cats: [Cat]) -> Path {
   return Path(nodes: [])
 }
 
-func calculateMousePosition(mouse: Mouse, mice: inout [Mouse], tunnels: [Tunnel], cats: [Cat])
+func calculateMousePosition(mouse: Mouse, mice: inout [Mouse], tunnels: [Tunnel], cats: [Position])
 {
   let curPos = mouse.position
-  let path = mouse.cachedPath ?? getSavestPath(mouse: mouse, tunnels: tunnels, cats: cats)
+  let path =
+    mouse.cachedPath
+    ?? getSavestPath(
+      mouse: mouse, tunnels: tunnels, cats: mouse.isHidden ? mouse.sightedCats : cats)
 
   // Update the cache for hidden mice
   if mouse.isHidden {
@@ -146,7 +181,12 @@ func calculateMousePosition(mouse: Mouse, mice: inout [Mouse], tunnels: [Tunnel]
         m.cachedPath = nil
       }
 
-      // FIXME: Notify the other mice about the cats
+      // Notify the other mice about the cats
+      mice.filter { m in
+        m.hidesIn == mouse.hidesIn
+      }.forEach { m in
+        m.sightedCats = cats
+      }
 
     }
 
