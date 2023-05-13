@@ -13,7 +13,7 @@ struct Exit {
     context: GraphicsContext,
     exit: ProtoExit
   ) {
-    let exitEmoji = Text("🚇").font(.system(size: 33))
+    let exitEmoji = Text("🕳️").font(.system(size: 33))
     context.draw(
       exitEmoji,
       at: CGPoint(x: exit.position.x, y: exit.position.y)
