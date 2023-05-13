@@ -14,6 +14,9 @@ class Mouse: Character {
 
   var state: MouseState = .catchable
   var hidesIn: Tunnel?
+  var cachedPath: Path?
+  var sightedCats: [Position]?
+
   var isHidden: Bool {
     hidesIn != nil
   }
@@ -21,6 +24,15 @@ class Mouse: Character {
   var isDead: Bool {
     switch state {
     case .catched:
+      return true
+    default:
+      return false
+    }
+  }
+
+  var hasReachedGoal: Bool {
+    switch state {
+    case .reachedGoal:
       return true
     default:
       return false

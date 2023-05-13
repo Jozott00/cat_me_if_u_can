@@ -8,7 +8,7 @@
 import Foundation
 import Shared
 
-class Tunnel {
+class Tunnel: Hashable, Equatable {
   let id: UUID
   let exits: [Exit]
   let isGoal: Bool
@@ -17,5 +17,13 @@ class Tunnel {
     self.id = id
     self.exits = exits
     self.isGoal = isGoal
+  }
+
+  public static func == (lhs: Tunnel, rhs: Tunnel) -> Bool {
+    return lhs.id == rhs.id
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(id)
   }
 }

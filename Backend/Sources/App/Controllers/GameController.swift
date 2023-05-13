@@ -13,11 +13,11 @@ private let log = Logger(label: "GameController")
 
 final class GameController: NetworkDelegate {
   private let networkManager: NetworkManager
-  private let tickIntervalMS: TimeInterval
+  private let tickIntervalMS: UInt64
   private var isRunning = false
   private var gameState = GameState(tunnels: [], mice: [], cats: [:])
 
-  init(networkManager: NetworkManager, tickIntervalMS: TimeInterval = 1000) {
+  init(networkManager: NetworkManager, tickIntervalMS: UInt64 = 1000) {
     self.tickIntervalMS = tickIntervalMS
     self.networkManager = networkManager
     networkManager.delegates.append(self)
@@ -31,6 +31,9 @@ final class GameController: NetworkDelegate {
     let mice = spawnMice(in: tunnels)
     let cats = spawnCats(from: users)
     gameState = GameState(tunnels: tunnels, mice: mice, cats: cats)
+    log.info(
+      "Mice: \(mice.count), Exits: \(tunnels.reduce(0) { a, b in a + b.exits.count}), Tunnels: \(tunnels.count)"
+    )
 
     // set all users to joined, so they get game updates
     users.forEach { u in u.inGame = true }
@@ -39,11 +42,16 @@ final class GameController: NetworkDelegate {
     await broadcastGameLayout()
 
     while isRunning {
-      tick()
 
-      let nanoseconds = Int64(tickIntervalMS * TimeInterval(1_000_000))
+      let before = Int64(DispatchTime.now().uptimeNanoseconds)
+      await tick()
+      let after = Int64(DispatchTime.now().uptimeNanoseconds)
+      let duration = max(
+        0,
+        Int64(tickIntervalMS) * 1000_000 - (after - before)
+      )
       do {
-        try await Task.sleep(nanoseconds: UInt64(nanoseconds))
+        try await Task.sleep(nanoseconds: UInt64(duration))
       } catch {
         log.error("Game loop interrupted: \(error.localizedDescription)")
       }
@@ -70,32 +78,32 @@ final class GameController: NetworkDelegate {
     await networkManager.send(msg: gameLayoutUpdate, to: user)
   }
 
-  private func tick() {
-    Task {
-      // start calculation of next tick
-      await calculateGameState()
-      // start broadcasting of current state
-      await broadcastGameState()
-    }
+  private func tick() async {
+    // start calculation of next tick
+    await calculateGameState()
+    // start broadcasting of current state
+    await broadcastGameState()
   }
 
   private func calculateGameState() async {
+    let start = Date()
     await gameState.forEachCat(calculateCatPosition)
 
-    // TODO: calculate mice properly
-    // This just moves them down slowly and is just for developing the client
-    gameState.mice.filter { m in
-      !m.isDead
-    }
-    .forEach { m in
-      m.hidesIn = nil
-      m.position.translate(
-        x: 0, y: Constants.MOUSE_MOVEMENT_PER_TICK,
-        within: Vector2(Constants.FIELD_LENGTH, Constants.FIELD_LENGTH))
+    let cats = (await gameState.cats.values.map { m in m.position })
+    let tunnels = gameState.tunnels
+    var mice = gameState.mice
+    //log.info("Alive: \(mice.filter{!$0.isDead && !$0.hasReachedGoal}.count)")
+    for mouse in mice {
+      guard !mouse.isDead && !mouse.hasReachedGoal else {
+        continue
+      }
+
+      calculateMousePosition(mouse: mouse, mice: &mice, tunnels: tunnels, cats: cats)
     }
 
     // Check collisions (mice and cats)
     await checkCollisons()
+    log.info("Elapse tick: \(String(format: "%.2f", Date().timeIntervalSince(start)*1000))ms")
   }
 
   private func calculateCatPosition(cat: Cat) {
@@ -131,7 +139,9 @@ final class GameController: NetworkDelegate {
       .map { mouse in
         ProtoMouse(
           mouseID: mouse.id.uuidString, position: mouse.position,
-          state: mouse.isDead ? .dead : .alive)
+          //state: mouse.isHidden ? .hidden : (mouse.isDead ? .dead : .alive)
+          state: mouse.isDead ? .dead : .alive
+        )
       }
     let protoGameState = ProtoGameState(mice: mice, cats: cats)
     let update = ProtoUpdate(data: .gameCharacterState(state: protoGameState))
@@ -192,13 +202,22 @@ final class GameController: NetworkDelegate {
   }
 
   private func spawnMice(in tunnels: [Tunnel]) -> [Mouse] {
-    return (1...Constants.MICE_NUM).map { _ in
-      // Select a random tunnel in which we spawn (except the win tunnel.
-      let tunnel = tunnels.filter { t in !t.isGoal }.randomElement()!
-      let position = tunnel.exits.randomElement()!.position
-      // FIXME: Instead of selecting one exit we could select two and choose a point between them.
-
-      return Mouse(id: UUID(), position: position, hidesIn: tunnel)
+    var mice: [Mouse] = []
+    var available: Set<Exit> = Set(tunnels.filter { !$0.isGoal }.flatMap { $0.exits })
+    let partOfTunnel = tunnels.reduce(into: [Exit: Tunnel]()) { dict, tunnel in
+      for exit in tunnel.exits {
+        dict[exit] = tunnel
+      }
     }
+
+    while mice.count < Constants.MICE_NUM && !available.isEmpty {
+      let exit = available.randomElement()!
+      available.remove(exit)
+      let tunnel = partOfTunnel[exit]!
+      let position = Position(position: exit.position)
+      mice.append(Mouse(id: UUID(), position: position, hidesIn: tunnel))
+    }
+
+    return mice
   }
 }

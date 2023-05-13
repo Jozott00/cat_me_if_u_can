@@ -119,6 +119,8 @@ public struct ProtoMouse: Codable {
       return "🐭"
     case .dead:
       return "💀"
+    case .hidden:
+      return "👻"
     }
   }
 
@@ -131,7 +133,7 @@ public struct ProtoMouse: Codable {
   public enum ProtoMouseState: Codable {
     case alive
     case dead
-
+    case hidden
   }
 
   public init(
