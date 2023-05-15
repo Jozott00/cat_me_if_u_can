@@ -30,7 +30,9 @@ struct MainView: View {
                     .environmentObject(GameSession.data)
             case .end:
                 EndScreenView(currentView: $currentView)
+                    .environmentObject(GameSession.data)
         }
+
     }
 }
 
