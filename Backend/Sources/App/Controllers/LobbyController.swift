@@ -120,20 +120,7 @@ class LobbyController: NetworkDelegate {
   }
 
   private func broadcastGameEnd(state: GameState) async {
-    let (catScores, miceMissed, miceLeft) = await state.calculateScores()
-
-    // map cats to protocats
-    let scores = catScores.reduce(into: [ProtoCat: Int]()) { result, element in
-      let (key, val) = element
-      let protoCat = ProtoCat(
-        playerID: key.id.uuidString, position: key.position, name: key.user.name!)
-      result[protoCat] = val
-    }
-
-    let duration = (await state.endTime).timeIntervalSince(state.startTime)
-
-    let scoreboard = ProtoScoreBoard(
-      scores: scores, miceMissed: miceMissed, miceLeft: miceLeft, gameDurationSec: Int(duration))
+    let scoreboard = await game.createProtoScoreBoard(state: state)
     let update = ProtoUpdateData.gameEnd(score: scoreboard)
     let body = ProtoUpdate(data: update)
     await networkManager.broadcast(body: body, onlyIf: { u in u.inGame == true })
