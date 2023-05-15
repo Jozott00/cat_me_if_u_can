@@ -21,9 +21,15 @@ struct EndScreenView: View {
         }
 
         Button(
-            "Return to Lobby",
+            "Leave lobby",
             action: {
                 currentView = .lobby
+            }
+        )
+        Button(
+            "Play again",
+            action: {
+                currentView = .loadingScreen
             }
         )
     }

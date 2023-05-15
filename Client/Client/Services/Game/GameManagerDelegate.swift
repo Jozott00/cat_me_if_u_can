@@ -34,14 +34,14 @@ class GameManagerDelegate: WebSocketDelegate {
                         DispatchQueue.main.async {
                             self.data.gameLayout = layout
                         }
+                        // Start tracking player movement
+                        KeyboardManager.start()
                     case let .gameCharacterState(state):
                         DispatchQueue.main.async {
                             self.data.gameState = state
                         }
                     case let .joinAck(id):
                         log.info("ack: \(id)")
-                        // Start tracking player movement
-                        KeyboardManager.start()
                     case let .lobbyUpdate(users, gameRunning: _):
                         usersThatLeft(currentActiveUsers: users)
                             .forEach { u in log.info("\(u.name) with id \(u.id) left the game") }
