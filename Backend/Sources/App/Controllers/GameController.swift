@@ -88,12 +88,14 @@ final class GameController: NetworkDelegate {
 
   private func calculateGameState() async {
     let start = Date()
+
+    var mice = gameState.mice
+    let catchableMiceBefore = mice.filter { m in !m.isDead && !m.hasReachedGoal }.count
+
     await gameState.forEachCat(calculateCatPosition)
 
     let cats = (await gameState.cats.values.map { m in m.position })
     let tunnels = gameState.tunnels
-    var mice = gameState.mice
-    //log.info("Alive: \(mice.filter{!$0.isDead && !$0.hasReachedGoal}.count)")
     for mouse in mice {
       guard !mouse.isDead && !mouse.hasReachedGoal else {
         continue
@@ -105,8 +107,14 @@ final class GameController: NetworkDelegate {
     // Check collisions (mice and cats)
     await checkCollisons()
 
+    // Check if the scoreboard changed
+    let catchableMice = mice.filter { m in !m.isDead && !m.hasReachedGoal }.count
+    if catchableMice != catchableMiceBefore {
+      await broadcastScoreBoard()
+    }
+
     // Check if the game should end
-    if mice.filter { m in !m.isDead && !m.hasReachedGoal }.isEmpty {
+    if catchableMice == 0 {
       stopGame()
     }
 
@@ -135,6 +143,32 @@ final class GameController: NetworkDelegate {
         mouse.state = .catched(by: cat)
       }
     }
+
+  }
+
+  func createProtoScoreBoard(state: GameState) async -> ProtoScoreBoard {
+    let (catScores, miceMissed, miceLeft) = await state.calculateScores()
+
+    // map cats to protocats
+    let scores = catScores.reduce(into: [ProtoCat: Int]()) { result, element in
+      let (key, val) = element
+      let protoCat = ProtoCat(
+        playerID: key.id.uuidString, position: key.position, name: key.user.name!)
+      result[protoCat] = val
+    }
+
+    let endTime = (await state.endTime) ?? Date()
+    let duration = (endTime).timeIntervalSince(state.startTime)
+
+    return ProtoScoreBoard(
+      scores: scores, miceMissed: miceMissed, miceLeft: miceLeft, gameDurationSec: Int(duration))
+  }
+
+  private func broadcastScoreBoard() async {
+    let scoreboard = await createProtoScoreBoard(state: self.gameState)
+    let update = ProtoUpdateData.scoreboard(board: scoreboard)
+    let body = ProtoUpdate(data: update)
+    await networkManager.broadcast(body: body, onlyIf: { u in u.inGame == true })
   }
 
   private func broadcastGameState() async {
@@ -228,4 +262,3 @@ final class GameController: NetworkDelegate {
     return mice
   }
 }
-

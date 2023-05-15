@@ -16,14 +16,14 @@ final class Constants {
 
   // cats (player)
   static let CAT_SIZE: Double = 33
-  static let CAT_POINTS_PER_SEC: Double = 250.0  // movement speed in seconds
+  static let CAT_POINTS_PER_SEC: Double = 280.0  // movement speed in seconds
   static let CAT_MOVEMENT_PER_TICK: Double =
     (Double(TICK_INTERVAL_MS) / 1000) * CAT_POINTS_PER_SEC  // actual movement per tick
 
   // mice (NPCs)
-  static let MICE_NUM = 15
+  static let MICE_NUM = 20
   static let MOUSE_SIZE: Double = 33
-  static let MOUSE_MOVEMENT_PER_TICK: Double = CAT_MOVEMENT_PER_TICK * 0.3
+  static let MOUSE_MOVEMENT_PER_TICK: Double = CAT_MOVEMENT_PER_TICK * 0.2
 
   // board settings
   public static let FIELD_LENGTH: Double = 800
