@@ -220,12 +220,12 @@ final class GameController: NetworkDelegate {
     log.info("Recognize action \(action.data) by \(user)")
 
     switch action.data {
-      case let .move(direction: direction):
-        await handleMove(direction: direction, from: user)
-      case .leave:
-        await handleLeave(from: user)
-      default:
-        break
+    case let .move(direction: direction):
+      await handleMove(direction: direction, from: user)
+    case .leave:
+      await handleLeave(from: user)
+    default:
+      break
     }
   }
 

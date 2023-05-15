@@ -30,38 +30,38 @@ class GameManagerDelegate: WebSocketDelegate {
     if let protocolMsg = msg.toProtoMsg() {
       if case let .update(update) = protocolMsg.body {
         switch update.data {
-          case let .gameStart(layout):
-            DispatchQueue.main.async {
-              self.data.gameLayout = layout
-            }
-            // Start tracking player movement
-            KeyboardManager.start()
-          case let .gameCharacterState(state):
-            DispatchQueue.main.async {
-              self.data.gameState = state
-            }
-          case let .joinAck(id):
-            log.info("ack: \(id)")
-          case let .lobbyUpdate(users, gameRunning: _):
-            usersThatLeft(currentActiveUsers: users)
-              .forEach { u in log.info("\(u.name) with id \(u.id) left the game") }
-            usersThatJoined(currentActiveUsers: users)
-              .forEach { u in log.info("\(u.name) with id \(u.id) joined the game") }
-            DispatchQueue.main.async {
-              self.data.activeUsers = users
-            }
-          case let .scoreboard(board):
-            log.info("Received Scoreboard")
-            DispatchQueue.main.async {
-              self.data.scoreBoard = board
+        case let .gameStart(layout):
+          DispatchQueue.main.async {
+            self.data.gameLayout = layout
+          }
+          // Start tracking player movement
+          KeyboardManager.start()
+        case let .gameCharacterState(state):
+          DispatchQueue.main.async {
+            self.data.gameState = state
+          }
+        case let .joinAck(id):
+          log.info("ack: \(id)")
+        case let .lobbyUpdate(users, gameRunning: _):
+          usersThatLeft(currentActiveUsers: users)
+            .forEach { u in log.info("\(u.name) with id \(u.id) left the game") }
+          usersThatJoined(currentActiveUsers: users)
+            .forEach { u in log.info("\(u.name) with id \(u.id) joined the game") }
+          DispatchQueue.main.async {
+            self.data.activeUsers = users
+          }
+        case let .scoreboard(board):
+          log.info("Received Scoreboard")
+          DispatchQueue.main.async {
+            self.data.scoreBoard = board
 
-            }
-          case .gameEnd(score: _):
-            log.info("Game End")
-            KeyboardManager.stop()
-            DispatchQueue.main.async {
-              self.data.gameState = nil
-            }
+          }
+        case .gameEnd(score: _):
+          log.info("Game End")
+          KeyboardManager.stop()
+          DispatchQueue.main.async {
+            self.data.gameState = nil
+          }
         }
       } else {
         log.error("The JSON does not contain an update: \(msg)")

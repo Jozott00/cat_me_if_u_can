@@ -17,20 +17,20 @@ struct MainView: View {
   var body: some View {
     // 4 main view with global navigation
     switch currentView {
-      case .lobby:
-        LobbyView(username: $username, currentView: $currentView)
+    case .lobby:
+      LobbyView(username: $username, currentView: $currentView)
 
-      case .loadingScreen:
-        LoadingScreenView(
-          currentView: $currentView
-        )
+    case .loadingScreen:
+      LoadingScreenView(
+        currentView: $currentView
+      )
+      .environmentObject(GameSession.data)
+    case .board:
+      BoardView(currentView: $currentView)
         .environmentObject(GameSession.data)
-      case .board:
-        BoardView(currentView: $currentView)
-          .environmentObject(GameSession.data)
-      case .end:
-        EndScreenView(currentView: $currentView)
-          .environmentObject(GameSession.data)
+    case .end:
+      EndScreenView(currentView: $currentView)
+        .environmentObject(GameSession.data)
     }
 
   }

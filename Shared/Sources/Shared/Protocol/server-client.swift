@@ -126,12 +126,12 @@ public struct ProtoMouse: Codable, Equatable {
   public let state: ProtoMouseState
   public var stateDescription: String {
     switch state {
-      case .alive:
-        return "🐭"
-      case .dead:
-        return "💀"
-      case .hidden:
-        return "👻"
+    case .alive:
+      return "🐭"
+    case .dead:
+      return "💀"
+    case .hidden:
+      return "👻"
     }
   }
 
