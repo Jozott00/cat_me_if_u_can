@@ -118,7 +118,7 @@ final class GameController: NetworkDelegate {
       stopGame()
     }
 
-    log.info("Elapse tick: \(String(format: "%.2f", Date().timeIntervalSince(start)*1000))ms")
+    //log.info("Elapse tick: \(String(format: "%.2f", Date().timeIntervalSince(start)*1000))ms")
   }
 
   private func calculateCatPosition(cat: Cat) {
