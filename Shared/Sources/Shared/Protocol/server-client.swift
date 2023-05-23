@@ -177,10 +177,6 @@ public struct ProtoCat: Codable, Hashable, Equatable {
     return lhs.playerID == rhs.playerID && lhs.position == rhs.position
   }
 
-  /*public static func == (lhs: ProtoCat, rhs: ProtoCat) -> Bool {
-        return lhs.playerID == rhs.playerID
-    }*/
-
   public init(
     playerID: String,
     position: Position,
@@ -193,6 +189,7 @@ public struct ProtoCat: Codable, Hashable, Equatable {
 
   public func hash(into hasher: inout Hasher) {
     hasher.combine(playerID)
+    hasher.combine(position)
   }
 }
 

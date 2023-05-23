@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class Position: Codable, CustomStringConvertible, Equatable {
+public class Position: Codable, CustomStringConvertible, Equatable, Hashable {
   public var x: Double
   public var y: Double
 
@@ -16,6 +16,11 @@ public class Position: Codable, CustomStringConvertible, Equatable {
   }
   public var description: String {
     return "Position(x: \(x), y: \(y))"
+  }
+
+  public func hash(into hasher: inout Hasher) {
+    hasher.combine(x)
+    hasher.combine(y)
   }
 
   public init(
