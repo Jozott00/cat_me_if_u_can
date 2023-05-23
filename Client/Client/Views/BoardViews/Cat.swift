@@ -13,7 +13,7 @@ struct Cat {
     context: GraphicsContext,
     cat: ProtoCat
   ) {
-    let username = Text("ABC").font(.system(size: 10))
+    let username = Text(cat.name).font(.system(size: 10))
     let catEmoji = Text("😺").font(.system(size: 33))
     context.draw(
       catEmoji,

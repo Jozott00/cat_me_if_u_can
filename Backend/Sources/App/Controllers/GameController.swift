@@ -17,7 +17,10 @@ final class GameController: NetworkDelegate {
   private var isRunning = false
   private var gameState = GameState(tunnels: [], mice: [], cats: [:])
 
-  init(networkManager: NetworkManager, tickIntervalMS: UInt64 = 1000) {
+  init(
+    networkManager: NetworkManager,
+    tickIntervalMS: UInt64 = 1000
+  ) {
     self.tickIntervalMS = tickIntervalMS
     self.networkManager = networkManager
     networkManager.delegates.append(self)
@@ -40,6 +43,7 @@ final class GameController: NetworkDelegate {
 
     // broadcast gamelayout
     await broadcastGameLayout()
+    await broadcastGameState()
 
     while isRunning {
 
@@ -153,7 +157,10 @@ final class GameController: NetworkDelegate {
     let scores = catScores.reduce(into: [ProtoCat: Int]()) { result, element in
       let (key, val) = element
       let protoCat = ProtoCat(
-        playerID: key.id.uuidString, position: key.position, name: key.user.name!)
+        playerID: key.id.uuidString,
+        position: key.position,
+        name: key.user.name!
+      )
       result[protoCat] = val
     }
 
@@ -161,7 +168,11 @@ final class GameController: NetworkDelegate {
     let duration = (endTime).timeIntervalSince(state.startTime)
 
     return ProtoScoreBoard(
-      scores: scores, miceMissed: miceMissed, miceLeft: miceLeft, gameDurationSec: Int(duration))
+      scores: scores,
+      miceMissed: miceMissed,
+      miceLeft: miceLeft,
+      gameDurationSec: Int(duration)
+    )
   }
 
   private func broadcastScoreBoard() async {
@@ -172,14 +183,16 @@ final class GameController: NetworkDelegate {
   }
 
   private func broadcastGameState() async {
-    let cats = (await gameState.cats).map { _, cat in
-      ProtoCat(playerID: cat.id.uuidString, position: cat.position, name: cat.user.name!)
-    }
+    let cats = (await gameState.cats)
+      .map { _, cat in
+        ProtoCat(playerID: cat.id.uuidString, position: cat.position, name: cat.user.name!)
+      }
     let mice = gameState.mice
       .filter { mouse in !mouse.isHidden }
       .map { mouse in
         ProtoMouse(
-          mouseID: mouse.id.uuidString, position: mouse.position,
+          mouseID: mouse.id.uuidString,
+          position: mouse.position,
           //state: mouse.isHidden ? .hidden : (mouse.isDead ? .dead : .alive)
           state: mouse.isDead ? .dead : .alive
         )
@@ -190,9 +203,11 @@ final class GameController: NetworkDelegate {
   }
 
   private func createProtoGameLayout() -> ProtoUpdate {
-    let exits = gameState.tunnels.map { t in
-      t.exits.map { e in ProtoExit(exitID: e.id.uuidString, position: e.position) }
-    }.reduce([], +)
+    let exits = gameState.tunnels
+      .map { t in
+        t.exits.map { e in ProtoExit(exitID: e.id.uuidString, position: e.position) }
+      }
+      .reduce([], +)
     return ProtoUpdate(data: .gameStart(layout: ProtoGameLayout(exits: exits)))
   }
 
@@ -219,7 +234,9 @@ final class GameController: NetworkDelegate {
 
     guard user.inGame, let cat = cat else {
       let err = ProtoError(
-        code: .userNotYetJoined, message: "The user hasn't joined yet, so movement is not possible")
+        code: .userNotYetJoined,
+        message: "The user hasn't joined yet, so movement is not possible"
+      )
       return await networkManager.send(msg: err, to: user)
     }
 

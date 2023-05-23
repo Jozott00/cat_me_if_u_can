@@ -37,12 +37,23 @@ public enum ProtoUpdateData: Codable {
 }
 
 /// Structure representing the game state that changes frequently
-public struct ProtoGameState: Codable {
-  // tim changed let to var for testing, if not removed pls remove
+public struct ProtoGameState: Codable, Equatable {
   public var mice: [ProtoMouse]
-
-  // tim changed let to var for testing, if not removed pls remove
   public var cats: [ProtoCat]
+
+  public static func == (lhs: ProtoGameState, rhs: ProtoGameState) -> Bool {
+    for mouse in lhs.mice {
+      if rhs.mice.first(where: { $0 == mouse }) == nil {
+        return false
+      }
+    }
+    for cat in lhs.cats {
+      if rhs.cats.first(where: { $0 == cat }) == nil {
+        return false
+      }
+    }
+    return true
+  }
 
   public init(
     mice: [ProtoMouse],
@@ -109,7 +120,7 @@ public struct ProtoGameLayout: Codable {
 
 // game elements
 
-public struct ProtoMouse: Codable {
+public struct ProtoMouse: Codable, Equatable {
   public let mouseID: String
   public let position: Position
   public let state: ProtoMouseState
@@ -124,13 +135,17 @@ public struct ProtoMouse: Codable {
     }
   }
 
+  public static func == (lhs: ProtoMouse, rhs: ProtoMouse) -> Bool {
+    return lhs.mouseID == rhs.mouseID && lhs.position == rhs.position && lhs.state == rhs.state
+  }
+
   enum CodingKeys: String, CodingKey {
     case mouseID = "mouse_id"
     case position
     case state
   }
 
-  public enum ProtoMouseState: Codable {
+  public enum ProtoMouseState: Codable, Equatable {
     case alive
     case dead
     case hidden
@@ -147,7 +162,7 @@ public struct ProtoMouse: Codable {
   }
 }
 
-public struct ProtoCat: Codable, Hashable {
+public struct ProtoCat: Codable, Hashable, Equatable {
   public let playerID: String
   public let position: Position
   public let name: String
@@ -156,6 +171,10 @@ public struct ProtoCat: Codable, Hashable {
     case playerID = "player_id"
     case position
     case name
+  }
+
+  public static func == (lhs: ProtoCat, rhs: ProtoCat) -> Bool {
+    return lhs.playerID == rhs.playerID && lhs.position == rhs.position
   }
 
   public init(
@@ -168,12 +187,9 @@ public struct ProtoCat: Codable, Hashable {
     self.name = name
   }
 
-  public static func == (lhs: ProtoCat, rhs: ProtoCat) -> Bool {
-    return lhs.playerID == rhs.playerID
-  }
-
   public func hash(into hasher: inout Hasher) {
     hasher.combine(playerID)
+    hasher.combine(position)
   }
 }
 

@@ -19,16 +19,20 @@ struct MainView: View {
     switch currentView {
     case .lobby:
       LobbyView(username: $username, currentView: $currentView)
+
     case .loadingScreen:
       LoadingScreenView(
         currentView: $currentView
       )
+      .environmentObject(GameSession.data)
     case .board:
       BoardView(currentView: $currentView)
         .environmentObject(GameSession.data)
     case .end:
       EndScreenView(currentView: $currentView)
+        .environmentObject(GameSession.data)
     }
+
   }
 }
 

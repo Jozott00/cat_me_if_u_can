@@ -7,15 +7,26 @@
 
 import Foundation
 
-public class Position: Codable, CustomStringConvertible {
+public class Position: Codable, CustomStringConvertible, Equatable, Hashable {
   public var x: Double
   public var y: Double
 
+  public static func == (lhs: Position, rhs: Position) -> Bool {
+    return rhs.x == lhs.x && rhs.y == lhs.y
+  }
   public var description: String {
     return "Position(x: \(x), y: \(y))"
   }
 
-  public init(x: Double, y: Double) {
+  public func hash(into hasher: inout Hasher) {
+    hasher.combine(x)
+    hasher.combine(y)
+  }
+
+  public init(
+    x: Double,
+    y: Double
+  ) {
     self.x = x
     self.y = y
   }
@@ -70,7 +81,10 @@ public class Position: Codable, CustomStringConvertible {
     random(xIn: boundary, yIn: boundary)
   }
 
-  public static func random(xIn boundaryX: ClosedRange<Double>, yIn boundaryY: ClosedRange<Double>)
+  public static func random(
+    xIn boundaryX: ClosedRange<Double>,
+    yIn boundaryY: ClosedRange<Double>
+  )
     -> Position
   {
     return Position(x: Double.random(in: boundaryX), y: Double.random(in: boundaryY))
