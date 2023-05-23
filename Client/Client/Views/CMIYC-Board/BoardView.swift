@@ -48,16 +48,15 @@ struct BoardView: View {
           at: CGPoint(x: 720, y: 0),
           anchor: .topLeading
         )
-        var userCounter = 0
+
         let sortedScores = scoreBoard.scores.sorted(by: { $0.1 < $1.1 })
-        for (usr, score) in sortedScores {
+        for (userCounter, (usr, score)) in sortedScores.enumerated() {
           let userScore = Text("\(usr.name) \(score)")
           context.draw(
             userScore,
             at: CGPoint(x: 4, y: (userCounter * 18)),
             anchor: .topLeading
           )
-          userCounter += 1
         }
 
       }
@@ -72,20 +71,6 @@ struct BoardView: View {
         currentView = .end
       }
     }
-
-    /*Button(
-            "Return to Lobby",
-            action: {
-                currentView = .lobby
-            }
-        )
-
-        Button(
-            "Go to endscreen",
-            action: {
-                currentView = .end
-            }
-        )*/
   }
   func changeView(view: MainViews) {
     currentView = view
