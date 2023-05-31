@@ -114,7 +114,16 @@ class LobbyController: NetworkDelegate {
   }
 
   private func onLeave(user: User) async {
+    // FIXME: removeAll performs it's task async, however since broadcastLobbyUpdate blow reads the joined users
+    // it can happen that the rmove hasn't finished when we try to read it and the user isn't removed in
+    // the broadcast update.
+    // So the dirty workaround is to sleep a couple of milliseconds and hope that the remove is done
+    // in that time.
     joinedUsers.removeAll { u in u == user }
+    do {
+      try await Task.sleep(nanoseconds: 1 * 1000 * 1000)
+    } catch {}
+
     checkForStopGame()
     await broadcastLobbyUpdate()
   }
