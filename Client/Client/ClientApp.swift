@@ -13,6 +13,9 @@ struct ClientApp: App {
     WindowGroup {
       // WebsocketContentView()
       MainView()
+        .onDisappear {
+          GameSession.stop()
+        }
     }
   }
 }
