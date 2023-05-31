@@ -72,7 +72,4 @@ struct BoardView: View {
       }
     }
   }
-  func changeView(view: MainViews) {
-    currentView = view
-  }
 }

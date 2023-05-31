@@ -1,5 +1,5 @@
 //
-//  WebSocketClient.swift
+//  GameSession.swift
 //  Client
 //
 //  Created by Paul Pinter on 25.04.23.
