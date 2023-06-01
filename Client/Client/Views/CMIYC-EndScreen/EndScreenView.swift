@@ -23,6 +23,7 @@ struct EndScreenView: View {
     Button(
       "Leave lobby",
       action: {
+        GameSession.stop()
         currentView = .lobby
       }
     )
