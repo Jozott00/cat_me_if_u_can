@@ -162,15 +162,21 @@ final class GameController: NetworkDelegate {
     let (catScores, miceMissed, miceLeft) = await state.calculateScores()
 
     // map cats to protocats
-    let scores = catScores.reduce(into: [ProtoCat: Int]()) { result, element in
-      let (key, val) = element
-      let protoCat = ProtoCat(
-        playerID: key.id.uuidString,
-        position: key.position,
-        name: key.user.name!
-      )
-      result[protoCat] = val
-    }
+    let scores =
+      catScores
+      .map { k, v in (k, v) }
+      .sorted { a, b in a.0.user.joinedAt < b.0.user.joinedAt }
+      .map { item in
+        let (cat, score) = item
+        return ProtoScore(
+          cat: ProtoCat(
+            playerID: cat.id.uuidString,
+            position: cat.position,
+            name: cat.user.name!
+          ),
+          score: score
+        )
+      }
 
     let endTime = (await state.endTime) ?? Date()
     let duration = (endTime).timeIntervalSince(state.startTime)

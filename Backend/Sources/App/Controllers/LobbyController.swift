@@ -136,7 +136,9 @@ class LobbyController: NetworkDelegate {
   }
 
   private func broadcastLobbyUpdate() async {
-    let protoUsers = joinedUsers.plain.map { u in ProtoUser(id: u.id.uuidString, name: u.name!) }
+    let protoUsers = joinedUsers.plain
+      .sorted { a, b in a.joinedAt < b.joinedAt}
+      .map { u in ProtoUser(id: u.id.uuidString, name: u.name!) }
     let lobbyUpdate = ProtoUpdate(
       data:
         .lobbyUpdate(users: protoUsers, gameRunning: gameRunning)

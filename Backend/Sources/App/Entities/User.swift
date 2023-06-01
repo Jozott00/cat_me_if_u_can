@@ -13,6 +13,7 @@ import WebSocketKit
 class User: Hashable, CustomStringConvertible {
   let id: UUID
   let websocket: WebSocket
+  let joinedAt: Date
   var inGame = false  // checks if user is part of actual game
   var name: String?
 
@@ -26,6 +27,7 @@ class User: Hashable, CustomStringConvertible {
   init(id: UUID, ws: WebSocket) {
     websocket = ws
     self.id = id
+    self.joinedAt = Date()
   }
 
   static func == (lhs: User, rhs: User) -> Bool {

@@ -49,8 +49,8 @@ struct BoardView: View {
           anchor: .topLeading
         )
 
-        let sortedScores = scoreBoard.scores.sorted(by: { $0.1 < $1.1 })
-        for (userCounter, (usr, score)) in sortedScores.enumerated() {
+        let scores = scoreBoard.scores.map { item in (item.cat, item.score)}
+        for (userCounter, (usr, score)) in scores.enumerated() {
           let userScore = Text("\(usr.name) \(score)")
           context.draw(
             userScore,
