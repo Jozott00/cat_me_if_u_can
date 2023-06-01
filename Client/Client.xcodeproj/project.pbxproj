@@ -10,7 +10,6 @@
 		45A55CEE29ED71480029979A /* LobbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55CED29ED71480029979A /* LobbyView.swift */; };
 		45A55CF429ED71FA0029979A /* EndScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55CF329ED71FA0029979A /* EndScreenView.swift */; };
 		45A55CF729ED723A0029979A /* CMIYC-Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55CF629ED723A0029979A /* CMIYC-Button.swift */; };
-		45A55CF929ED724C0029979A /* CMIYC-TextInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55CF829ED724C0029979A /* CMIYC-TextInput.swift */; };
 		45A55CFC29ED72A10029979A /* Cat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55CFB29ED72A10029979A /* Cat.swift */; };
 		45A55CFE29ED72BA0029979A /* Mouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55CFD29ED72BA0029979A /* Mouse.swift */; };
 		45A55D0029ED72CB0029979A /* Exit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55CFF29ED72CB0029979A /* Exit.swift */; };
@@ -48,7 +47,6 @@
 		45A55CED29ED71480029979A /* LobbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyView.swift; sourceTree = "<group>"; };
 		45A55CF329ED71FA0029979A /* EndScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndScreenView.swift; sourceTree = "<group>"; };
 		45A55CF629ED723A0029979A /* CMIYC-Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMIYC-Button.swift"; sourceTree = "<group>"; };
-		45A55CF829ED724C0029979A /* CMIYC-TextInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMIYC-TextInput.swift"; sourceTree = "<group>"; };
 		45A55CFB29ED72A10029979A /* Cat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cat.swift; sourceTree = "<group>"; };
 		45A55CFD29ED72BA0029979A /* Mouse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mouse.swift; sourceTree = "<group>"; };
 		45A55CFF29ED72CB0029979A /* Exit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exit.swift; sourceTree = "<group>"; };
@@ -150,7 +148,6 @@
 			isa = PBXGroup;
 			children = (
 				45A55CF629ED723A0029979A /* CMIYC-Button.swift */,
-				45A55CF829ED724C0029979A /* CMIYC-TextInput.swift */,
 				45B3CEA229EED17F00239E44 /* StatefulPreviewWrapper.swift */,
 			);
 			path = HelperViews;
@@ -375,7 +372,6 @@
 				45A55CEE29ED71480029979A /* LobbyView.swift in Sources */,
 				C7EC374429F7FD4700268BEE /* Configuration.swift in Sources */,
 				45A55CF729ED723A0029979A /* CMIYC-Button.swift in Sources */,
-				45A55CF929ED724C0029979A /* CMIYC-TextInput.swift in Sources */,
 				45A55D0429ED72FF0029979A /* Scoreboard.swift in Sources */,
 				45A55D0229ED72E50029979A /* BoardView.swift in Sources */,
 				C72F29A729F6ABA200B46B19 /* WebsocketInnerView.swift in Sources */,
