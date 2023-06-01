@@ -44,6 +44,7 @@ final class GameController: NetworkDelegate {
     // broadcast gamelayout
     await broadcastGameLayout()
     await broadcastGameState()
+    await broadcastScoreBoard()
 
     while isRunning {
 
@@ -79,8 +80,15 @@ final class GameController: NetworkDelegate {
     await gameState.hotJoin(cat: spawnCat(from: user))
     user.inGame = true
 
+    // Send the user the game layout
     let gameLayoutUpdate = createProtoGameLayout()
     await networkManager.send(msg: gameLayoutUpdate, to: user)
+
+    // Also send them the current scoreboard
+    let scoreboard = await createProtoScoreBoard(state: self.gameState)
+    let update = ProtoUpdateData.scoreboard(board: scoreboard)
+    let body = ProtoUpdate(data: update)
+    await networkManager.send(msg: body, to: user)
   }
 
   private func tick() async {
