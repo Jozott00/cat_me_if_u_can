@@ -18,7 +18,6 @@
 		45A55D0429ED72FF0029979A /* Scoreboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55D0329ED72FF0029979A /* Scoreboard.swift */; };
 		45A55D0629ED731D0029979A /* LoadingScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55D0529ED731D0029979A /* LoadingScreenView.swift */; };
 		45A55D0829ED732F0029979A /* LoadingText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55D0729ED732F0029979A /* LoadingText.swift */; };
-		45A55D0A29ED733C0029979A /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55D0929ED733C0029979A /* LoadingIndicator.swift */; };
 		45A55D0C29ED74F80029979A /* FinalScoreboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55D0B29ED74F80029979A /* FinalScoreboard.swift */; };
 		45B3CEA129EECBB100239E44 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B3CEA029EECBB100239E44 /* MainView.swift */; };
 		45B3CEA329EED17F00239E44 /* StatefulPreviewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B3CEA229EED17F00239E44 /* StatefulPreviewWrapper.swift */; };
@@ -57,7 +56,6 @@
 		45A55D0329ED72FF0029979A /* Scoreboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scoreboard.swift; sourceTree = "<group>"; };
 		45A55D0529ED731D0029979A /* LoadingScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingScreenView.swift; sourceTree = "<group>"; };
 		45A55D0729ED732F0029979A /* LoadingText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingText.swift; sourceTree = "<group>"; };
-		45A55D0929ED733C0029979A /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		45A55D0B29ED74F80029979A /* FinalScoreboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalScoreboard.swift; sourceTree = "<group>"; };
 		45B3CEA029EECBB100239E44 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainView.swift; path = Client/Views/MainView.swift; sourceTree = SOURCE_ROOT; };
 		45B3CEA229EED17F00239E44 /* StatefulPreviewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatefulPreviewWrapper.swift; sourceTree = "<group>"; };
@@ -135,7 +133,6 @@
 			children = (
 				45A55D0529ED731D0029979A /* LoadingScreenView.swift */,
 				45A55D0729ED732F0029979A /* LoadingText.swift */,
-				45A55D0929ED733C0029979A /* LoadingIndicator.swift */,
 			);
 			path = "CMIYC-LoadingScreen";
 			sourceTree = "<group>";
@@ -383,7 +380,6 @@
 				45A55D0229ED72E50029979A /* BoardView.swift in Sources */,
 				C72F29A729F6ABA200B46B19 /* WebsocketInnerView.swift in Sources */,
 				45A55D0029ED72CB0029979A /* Exit.swift in Sources */,
-				45A55D0A29ED733C0029979A /* LoadingIndicator.swift in Sources */,
 				C76B071129F7D3760035CAC8 /* GameSession.swift in Sources */,
 				45C0A61E29F68D1C006B5C34 /* random-text-selector.swift in Sources */,
 				45B3CEA629EED64800239E44 /* UIError.swift in Sources */,

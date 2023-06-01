@@ -11,9 +11,7 @@ import SwiftUI
 struct MainView: View {
   @State private var currentView: MainViews = .lobby
 
-  @State private var username: String = RandomTextSelector(fileName: "usernames")
-    .getRandomListElement()
-
+  @State private var username: String = ""
   var body: some View {
     // 4 main view with global navigation
     switch currentView {

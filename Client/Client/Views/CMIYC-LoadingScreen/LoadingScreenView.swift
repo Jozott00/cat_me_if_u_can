@@ -23,7 +23,6 @@ struct LoadingScreenView: View {
         "Start the game",
         action: {
           GameSession.gameStart()
-          //currentView = .board
         }
       )
     }
