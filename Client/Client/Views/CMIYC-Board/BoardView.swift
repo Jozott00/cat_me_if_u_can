@@ -13,13 +13,14 @@ struct BoardView: View {
   @Binding var currentView: MainViews
   @EnvironmentObject var data: GameData
   private let log = Logger(label: "BoardView")
+  var ToneSupressMonitor: Any?
 
   init(
     currentView: Binding<MainViews>
   ) {
     self._currentView = currentView
     // omits alert sound when pressing down keys
-    NSEvent.addLocalMonitorForEvents(matching: .keyDown) { _ in return nil }
+    KeyboardManager.disableAlertToneAndKeyboardInput()
   }
 
   var body: some View {
@@ -49,7 +50,7 @@ struct BoardView: View {
           anchor: .topLeading
         )
 
-        let scores = scoreBoard.scores.map { item in (item.cat, item.score)}
+        let scores = scoreBoard.scores.map { item in (item.cat, item.score) }
         for (userCounter, (usr, score)) in scores.enumerated() {
           let userScore = Text("\(usr.name) \(score)")
           context.draw(
@@ -58,7 +59,6 @@ struct BoardView: View {
             anchor: .topLeading
           )
         }
-
       }
 
       let _ = print("Current direction \(data.playerDirection.rawValue)")
@@ -68,6 +68,7 @@ struct BoardView: View {
     .border(Color.blue)
     .onChange(of: data.gameState) { newGameState in
       if newGameState == nil {
+        KeyboardManager.endableAlertToneAndKeyboardInput()
         currentView = .end
       }
     }
