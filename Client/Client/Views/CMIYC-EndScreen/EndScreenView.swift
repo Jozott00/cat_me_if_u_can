@@ -16,14 +16,20 @@ struct EndScreenView: View {
       Text("Scoreboard")
         .bold()
         .font(.largeTitle)
-
-      let scores = (data.scoreBoard?.scores ?? [ProtoScore(cat: ProtoCat(playerID: "a", position: Position(x: 0, y: 0), name: "Flotschi"), score: 23)])
-        .sorted {  a, b in a.score > b.score  }
+        .padding(.bottom, 3)
       
+
+      let scores = (data.scoreBoard?.scores ?? [])
+        .sorted { a, b in a.score > b.score }
+      
+      let missedMice = (data.scoreBoard?.miceMissed ?? 0) + (data.scoreBoard?.miceLeft ?? 0)
+      let totalMice = scores.reduce(0) {t, s in t + s.score } + missedMice
+      Text("Out of \(totalMice) mice \(missedMice) reached their goal.")
+
       List {
         ForEach(Array(scores.enumerated()), id: \.element.cat.playerID) { index, score in
           HStack {
-            Text("\(index == 0 ? "👑" : "\(index+1))") \(score.cat.name)")
+            Text("\(score.cat.name) \(index == 0 ? "👑" : "")")
             Spacer()
             Text(String(score.score))
           }
@@ -39,8 +45,7 @@ struct EndScreenView: View {
           .stroke(.separator, lineWidth: 1)
       )
       .clipShape(RoundedRectangle(cornerRadius: 10))
-      
-      
+
       Button(
         action: {
           currentView = .loadingScreen
