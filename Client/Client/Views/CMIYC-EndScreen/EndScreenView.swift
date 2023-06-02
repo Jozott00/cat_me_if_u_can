@@ -69,6 +69,11 @@ struct EndScreenView: View {
         }
       )
     }
+    .onChange(of: data.gameState) { gameState in
+      if gameState != nil {
+        currentView = .board
+      }
+    }
     .controlSize(.large)
     .frame(maxWidth: 240)
   }
