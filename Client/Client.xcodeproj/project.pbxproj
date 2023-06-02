@@ -9,20 +9,14 @@
 /* Begin PBXBuildFile section */
 		45A55CEE29ED71480029979A /* LobbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55CED29ED71480029979A /* LobbyView.swift */; };
 		45A55CF429ED71FA0029979A /* EndScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55CF329ED71FA0029979A /* EndScreenView.swift */; };
-		45A55CF729ED723A0029979A /* CMIYC-Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55CF629ED723A0029979A /* CMIYC-Button.swift */; };
 		45A55CFC29ED72A10029979A /* Cat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55CFB29ED72A10029979A /* Cat.swift */; };
 		45A55CFE29ED72BA0029979A /* Mouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55CFD29ED72BA0029979A /* Mouse.swift */; };
 		45A55D0029ED72CB0029979A /* Exit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55CFF29ED72CB0029979A /* Exit.swift */; };
 		45A55D0229ED72E50029979A /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55D0129ED72E50029979A /* BoardView.swift */; };
-		45A55D0429ED72FF0029979A /* Scoreboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55D0329ED72FF0029979A /* Scoreboard.swift */; };
 		45A55D0629ED731D0029979A /* LoadingScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55D0529ED731D0029979A /* LoadingScreenView.swift */; };
-		45A55D0829ED732F0029979A /* LoadingText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55D0729ED732F0029979A /* LoadingText.swift */; };
-		45A55D0C29ED74F80029979A /* FinalScoreboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A55D0B29ED74F80029979A /* FinalScoreboard.swift */; };
 		45B3CEA129EECBB100239E44 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B3CEA029EECBB100239E44 /* MainView.swift */; };
-		45B3CEA329EED17F00239E44 /* StatefulPreviewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B3CEA229EED17F00239E44 /* StatefulPreviewWrapper.swift */; };
 		45B3CEA629EED64800239E44 /* UIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B3CEA529EED64800239E44 /* UIError.swift */; };
 		45C0A61A29F68C8C006B5C34 /* usernames.json in Resources */ = {isa = PBXBuildFile; fileRef = 45C0A61929F68C8C006B5C34 /* usernames.json */; };
-		45C0A61C29F68CEE006B5C34 /* loading-messages.json in Resources */ = {isa = PBXBuildFile; fileRef = 45C0A61B29F68CEE006B5C34 /* loading-messages.json */; };
 		45C0A61E29F68D1C006B5C34 /* random-text-selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C0A61D29F68D1C006B5C34 /* random-text-selector.swift */; };
 		BC064C0429E72F43003F97B7 /* ClientApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC064C0329E72F43003F97B7 /* ClientApp.swift */; };
 		BC064C0829E72F44003F97B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC064C0729E72F44003F97B7 /* Assets.xcassets */; };
@@ -46,20 +40,14 @@
 /* Begin PBXFileReference section */
 		45A55CED29ED71480029979A /* LobbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyView.swift; sourceTree = "<group>"; };
 		45A55CF329ED71FA0029979A /* EndScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndScreenView.swift; sourceTree = "<group>"; };
-		45A55CF629ED723A0029979A /* CMIYC-Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMIYC-Button.swift"; sourceTree = "<group>"; };
 		45A55CFB29ED72A10029979A /* Cat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cat.swift; sourceTree = "<group>"; };
 		45A55CFD29ED72BA0029979A /* Mouse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mouse.swift; sourceTree = "<group>"; };
 		45A55CFF29ED72CB0029979A /* Exit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exit.swift; sourceTree = "<group>"; };
 		45A55D0129ED72E50029979A /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
-		45A55D0329ED72FF0029979A /* Scoreboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scoreboard.swift; sourceTree = "<group>"; };
 		45A55D0529ED731D0029979A /* LoadingScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingScreenView.swift; sourceTree = "<group>"; };
-		45A55D0729ED732F0029979A /* LoadingText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingText.swift; sourceTree = "<group>"; };
-		45A55D0B29ED74F80029979A /* FinalScoreboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalScoreboard.swift; sourceTree = "<group>"; };
 		45B3CEA029EECBB100239E44 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainView.swift; path = Client/Views/MainView.swift; sourceTree = SOURCE_ROOT; };
-		45B3CEA229EED17F00239E44 /* StatefulPreviewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatefulPreviewWrapper.swift; sourceTree = "<group>"; };
 		45B3CEA529EED64800239E44 /* UIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIError.swift; sourceTree = "<group>"; };
 		45C0A61929F68C8C006B5C34 /* usernames.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = usernames.json; path = Client/Helpers/usernames.json; sourceTree = SOURCE_ROOT; };
-		45C0A61B29F68CEE006B5C34 /* loading-messages.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "loading-messages.json"; sourceTree = "<group>"; };
 		45C0A61D29F68D1C006B5C34 /* random-text-selector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "random-text-selector.swift"; sourceTree = "<group>"; };
 		BC064C0029E72F43003F97B7 /* Client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Client.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC064C0329E72F43003F97B7 /* ClientApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientApp.swift; sourceTree = "<group>"; };
@@ -100,7 +88,6 @@
 				C7B26DAF29F93FB800899121 /* Demo */,
 				45B3CEA029EECBB100239E44 /* MainView.swift */,
 				45A55CFA29ED72900029979A /* BoardViews */,
-				45A55CF529ED72000029979A /* HelperViews */,
 				45A55CF229ED71D80029979A /* CMIYC-EndScreen */,
 				45A55CF029ED719C0029979A /* CMIYC-LoadingScreen */,
 				45A55CEF29ED71890029979A /* CMIYC-Board */,
@@ -121,7 +108,6 @@
 			isa = PBXGroup;
 			children = (
 				45A55D0129ED72E50029979A /* BoardView.swift */,
-				45A55D0329ED72FF0029979A /* Scoreboard.swift */,
 			);
 			path = "CMIYC-Board";
 			sourceTree = "<group>";
@@ -130,7 +116,6 @@
 			isa = PBXGroup;
 			children = (
 				45A55D0529ED731D0029979A /* LoadingScreenView.swift */,
-				45A55D0729ED732F0029979A /* LoadingText.swift */,
 			);
 			path = "CMIYC-LoadingScreen";
 			sourceTree = "<group>";
@@ -139,18 +124,8 @@
 			isa = PBXGroup;
 			children = (
 				45A55CF329ED71FA0029979A /* EndScreenView.swift */,
-				45A55D0B29ED74F80029979A /* FinalScoreboard.swift */,
 			);
 			path = "CMIYC-EndScreen";
-			sourceTree = "<group>";
-		};
-		45A55CF529ED72000029979A /* HelperViews */ = {
-			isa = PBXGroup;
-			children = (
-				45A55CF629ED723A0029979A /* CMIYC-Button.swift */,
-				45B3CEA229EED17F00239E44 /* StatefulPreviewWrapper.swift */,
-			);
-			path = HelperViews;
 			sourceTree = "<group>";
 		};
 		45A55CFA29ED72900029979A /* BoardViews */ = {
@@ -168,7 +143,6 @@
 			children = (
 				45B3CEA529EED64800239E44 /* UIError.swift */,
 				45C0A61929F68C8C006B5C34 /* usernames.json */,
-				45C0A61B29F68CEE006B5C34 /* loading-messages.json */,
 				45C0A61D29F68D1C006B5C34 /* random-text-selector.swift */,
 			);
 			path = Helpers;
@@ -345,7 +319,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC064C0B29E72F44003F97B7 /* Preview Assets.xcassets in Resources */,
-				45C0A61C29F68CEE006B5C34 /* loading-messages.json in Resources */,
 				45C0A61A29F68C8C006B5C34 /* usernames.json in Resources */,
 				C712340B29EEE514006E849F /* team.xcconfig in Resources */,
 				C7EC374229F7FB0100268BEE /* dev.xcconfig in Resources */,
@@ -362,17 +335,13 @@
 			files = (
 				45A55CF429ED71FA0029979A /* EndScreenView.swift in Sources */,
 				C7B26DAB29F92F0200899121 /* GameManagerDelegate.swift in Sources */,
-				45A55D0C29ED74F80029979A /* FinalScoreboard.swift in Sources */,
 				C719552129FE96480033066E /* CGKeyCodeExtension.swift in Sources */,
-				45B3CEA329EED17F00239E44 /* StatefulPreviewWrapper.swift in Sources */,
 				45A55CFC29ED72A10029979A /* Cat.swift in Sources */,
 				C77B2B1A29FE85CC0075EE85 /* KeyBoardManager.swift in Sources */,
 				BC064C0429E72F43003F97B7 /* ClientApp.swift in Sources */,
 				C7B26DAE29F9324400899121 /* GameData.swift in Sources */,
 				45A55CEE29ED71480029979A /* LobbyView.swift in Sources */,
 				C7EC374429F7FD4700268BEE /* Configuration.swift in Sources */,
-				45A55CF729ED723A0029979A /* CMIYC-Button.swift in Sources */,
-				45A55D0429ED72FF0029979A /* Scoreboard.swift in Sources */,
 				45A55D0229ED72E50029979A /* BoardView.swift in Sources */,
 				C72F29A729F6ABA200B46B19 /* WebsocketInnerView.swift in Sources */,
 				45A55D0029ED72CB0029979A /* Exit.swift in Sources */,
@@ -380,7 +349,6 @@
 				45C0A61E29F68D1C006B5C34 /* random-text-selector.swift in Sources */,
 				45B3CEA629EED64800239E44 /* UIError.swift in Sources */,
 				C72F29B029F6BA9800B46B19 /* WebSocketDelegate.swift in Sources */,
-				45A55D0829ED732F0029979A /* LoadingText.swift in Sources */,
 				45A55CFE29ED72BA0029979A /* Mouse.swift in Sources */,
 				C72F29B429F6BBE800B46B19 /* WebSocketClient.swift in Sources */,
 				45B3CEA129EECBB100239E44 /* MainView.swift in Sources */,

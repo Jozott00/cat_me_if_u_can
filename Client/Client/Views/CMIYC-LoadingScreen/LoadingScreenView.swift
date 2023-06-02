@@ -12,25 +12,31 @@ struct LoadingScreenView: View {
   @EnvironmentObject var data: GameData
   var body: some View {
     VStack {
-      Text("Users in Lobby")
+      Text("\(data.activeUsers?.count ?? 0) Player")
         .font(.largeTitle)
         .bold()
 
       List {
         if let users = data.activeUsers {
           ForEach(Array(users.enumerated()), id: \.offset) { index, user in
-            Text("\(index + 1). \(user.name)")
-              .listRowSeparator(.visible)
+            HStack {
+              Text("\(user.name)")
+              Spacer()
+            }
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(index % 2 == 0 ? .gray.opacity(0.1) : .white.opacity(0))
+            .clipShape(RoundedRectangle(cornerRadius: 6))
           }
         }
       }
-      .cornerRadius(10.0)
       .frame(maxHeight: 140)
       .overlay(
         RoundedRectangle(cornerRadius: 10)
           .inset(by: 1)
           .stroke(.separator, lineWidth: 1)
       )
+      .clipShape(RoundedRectangle(cornerRadius: 10))
 
       Button(
         action: {

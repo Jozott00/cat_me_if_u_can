@@ -64,9 +64,12 @@ public struct ProtoGameState: Codable, Equatable {
   }
 }
 
-public struct ProtoScore: Codable {
+public struct ProtoScore: Codable, Identifiable {
   public let cat: ProtoCat
   public let score: Int
+  public var id: String {
+    cat.playerID
+  }
   
   public init(cat: ProtoCat, score: Int) {
     self.cat = cat
