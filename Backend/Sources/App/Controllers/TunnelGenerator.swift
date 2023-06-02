@@ -17,7 +17,7 @@ func generateTunnels() -> [Tunnel] {
     // First we create a virtual center point for our tunnel, around this
     // center we will generate the exits of the tunnel (with polar
     // translation)
-    let padding = Constants.FIELD_LENGTH / 10
+    let padding = Constants.EXITS_MAX_DISTANCE / 2 + 30
     let virtualCenter = Position(
       x: Double.random(in: padding...(Constants.FIELD_LENGTH - padding)),
       y: Double.random(in: padding...(Constants.FIELD_LENGTH - padding))

@@ -135,8 +135,12 @@ final class GameController: NetworkDelegate {
 
   private func calculateCatPosition(cat: Cat) {
     let movementVector = cat.movement.vector * Constants.CAT_MOVEMENT_PER_TICK
-    let boardBoundaries = Vector2(Constants.FIELD_LENGTH, Constants.FIELD_LENGTH)
-    cat.position.translate(vec: movementVector, within: boardBoundaries)
+    cat.position.translate(vec: movementVector)
+    cat.position.clamp(
+      x1: Constants.CAT_SIZE/2,
+      y1: Constants.CAT_SIZE/2,
+      x2: Constants.FIELD_LENGTH - Constants.CAT_SIZE/2,
+      y2: Constants.FIELD_LENGTH - Constants.CAT_SIZE/2)
   }
 
   private func checkCollisons() async {
