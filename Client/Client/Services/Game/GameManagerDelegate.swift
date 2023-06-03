@@ -36,6 +36,7 @@ class GameManagerDelegate: WebSocketDelegate {
           }
           // Start tracking player movement
           KeyboardManager.start()
+          KeyboardManager.disableAlertToneAndKeyboardInput()
         case let .gameCharacterState(state):
           DispatchQueue.main.async {
             self.data.gameState = state

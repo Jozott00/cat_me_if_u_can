@@ -18,6 +18,7 @@
 		45B3CEA629EED64800239E44 /* UIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B3CEA529EED64800239E44 /* UIError.swift */; };
 		45C0A61A29F68C8C006B5C34 /* usernames.json in Resources */ = {isa = PBXBuildFile; fileRef = 45C0A61929F68C8C006B5C34 /* usernames.json */; };
 		45C0A61E29F68D1C006B5C34 /* random-text-selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C0A61D29F68D1C006B5C34 /* random-text-selector.swift */; };
+		5C74E3752A2B5E1B00A7043D /* RoundCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C74E3742A2B5E1B00A7043D /* RoundCorner.swift */; };
 		BC064C0429E72F43003F97B7 /* ClientApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC064C0329E72F43003F97B7 /* ClientApp.swift */; };
 		BC064C0829E72F44003F97B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC064C0729E72F44003F97B7 /* Assets.xcassets */; };
 		BC064C0B29E72F44003F97B7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC064C0A29E72F44003F97B7 /* Preview Assets.xcassets */; };
@@ -49,6 +50,7 @@
 		45B3CEA529EED64800239E44 /* UIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIError.swift; sourceTree = "<group>"; };
 		45C0A61929F68C8C006B5C34 /* usernames.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = usernames.json; path = Client/Helpers/usernames.json; sourceTree = SOURCE_ROOT; };
 		45C0A61D29F68D1C006B5C34 /* random-text-selector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "random-text-selector.swift"; sourceTree = "<group>"; };
+		5C74E3742A2B5E1B00A7043D /* RoundCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundCorner.swift; sourceTree = "<group>"; };
 		BC064C0029E72F43003F97B7 /* Client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Client.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC064C0329E72F43003F97B7 /* ClientApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientApp.swift; sourceTree = "<group>"; };
 		BC064C0729E72F44003F97B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				45A55D0129ED72E50029979A /* BoardView.swift */,
+				5C74E3742A2B5E1B00A7043D /* RoundCorner.swift */,
 			);
 			path = "CMIYC-Board";
 			sourceTree = "<group>";
@@ -350,6 +353,7 @@
 				45B3CEA629EED64800239E44 /* UIError.swift in Sources */,
 				C72F29B029F6BA9800B46B19 /* WebSocketDelegate.swift in Sources */,
 				45A55CFE29ED72BA0029979A /* Mouse.swift in Sources */,
+				5C74E3752A2B5E1B00A7043D /* RoundCorner.swift in Sources */,
 				C72F29B429F6BBE800B46B19 /* WebSocketClient.swift in Sources */,
 				45B3CEA129EECBB100239E44 /* MainView.swift in Sources */,
 				C72F29A929F6ABB700B46B19 /* WebsocketContentView.swift in Sources */,
