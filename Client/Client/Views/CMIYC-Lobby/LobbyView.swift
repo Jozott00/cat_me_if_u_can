@@ -12,11 +12,7 @@ struct LobbyView: View {
   @Binding var currentView: MainViews  // current view being passed to view
 
   func connect() {
-    if username.isEmpty {
-      return
-    }
-    GameSession.join(userName: username)
-    currentView = .loadingScreen
+
   }
 
   var body: some View {
@@ -31,9 +27,6 @@ struct LobbyView: View {
           text: $username
         )
         .textFieldStyle(.roundedBorder)
-        .onSubmit {
-          connect()
-        }
 
         Button {
           username = RandomTextSelector(fileName: "usernames")
@@ -45,12 +38,17 @@ struct LobbyView: View {
       }
 
       Button {
-        connect()
+        if username.isEmpty {
+          return
+        }
+        GameSession.join(userName: username)
+        currentView = .loadingScreen
       } label: {
         Text("Join")
           .frame(maxWidth: .infinity)
       }
       .disabled(username.isEmpty)
+      .keyboardShortcut(.defaultAction)
       .buttonStyle(.borderedProminent)
       .tint(username.isEmpty ? .white : .accentColor)
       .help(username.isEmpty ? "You must enter a username" : "")

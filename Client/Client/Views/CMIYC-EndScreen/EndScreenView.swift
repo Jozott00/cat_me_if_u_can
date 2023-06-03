@@ -55,6 +55,7 @@ struct EndScreenView: View {
             .frame(maxWidth: .infinity)
         }
       )
+      .keyboardShortcut(.defaultAction)
       .buttonStyle(.borderedProminent)
       .tint(.accentColor)
 
@@ -69,6 +70,7 @@ struct EndScreenView: View {
         }
       )
     }
+    .keyboardShortcut(.cancelAction)
     .onChange(of: data.gameState) { gameState in
       if gameState != nil {
         currentView = .board

@@ -47,6 +47,7 @@ struct LoadingScreenView: View {
             .frame(maxWidth: .infinity)
         }
       )
+      .keyboardShortcut(.defaultAction)
       .buttonStyle(.borderedProminent)
       .tint(.accentColor)
     }
