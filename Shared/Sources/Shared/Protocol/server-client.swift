@@ -64,7 +64,7 @@ public struct ProtoGameState: Codable, Equatable {
   }
 }
 
-public struct ProtoScore: Codable, Identifiable {
+public struct ProtoScore: Codable, Identifiable, Equatable {
   public let cat: ProtoCat
   public let score: Int
   public var id: String {
@@ -75,6 +75,7 @@ public struct ProtoScore: Codable, Identifiable {
     self.cat = cat
     self.score = score
   }
+  
 }
 
 public struct ProtoScoreBoard: Codable {

@@ -17,19 +17,19 @@ struct EndScreenView: View {
         .bold()
         .font(.largeTitle)
         .padding(.bottom, 3)
-      
 
       let scores = (data.scoreBoard?.scores ?? [])
         .sorted { a, b in a.score > b.score }
-      
+
       let missedMice = (data.scoreBoard?.miceMissed ?? 0) + (data.scoreBoard?.miceLeft ?? 0)
-      let totalMice = scores.reduce(0) {t, s in t + s.score } + missedMice
+      let totalMice = scores.reduce(0) { t, s in t + s.score } + missedMice
       Text("Out of \(totalMice) mice \(missedMice) reached their goal.")
 
+      let highScore = scores.map { s in s.score }.max()
       List {
         ForEach(Array(scores.enumerated()), id: \.element.cat.playerID) { index, score in
           HStack {
-            Text("\(score.cat.name) \(index == 0 ? "👑" : "")")
+            Text("\(score.cat.name) \(score.score > 0 && score.score == highScore ? " 👑" : "")")
             Spacer()
             Text(String(score.score))
           }

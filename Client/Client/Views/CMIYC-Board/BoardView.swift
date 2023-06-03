@@ -20,57 +20,81 @@ struct BoardView: View {
   ) {
     self._currentView = currentView
     // omits alert sound when pressing down keys
-    KeyboardManager.disableAlertToneAndKeyboardInput()
   }
 
   var body: some View {
-    Canvas { context, _ in
-      if let gameLayout = data.gameLayout {
-        for exit in gameLayout.exits {
-          Exit.draw(context: context, exit: exit)
-        }
-      }
+    VStack(spacing: 0) {
+      let miceLeft = data.scoreBoard?.miceLeft ?? 0
+      Text("\(miceLeft) \(miceLeft == 1 ? "Mouse" : "Mice") left")
+        .bold()
+        .font(.largeTitle)
+        .padding(.top, 8)
 
-      if let gameState = data.gameState {
-        for mouse in gameState.mice {
-          Mouse.draw(context: context, mouse: mouse)
+      HStack(alignment: .center, spacing: 0) {
+        VStack(spacing: 0) {
+          let scores = (data.scoreBoard?.scores ?? [])
+            .sorted { a, b in a.score > b.score }
+          let highScore = scores.map { s in s.score }.max()
+
+          Text("Scores")
+            .font(.title2)
+            .bold()
+            .padding(.top, 10)
+
+          List {
+            ForEach(Array(scores.enumerated()), id: \.element.cat.playerID) { index, score in
+              HStack {
+                Text(score.cat.name + (score.score > 0 && score.score == highScore ? " 👑" : ""))
+                Spacer()
+                Text(String(score.score))
+              }
+              .padding(.horizontal, 10)
+              .padding(.vertical, 6)
+              .background(index % 2 == 0 ? .gray.opacity(0.1) : .white.opacity(0))
+              .clipShape(RoundedRectangle(cornerRadius: 6))
+            }
+          }
+          .animation(.default, value: scores)
+          .frame(minWidth: 220, maxWidth: 350, maxHeight: 300)
         }
-        for cat in gameState.cats {
-          Cat.draw(context: context, cat: cat)
-        }
-      } else {
-        log.info("Game Ended")
-      }
-      if let scoreBoard = data.scoreBoard {
-        let _ = print(scoreBoard)
-        let miceCounterText = Text("Mice left: \(scoreBoard.miceLeft)")
-        context.draw(
-          miceCounterText,
-          at: CGPoint(x: 720, y: 0),
-          anchor: .topLeading
+        .background(.background)
+        .clipShape(
+          RoundedCornersShape(radius: 10, corners: .right)
         )
+        .clipped()
+        .shadow(radius: 4)
 
-        let scores = scoreBoard.scores.map { item in (item.cat, item.score) }
-        for (userCounter, (usr, score)) in scores.enumerated() {
-          let userScore = Text("\(usr.name) \(score)")
-          context.draw(
-            userScore,
-            at: CGPoint(x: 4, y: (userCounter * 18)),
-            anchor: .topLeading
-          )
+        Spacer()
+
+        Canvas { context, _ in
+          if let gameLayout = data.gameLayout {
+            for exit in gameLayout.exits {
+              Exit.draw(context: context, exit: exit)
+            }
+          }
+
+          if let gameState = data.gameState {
+            for mouse in gameState.mice {
+              Mouse.draw(context: context, mouse: mouse)
+            }
+            for cat in gameState.cats {
+              Cat.draw(context: context, cat: cat)
+            }
+          } else {
+            log.info("Game Ended")
+          }
+
+          let _ = print("Current direction \(data.playerDirection.rawValue)")
+        }
+        .frame(width: 800, height: 800)
+        .onChange(of: data.gameState) { newGameState in
+          if newGameState == nil {
+            KeyboardManager.endableAlertToneAndKeyboardInput()
+            currentView = .end
+          }
         }
       }
-
-      let _ = print("Current direction \(data.playerDirection.rawValue)")
     }
-
-    .frame(width: 800, height: 800)
-    .border(Color.blue)
-    .onChange(of: data.gameState) { newGameState in
-      if newGameState == nil {
-        KeyboardManager.endableAlertToneAndKeyboardInput()
-        currentView = .end
-      }
-    }
+    .frame(minHeight: 840)
   }
 }
