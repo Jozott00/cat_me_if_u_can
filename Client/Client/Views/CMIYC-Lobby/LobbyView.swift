@@ -58,7 +58,5 @@ struct LobbyView: View {
     }
     .controlSize(.large)
     .frame(maxWidth: 220)
-    .navigationTitle("Join")
-
   }
 }

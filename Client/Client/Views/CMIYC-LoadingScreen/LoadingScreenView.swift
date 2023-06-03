@@ -56,7 +56,6 @@ struct LoadingScreenView: View {
       }
     }
     .controlSize(.large)
-    .navigationTitle("Lobby")
     .frame(maxWidth: 220)
   }
 }

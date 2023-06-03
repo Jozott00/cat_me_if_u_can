@@ -19,7 +19,6 @@ struct BoardView: View {
     currentView: Binding<MainViews>
   ) {
     self._currentView = currentView
-    // omits alert sound when pressing down keys
   }
 
   var body: some View {
@@ -55,7 +54,7 @@ struct BoardView: View {
             }
           }
           .animation(.default, value: scores)
-          .frame(minWidth: 220, maxWidth: 350, maxHeight: 300)
+          .frame(minWidth: 220, maxWidth: 350, maxHeight: 360)
         }
         .background(.background)
         .clipShape(
