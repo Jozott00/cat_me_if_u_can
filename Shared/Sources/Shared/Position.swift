@@ -73,6 +73,11 @@ public class Position: Codable, CustomStringConvertible, Equatable, Hashable {
     }
   }
 
+  public func clamp(x1: Double, y1: Double, x2: Double, y2: Double) {
+    x = min(max(x, x1), x2)
+    y = min(max(y, y1), y2)
+  }
+
   public func distance(to: Position) -> Double {
     return sqrt(pow(to.x - x, 2.0) + pow(to.y - y, 2.0))
   }

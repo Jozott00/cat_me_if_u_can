@@ -16,6 +16,7 @@ struct ClientApp: App {
         .onDisappear {
           GameSession.stop()
         }
+        .navigationTitle("Cat me if you can")
     }
   }
 }

@@ -44,6 +44,7 @@ final class GameController: NetworkDelegate {
     // broadcast gamelayout
     await broadcastGameLayout()
     await broadcastGameState()
+    await broadcastScoreBoard()
 
     while isRunning {
 
@@ -79,8 +80,15 @@ final class GameController: NetworkDelegate {
     await gameState.hotJoin(cat: spawnCat(from: user))
     user.inGame = true
 
+    // Send the user the game layout
     let gameLayoutUpdate = createProtoGameLayout()
     await networkManager.send(msg: gameLayoutUpdate, to: user)
+
+    // Also send them the current scoreboard
+    let scoreboard = await createProtoScoreBoard(state: self.gameState)
+    let update = ProtoUpdateData.scoreboard(board: scoreboard)
+    let body = ProtoUpdate(data: update)
+    await networkManager.send(msg: body, to: user)
   }
 
   private func tick() async {
@@ -127,8 +135,12 @@ final class GameController: NetworkDelegate {
 
   private func calculateCatPosition(cat: Cat) {
     let movementVector = cat.movement.vector * Constants.CAT_MOVEMENT_PER_TICK
-    let boardBoundaries = Vector2(Constants.FIELD_LENGTH, Constants.FIELD_LENGTH)
-    cat.position.translate(vec: movementVector, within: boardBoundaries)
+    cat.position.translate(vec: movementVector)
+    cat.position.clamp(
+      x1: Constants.CAT_SIZE/2,
+      y1: Constants.CAT_SIZE/2,
+      x2: Constants.FIELD_LENGTH - Constants.CAT_SIZE/2,
+      y2: Constants.FIELD_LENGTH - Constants.CAT_SIZE/2)
   }
 
   private func checkCollisons() async {
@@ -154,15 +166,21 @@ final class GameController: NetworkDelegate {
     let (catScores, miceMissed, miceLeft) = await state.calculateScores()
 
     // map cats to protocats
-    let scores = catScores.reduce(into: [ProtoCat: Int]()) { result, element in
-      let (key, val) = element
-      let protoCat = ProtoCat(
-        playerID: key.id.uuidString,
-        position: key.position,
-        name: key.user.name!
-      )
-      result[protoCat] = val
-    }
+    let scores =
+      catScores
+      .map { k, v in (k, v) }
+      .sorted { a, b in a.0.user.joinedAt < b.0.user.joinedAt }
+      .map { item in
+        let (cat, score) = item
+        return ProtoScore(
+          cat: ProtoCat(
+            playerID: cat.id.uuidString,
+            position: cat.position,
+            name: cat.user.name!
+          ),
+          score: score
+        )
+      }
 
     let endTime = (await state.endTime) ?? Date()
     let duration = (endTime).timeIntervalSince(state.startTime)

@@ -8,6 +8,7 @@
 import CoreGraphics
 import Foundation
 import Shared
+import SwiftUI
 
 class KeyboardManager {
   static let data = GameSession.data
@@ -18,6 +19,8 @@ class KeyboardManager {
   // controlls for start and stop state
   private static var isPollingActive = false
 
+  private static var toneSupressMointor: Any?
+
   /// Starts keyboard polling
   static func start() {
     isPollingActive = true
@@ -26,6 +29,26 @@ class KeyboardManager {
   /// Stops keyboard polling
   static func stop() {
     isPollingActive = false
+  }
+
+  static func disableAlertToneAndKeyboardInput() {
+    DispatchQueue.main.async {
+      if toneSupressMointor != nil {
+        return
+      }
+      toneSupressMointor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { _ in return nil }
+    }
+  }
+
+  static func endableAlertToneAndKeyboardInput() {
+    DispatchQueue.main.async {
+      guard let toneSupressMointor = toneSupressMointor else {
+        return
+      }
+
+      NSEvent.removeMonitor(toneSupressMointor)
+      self.toneSupressMointor = nil
+    }
   }
 
   // snapshot of pressed keys during polling intervall

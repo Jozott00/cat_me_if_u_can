@@ -47,9 +47,9 @@ struct WebsocketInnerView: View {
 
       if let scoreBoard = data.scoreBoard {
         Text("Scoreboard:")
-        ForEach(scoreBoard.scores.keys.sorted(by: { $0.playerID < $1.playerID }), id: \.playerID) {
-          cat in
-          Text("Cat Player ID: \(cat.playerID), Score: \(scoreBoard.scores[cat] ?? 0)")
+        ForEach(scoreBoard.scores, id: \.cat.playerID) { entry in
+          let cat = entry.cat
+          Text("Cat Player ID: \(cat.playerID), Score: \(entry.score)")
         }
         Text("Mice missed: \(scoreBoard.miceMissed)")
         Text("Mice left: \(scoreBoard.miceLeft)")

@@ -43,6 +43,7 @@ class GameSession {
   static func stop() {
     if connection.isConnected {
       KeyboardManager.stop()
+      KeyboardManager.endableAlertToneAndKeyboardInput()
       let action: ProtoAction = ProtoAction(data: .leave)
       connection.send(action: action)
       connection.disconnect()

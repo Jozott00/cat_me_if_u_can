@@ -13,11 +13,45 @@ struct LobbyView: View {
 
   var body: some View {
     VStack {
-      CMIYC_TextInput(username: $username)
-      Button("Join Lobby") {
+      Text("Join the server")
+        .font(.largeTitle)
+        .bold()
+        .padding(.bottom, 12)
+
+      HStack {
+        TextField(
+          "Username",
+          text: $username
+        )
+        .textFieldStyle(.roundedBorder)
+
+        Button {
+          username = RandomTextSelector(fileName: "usernames")
+            .getRandomListElement()
+        } label: {
+          Image(systemName: "shuffle")
+        }
+        .help("Select a random username")
+      }
+
+      Button {
+        if username.isEmpty {
+          return
+        }
         GameSession.join(userName: username)
         currentView = .loadingScreen
+      } label: {
+        Text("Join")
+          .frame(maxWidth: .infinity)
       }
+      .disabled(username.isEmpty)
+      .keyboardShortcut(.defaultAction)
+      .buttonStyle(.borderedProminent)
+      .tint(username.isEmpty ? .white : .accentColor)
+      .help(username.isEmpty ? "You must enter a username" : "")
+
     }
+    .controlSize(.large)
+    .frame(maxWidth: 220)
   }
 }
