@@ -33,7 +33,6 @@ struct BoardView: View {
         VStack(spacing: 0) {
           let scores = (data.scoreBoard?.scores ?? [])
             .sorted { a, b in a.score > b.score }
-          let highScore = scores.map { s in s.score }.max()
 
           Text("Scores")
             .font(.title2)
@@ -43,7 +42,7 @@ struct BoardView: View {
           List {
             ForEach(Array(scores.enumerated()), id: \.element.cat.playerID) { index, score in
               HStack {
-                Text(score.cat.name + (score.score > 0 && score.score == highScore ? " 👑" : ""))
+                Text(score.cat.name)
                 Spacer()
                 Text(String(score.score))
               }

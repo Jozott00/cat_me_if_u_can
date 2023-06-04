@@ -20,6 +20,7 @@ struct LobbyView: View {
       Text("Join the server")
         .font(.largeTitle)
         .bold()
+        .padding(.bottom, 12)
 
       HStack {
         TextField(
@@ -34,7 +35,7 @@ struct LobbyView: View {
         } label: {
           Image(systemName: "shuffle")
         }
-        .help("Select a random usernaem")
+        .help("Select a random username")
       }
 
       Button {

@@ -23,7 +23,7 @@ struct EndScreenView: View {
 
       let missedMice = (data.scoreBoard?.miceMissed ?? 0) + (data.scoreBoard?.miceLeft ?? 0)
       let totalMice = scores.reduce(0) { t, s in t + s.score } + missedMice
-      Text("Out of \(totalMice) mice \(missedMice) reached their goal.")
+      Text("Out of \(totalMice) mice \(missedMice) reached their goal")
 
       let highScore = scores.map { s in s.score }.max()
       List {
