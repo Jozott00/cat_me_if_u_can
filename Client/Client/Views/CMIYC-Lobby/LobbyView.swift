@@ -11,10 +11,6 @@ struct LobbyView: View {
   @Binding var username: String
   @Binding var currentView: MainViews  // current view being passed to view
 
-  func connect() {
-
-  }
-
   var body: some View {
     VStack {
       Text("Join the server")
