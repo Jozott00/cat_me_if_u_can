@@ -1,5 +1,9 @@
 # Cat Me If U Can
 
+Our solution for the lecture FOOP (Advanced Object Oriented Programming) 2023 at TU Wien.
+We also wrote two single player versions one [in Eiffel](https://github.com/paulpinter/cat_me_if_u_can) 
+and one [in Smalltalk](https://github.com/Jozott00/CatMe_SmallTalk).
+
 ![Screenshot](screenshot.png)
 
 This repository contains the source code for the "Cat Me If U Can" game, which includes a server/backend, client, and a shared library.
