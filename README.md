@@ -10,14 +10,23 @@ This repository contains the source code for the "Cat Me If U Can" game, which i
 
 ## Run the Server
 
+The server can be compiled for macOS, Linux and Windows.
+
 ```bash
 cd Backend
 swift run
 ```
 The local server will listen on port `8080`.
 
-**Note:** If you want to use the local in the client you need to change in
-`Client/dev.xcconfig` the host field to `WS_HOST = localhost:8080`
+## Run the Client
+
+The client is a native macOS app written with SwiftUI.
+
+Open the project in XCode and select "Client" as the target on the top.
+
+**Note:** If you want to use a local server instead of the hosted one in the 
+client you need to change in `Client/dev.xcconfig` the host field 
+to `WS_HOST = localhost:8080`.
 
 ## Repository Structure
 
